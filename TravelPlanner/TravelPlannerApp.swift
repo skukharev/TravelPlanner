@@ -14,4 +14,8 @@ struct TravelPlannerApp: App {
             ContentView()
         }
     }
+
+    init() {
+        AnalyticsService.activate()
+    }
 }
