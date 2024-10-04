@@ -5,4 +5,5 @@
 
 ## Ссылки
 [Техническое задание](https://github.com/Krzhnr/travel_schedule/tree/main)
+
 [Дизайн](https://clck.ru/397v4M)
