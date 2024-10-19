@@ -11,33 +11,23 @@ import OpenAPIURLSession
 typealias SchedulesBetweenStationsResponse = Components.Schemas.SchedulesBetweenStationsResponse
 
 protocol SchedulesBetweenStationServiceProtocol {
-    func getSchedulesBetweenStations(fromStation: String, toStation: String) async throws -> Result<SchedulesBetweenStationsResponse, Error>
+    func getSchedulesBetweenStations(fromStation: String, toStation: String) async throws -> SchedulesBetweenStationsResponse
 }
 
 final class SchedulesBetweenStationService: SchedulesBetweenStationServiceProtocol {
     private let client: Client
-    private let apikey: String
 
-    init(client: Client, apikey: String) {
+    init(client: Client) {
         self.client = client
-        self.apikey = apikey
     }
 
-    func getSchedulesBetweenStations(fromStation: String, toStation: String) async throws -> Result<SchedulesBetweenStationsResponse, Error> {
+    func getSchedulesBetweenStations(fromStation: String, toStation: String) async throws -> SchedulesBetweenStationsResponse {
         let response = try await client.getSchedulesBetweenStations(
             query: .init(
-                apikey: apikey,
                 from: fromStation,
                 to: toStation
             )
         )
-        switch response {
-        case .ok:
-            return try .success(response.ok.body.json)
-        case .notFound:
-            return try .failure(ObjectNotFoundError(response: response.notFound.body.json))
-        case .undocumented(statusCode: _, let response):
-            return .failure(ResponseOtherError(response: response.body.debugDescription))
-        }
+        return try response.ok.body.json
     }
 }

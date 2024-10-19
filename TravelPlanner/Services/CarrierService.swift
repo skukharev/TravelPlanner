@@ -11,32 +11,20 @@ import OpenAPIURLSession
 typealias CarrierResponse = Components.Schemas.CarrierResponse
 
 protocol CarrierServiceProtocol {
-    func getCarrier(code: String) async throws -> Result<CarrierResponse, Error>
+    func getCarrier(code: String) async throws -> CarrierResponse
 }
 
 final class CarrierService: CarrierServiceProtocol {
     private let client: Client
-    private let apikey: String
 
-    init(client: Client, apikey: String) {
+    init(client: Client) {
         self.client = client
-        self.apikey = apikey
     }
 
-    func getCarrier(code: String) async throws -> Result<CarrierResponse, Error> {
+    func getCarrier(code: String) async throws -> CarrierResponse {
         let response = try await client.getCarrier(
-            query: .init(
-                apikey: apikey,
-                code: code
-            )
+            query: .init(code: code)
         )
-        switch response {
-        case .ok:
-            return try .success(response.ok.body.json)
-        case .notFound:
-            return try .failure(ObjectNotFoundError(response: response.notFound.body.json))
-        case .undocumented(statusCode: _, let response):
-            return .failure(ResponseOtherError(response: response.body.debugDescription))
-        }
+        return try response.ok.body.json
     }
 }

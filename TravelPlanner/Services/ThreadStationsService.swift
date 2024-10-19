@@ -11,33 +11,23 @@ import OpenAPIURLSession
 typealias ThreadResponse = Components.Schemas.ThreadResponse
 
 protocol ThreadStationsServiceProtocol {
-    func getThreadStations(forUID: String) async throws -> Result<ThreadResponse, Error>
+    func getThreadStations(forUID: String) async throws -> ThreadResponse
 }
 
 final class ThreadStationsService: ThreadStationsServiceProtocol {
     private let client: Client
-    private let apikey: String
 
-    init(client: Client, apikey: String) {
+    init(client: Client) {
         self.client = client
-        self.apikey = apikey
     }
 
-    func getThreadStations(forUID: String) async throws -> Result<ThreadResponse, Error> {
+    func getThreadStations(forUID: String) async throws -> ThreadResponse {
         let response = try await client.getThreadStations(
             query: .init(
-                apikey: apikey,
                 uid: forUID,
                 show_systems: Operations.getThreadStations.Input.Query.show_systemsPayload.yandex
             )
         )
-        switch response {
-        case .ok:
-            return try .success(response.ok.body.json)
-        case .notFound:
-            return try .failure(ObjectNotFoundError(response: response.notFound.body.json))
-        case .undocumented(statusCode: _, let response):
-            return .failure(ResponseOtherError(response: response.body.debugDescription))
-        }
+        return try response.ok.body.json
     }
 }

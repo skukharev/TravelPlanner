@@ -7,34 +7,31 @@
 
 import OpenAPIRuntime
 import OpenAPIURLSession
+import Foundation
 
 typealias StationsListResponse = Components.Schemas.StationsListResponse
 
 protocol StationsListServiceProtocol {
-    func getStations() async throws -> Result<StationsListResponse, Error>
+    func getStations() async throws -> StationsListResponse
 }
 
 final class StationsListService: StationsListServiceProtocol {
     private let client: Client
-    private let apikey: String
 
-    init(client: Client, apikey: String) {
+    init(client: Client) {
         self.client = client
-        self.apikey = apikey
     }
 
-    func getStations() async throws -> Result<StationsListResponse, Error> {
-        let response = try await client.getStations(
-            query: .init(
-                apikey: apikey
-            )
-        )
+    func getStations() async throws -> StationsListResponse {
+        let response = try await client.getStations(query: .init())
+        let httpBody = try response.ok.body.html
+        return try await JSONDecoder().decode(from: httpBody, to: StationsListResponse.self)
+    }
+}
 
-        switch response {
-        case .ok:
-            return try .success(response.ok.body.json)
-        case .undocumented(statusCode: _, let response):
-            return .failure(ResponseOtherError(response: response.body.debugDescription))
-        }
+extension JSONDecoder {
+    func decode<T: Decodable>(from httpBody: HTTPBody, to type: T.Type, upTo maxBytes: Int = 100 * 1024 * 1024) async throws -> T {
+        let data = try await Data(collecting: httpBody, upTo: maxBytes)
+        return try self.decode(T.self, from: data)
     }
 }

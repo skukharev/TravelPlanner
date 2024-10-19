@@ -18,237 +18,156 @@ struct TravelPlannerApp: App {
 
     init() {
         AnalyticsService.activate()
-        /// (1) Проверка работоспособности ручки https://api.rasp.yandex.net/v3.0/search/
-        do {
-            try schedulesBetweenStations()
-        } catch {
-            print(error)
-        }
-        /// (2) Проверка работоспособности ручки https://api.rasp.yandex.net/v3.0/schedule/
-        do {
-            try stationSchedule()
-        } catch {
-            print(error)
-        }
-        /// (3) Проверка работоспособности ручки https://api.rasp.yandex.net/v3.0/thread/
-        do {
-            try threadStations()
-        } catch {
-            print(error)
-        }
-        /// (4) Проверка работоспособности ручки https://api.rasp.yandex.net/v3.0/nearest_stations/
-        do {
-            try nearestStations()
-        } catch {
-            print(error)
-        }
-        /// (5) Проверка работоспособности ручки https://api.rasp.yandex.net/v3.0/nearest_settlement/
-        do {
-            try nearestSettlements()
-        } catch {
-            print(error)
-        }
-        /// (6) Проверка работоспособности ручки https://api.rasp.yandex.net/v3.0/carrier/
-        do {
-            try carrier()
-        } catch {
-            print(error)
-        }
-        /// (7) Проверка работоспособности ручки https://yandex.ru/dev/rasp/doc/ru/reference/stations_list
-        do {
-            try stationsList()
-        } catch {
-            print(error)
-        }
-        /// (8) Проверка работоспособности ручки https://api.rasp.yandex.net/v3.0/copyright/
-        try? copyright()
     }
 
-    func schedulesBetweenStations() throws {
-        let client = Client(serverURL: try Servers.server1(), transport: URLSessionTransport())
-
-        let service = SchedulesBetweenStationService(
-            client: client,
-            apikey: GlobalConstants.yandexSchedulesApi
+    func schedulesBetweenStations(fromStation: String, toStation: String, completion: ((Result<SchedulesBetweenStationsResponse, Error>) -> Void)? = nil) throws {
+        let client = Client(
+            serverURL: try Servers.server1(),
+            transport: URLSessionTransport(),
+            middlewares: [AuthenticationMiddleware(authorizationHeaderFieldValue: GlobalConstants.yandexSchedulesApi)]
         )
+
+        let service = SchedulesBetweenStationService(client: client)
 
         Task {
             do {
-                let result = try await service.getSchedulesBetweenStations(fromStation: "c146", toStation: "c213")
-                switch result {
-                case .success:
-                    print("(1) ============ https://api.rasp.yandex.net/v3.0/search/ - OK ==============")
-                case .failure(let error):
-                    print("(1) ============ https://api.rasp.yandex.net/v3.0/search/ - Error ==============")
-                    print(error)
-                }
+                let schedule = try await service.getSchedulesBetweenStations(fromStation: fromStation, toStation: toStation)
+                completion?(.success(schedule))
             } catch {
-                print("(1) ============ https://api.rasp.yandex.net/v3.0/search/ - Error ==============")
-                print(error)
+                completion?(.failure(error))
             }
         }
     }
 
-    func stationSchedule() throws {
-        let client = Client(serverURL: try Servers.server1(), transport: URLSessionTransport())
-
-        let service = StationScheduleService(
-            client: client,
-            apikey: GlobalConstants.yandexSchedulesApi
+    func stationSchedule(forStation: String, completion: ((Result<StationScheduleResponse, Error>) -> Void)? = nil) throws {
+        let client = Client(
+            serverURL: try Servers.server1(),
+            transport: URLSessionTransport(),
+            middlewares: [AuthenticationMiddleware(authorizationHeaderFieldValue: GlobalConstants.yandexSchedulesApi)]
         )
+
+        let service = StationScheduleService(client: client)
 
         Task {
             do {
-                let result = try await service.getStationSchedule(forStation: "s9600213")
-                switch result {
-                case .success:
-                    print("(2) ============ https://api.rasp.yandex.net/v3.0/schedule/ - OK ==============")
-                case .failure(let error):
-                    print("(2) ============ https://api.rasp.yandex.net/v3.0/schedule/ - Error ==============")
-                    print(error)
-                }
+                let stationSchedule = try await service.getStationSchedule(forStation: forStation)
+                completion?(.success(stationSchedule))
             } catch {
-                print("(2) ============ https://api.rasp.yandex.net/v3.0/schedule/ - Error ==============")
-                print(error)
+                completion?(.failure(error))
             }
         }
     }
 
-    func threadStations() throws {
-        let client = Client(serverURL: try Servers.server1(), transport: URLSessionTransport())
-
-        let service = ThreadStationsService(
-            client: client,
-            apikey: GlobalConstants.yandexSchedulesApi
+    func threadStations(forUID: String, completion: ((Result<ThreadResponse, Error>) -> Void)? = nil) throws {
+        let client = Client(
+            serverURL: try Servers.server1(),
+            transport: URLSessionTransport(),
+            middlewares: [AuthenticationMiddleware(authorizationHeaderFieldValue: GlobalConstants.yandexSchedulesApi)]
         )
+
+        let service = ThreadStationsService(client: client)
 
         Task {
             do {
-                let result = try await service.getThreadStations(forUID: "6296x6294x6292x6291_0_9613602_g24_4")
-                switch result {
-                case .success:
-                    print("(3) ============ https://api.rasp.yandex.net/v3.0/thread/ - OK ==============")
-                case .failure(let error):
-                    print("(3) ============ https://api.rasp.yandex.net/v3.0/thread/ - Error ==============")
-                    print(error)
-                }
+                let threadStations = try await service.getThreadStations(forUID: forUID)
+                completion?(.success(threadStations))
             } catch {
-                print("(3) ============ https://api.rasp.yandex.net/v3.0/thread/ - Error ==============")
+                completion?(.failure(error))
             }
         }
     }
 
-    func nearestStations() throws {
-        let client = Client(serverURL: try Servers.server1(), transport: URLSessionTransport())
-
-        let service = NearestStationsService(
-            client: client,
-            apikey: GlobalConstants.yandexSchedulesApi
+    func nearestStations(latitude: Double, longitude: Double, distance: Int, completion: ((Result<NearestStationsResponse, Error>) -> Void)? = nil) throws {
+        let client = Client(
+            serverURL: try Servers.server1(),
+            transport: URLSessionTransport(),
+            middlewares: [AuthenticationMiddleware(authorizationHeaderFieldValue: GlobalConstants.yandexSchedulesApi)]
         )
+
+        let service = NearestStationsService(client: client)
 
         Task {
             do {
-                _ = try await service.getNearestStations(lat: 59.864177, lng: 30.319163, distance: 50)
-                print("(4) ============ https://api.rasp.yandex.net/v3.0/nearest_stations/ - OK ==============")
+                let nearestStations = try await service.getNearestStations(lat: latitude, lng: longitude, distance: distance)
+                completion?(.success(nearestStations))
             } catch {
-                print("(4) ============ https://api.rasp.yandex.net/v3.0/nearest_stations/ - Error ==============")
-                print(error)
+                completion?(.failure(error))
             }
         }
     }
 
-    func nearestSettlements() throws {
-        let client = Client(serverURL: try Servers.server1(), transport: URLSessionTransport())
-
-        let service = NearestSettlementService(
-            client: client,
-            apikey: GlobalConstants.yandexSchedulesApi
+    func nearestSettlements(latitude: Double, longitude: Double, distance: Int, completion: ((Result<NearestSettlementResponse, Error>) -> Void)? = nil) throws {
+        let client = Client(
+            serverURL: try Servers.server1(),
+            transport: URLSessionTransport(),
+            middlewares: [AuthenticationMiddleware(authorizationHeaderFieldValue: GlobalConstants.yandexSchedulesApi)]
         )
+
+        let service = NearestSettlementService(client: client)
 
         Task {
             do {
-                let result = try await service.getNearestSettlement(lat: 59.864177, lng: 30.319163, distance: 50)
-                switch result {
-                case .success:
-                    print("(5) ============ https://api.rasp.yandex.net/v3.0/nearest_stations/ - OK ==============")
-                case .failure(let error):
-                    print("(5) ============ https://api.rasp.yandex.net/v3.0/nearest_stations/ - Error ==============")
-                    print(error)
-                }
+                let nearestSettlements = try await service.getNearestSettlement(lat: latitude, lng: longitude, distance: distance)
+                completion?(.success(nearestSettlements))
             } catch {
-                print("(5) ============ https://api.rasp.yandex.net/v3.0/nearest_stations/ - Error ==============")
-                print(error)
+                completion?(.failure(error))
             }
         }
     }
 
-    func carrier() throws {
-        let client = Client(serverURL: try Servers.server1(), transport: URLSessionTransport())
-
-        let service = CarrierService(
-            client: client,
-            apikey: GlobalConstants.yandexSchedulesApi
+    func carrier(forCode: String, completion: ((Result<CarrierResponse, Error>) -> Void)? = nil) throws {
+        let client = Client(
+            serverURL: try Servers.server1(),
+            transport: URLSessionTransport(),
+            middlewares: [AuthenticationMiddleware(authorizationHeaderFieldValue: GlobalConstants.yandexSchedulesApi)]
         )
+
+        let service = CarrierService(client: client)
 
         Task {
             do {
-                let result = try await service.getCarrier(code: "1369")
-                switch result {
-                case .success:
-                    print("(6) ============ https://api.rasp.yandex.net/v3.0/carrier/ - OK ==============")
-                case .failure(let error):
-                    print("(6) ============ https://api.rasp.yandex.net/v3.0/carrier/ - Error ==============")
-                    print(error)
-                }
+                let carrier = try await service.getCarrier(code: forCode)
+                completion?(.success(carrier))
             } catch {
-                print("(6) ============ https://api.rasp.yandex.net/v3.0/carrier/ - Error ==============")
-                print(error)
+                completion?(.failure(error))
             }
         }
     }
 
-    func stationsList() throws {
-        let transport = URLSessionTransport()
-        transport.configuration.session.configuration.timeoutIntervalForRequest = 1800
-        let client = Client(serverURL: try Servers.server1(), transport: transport)
-
-        let service = StationsListService(
-            client: client,
-            apikey: GlobalConstants.yandexSchedulesApi
+    func stationsList(completion: ((Result<StationsListResponse, Error>) -> Void)? = nil) throws {
+        let client = Client(
+            serverURL: try Servers.server1(),
+            transport: URLSessionTransport(),
+            middlewares: [AuthenticationMiddleware(authorizationHeaderFieldValue: GlobalConstants.yandexSchedulesApi)]
         )
+
+        let service = StationsListService(client: client)
 
         Task {
             do {
-                let result = try await service.getStations()
-                switch result {
-                case .success:
-                    print("(7) ============ https://api.rasp.yandex.net/v3.0/stations_list/ - OK ==============")
-                case .failure(let error):
-                    print("(7) ============ https://api.rasp.yandex.net/v3.0/stations_list/ - Error ==============")
-                    print(error)
-                }
+                let stations = try await service.getStations()
+                completion?(.success(stations))
             } catch {
-                print("(7) ============ https://api.rasp.yandex.net/v3.0/stations_list/ - Error ==============")
-                print(error)
+                completion?(.failure(error))
             }
         }
     }
 
-    func copyright() throws {
-        let client = Client(serverURL: try Servers.server1(), transport: URLSessionTransport())
-
-        let service = CopyrightService(
-            client: client,
-            apikey: GlobalConstants.yandexSchedulesApi
+    func copyright(completion: ((Result<CopyrightResponse, Error>) -> Void)? = nil) throws {
+        let client = Client(
+            serverURL: try Servers.server1(),
+            transport: URLSessionTransport(),
+            middlewares: [AuthenticationMiddleware(authorizationHeaderFieldValue: GlobalConstants.yandexSchedulesApi)]
         )
+
+        let service = CopyrightService(client: client)
 
         Task {
             do {
-                _ = try await service.getCopyright()
-                print("(8) ============ https://api.rasp.yandex.net/v3.0/copyright/ - OK ==============")
+                let copyright = try await service.getCopyright()
+                completion?(.success(copyright))
             } catch {
-                print("(8) ============ https://api.rasp.yandex.net/v3.0/copyright/ - Error ==============")
-                print(error)
+                completion?(.failure(error))
             }
         }
     }

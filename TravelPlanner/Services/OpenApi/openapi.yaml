@@ -29,13 +29,9 @@ paths:
       - getSchedulesBetweenStations
       summary: Расписание рейсов между станциями
       operationId: getSchedulesBetweenStations
+      security:
+        - apiKeyAuth: []
       parameters:
-      - name: apikey
-        in: query
-        description: API key
-        required: true
-        schema:
-          type: string
       - name: from
         in: query
         description: Код станции отправления
@@ -157,13 +153,9 @@ paths:
       - getStationSchedule
       summary: Расписание рейсов по станции
       operationId: getStationSchedule
+      security:
+        - apiKeyAuth: []
       parameters:
-      - name: apikey
-        in: query
-        description: API key
-        required: true
-        schema:
-          type: string
       - name: station
         in: query
         description: Код станции. Должен быть указан в системе кодирования.
@@ -265,13 +257,9 @@ paths:
       - getThreadStations
       summary: Список станций следования
       operationId: getThreadStations
+      security:
+        - apiKeyAuth: []
       parameters:
-      - name: apikey
-        in: query
-        description: API key
-        required: true
-        schema:
-          type: string
       - name: uid
         in: query
         description: Идентификатор нитки в Яндекс Расписаниях.
@@ -339,13 +327,9 @@ paths:
       - getNearestStations
       summary: Список ближайших станций
       operationId: getNearestStations
+      security:
+        - apiKeyAuth: []
       parameters:
-      - name: apikey
-        in: query
-        description: API key
-        required: true
-        schema:
-          type: string
       - name: lat
         in: query
         description: широта
@@ -382,20 +366,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Stations'
+                $ref: '#/components/schemas/NearestStationsResponse'
   /v3.0/nearest_settlement/:
     get:
       tags:
       - getNearestSettlement
       summary: Ближайший город
       operationId: getNearestSettlement
+      security:
+        - apiKeyAuth: []
       parameters:
-      - name: apikey
-        in: query
-        description: API key
-        required: true
-        schema:
-          type: string
       - name: lat
         in: query
         description: широта
@@ -446,13 +426,9 @@ paths:
       - getCarrier
       summary: Информация о перевозчике
       operationId: getCarrier
+      security:
+        - apiKeyAuth: []
       parameters:
-      - name: apikey
-        in: query
-        description: API key
-        required: true
-        schema:
-          type: string
       - name: code
         in: query
         description: Код перевозчика. По умолчанию в системе кодирования Яндекс Расписаний. Чтобы отправить код в другой системе кодирования, укажите параметр system.
@@ -504,13 +480,9 @@ paths:
       - getStations
       summary: Список всех доступных станций
       operationId: getStations
+      security:
+        - apiKeyAuth: []
       parameters:
-      - name: apikey
-        in: query
-        description: API key
-        required: true
-        schema:
-          type: string
       - name: format
         in: query
         description: json или xml
@@ -532,7 +504,7 @@ paths:
         "200":
           description: success
           content:
-            application/json:
+            text/html:
               schema:
                 $ref: '#/components/schemas/StationsListResponse'
   /v3.0/copyright/:
@@ -541,13 +513,9 @@ paths:
       - getCopyright
       summary: Копирайт Яндекс Расписаний
       operationId: getCopyright
+      security:
+        - apiKeyAuth: []
       parameters:
-      - name: apikey
-        in: query
-        description: API key
-        required: true
-        schema:
-          type: string
       - name: format
         in: query
         description: json или xml
@@ -566,6 +534,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/CopyrightResponse'
 components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
   schemas:
     ObjectNotFoundErrorResponse:
       type: object
@@ -589,7 +562,7 @@ components:
         request:
           type: string
           description: Оригинальный запрос, вызвавший ошибку
-    Stations:
+    NearestStationsResponse:
       type: object
       properties:
         pagination:
@@ -1208,7 +1181,9 @@ components:
         codes:
           $ref: '#/components/schemas/CountryCodesData'
         stations:
-          $ref: '#/components/schemas/StationsData'
+          type: array
+          items:
+            $ref: '#/components/schemas/StationsData'
     StationsData:
       type: object
       description: Список станций в населенном пункте.
@@ -1224,15 +1199,15 @@ components:
         title:
           type: string
           description: Название станции.
-        longitude:
-          type: number
-          description: Долгота станции.
+#        longitude:
+#          type: number
+#          description: Долгота станции.
         transport_type:
           type: string
           description: Тип транспорта, следующего через станцию.
-        latitude:
-          type: number
-          description: Широта станции.
+#        latitude:
+#          type: number
+#          description: Широта станции.
     StationCodesData:
       type: object
       description: Список кодов станции.
