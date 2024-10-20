@@ -13,122 +13,106 @@ final class TravelPlannerTests: XCTestCase {
     let travelPlanner = TravelPlannerApp()
 
     /// Проверяет работоспособность ручки https://api.rasp.yandex.net/v3.0/search/
-    func testSchedulesBetweenStations() throws {
+    func testSchedulesBetweenStations() async throws {
         let expectation = expectation(description: "testSchedulesBetweenStations")
-        try travelPlanner.schedulesBetweenStations(fromStation: "c146", toStation: "c213") { result in
-            switch result {
-            case .success:
-                break
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
-            }
+        do {
+            let result = try await travelPlanner.schedulesBetweenStations(fromStation: "c146", toStation: "c213")
+            XCTAssertNotNil(result)
             expectation.fulfill()
+        } catch {
+            XCTFail(error.localizedDescription)
         }
-        waitForExpectations(timeout: 10, handler: nil)
+        await fulfillment(of: [expectation], timeout: 10)
     }
 
     /// Проверяет работоспособность ручки https://api.rasp.yandex.net/v3.0/schedule/
-    func testStationSchedule() throws {
+    func testStationSchedule() async throws {
         let expectation = expectation(description: "testStationSchedule")
-        try travelPlanner.stationSchedule(forStation: "s9613830") { result in
-            switch result {
-            case .success:
-                break
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
-            }
+        do {
+            let result = try await travelPlanner.stationSchedule(forStation: "s9613830")
+            XCTAssertNotNil(result)
             expectation.fulfill()
+        } catch {
+            XCTFail(error.localizedDescription)
         }
-        waitForExpectations(timeout: 10, handler: nil)
+        await fulfillment(of: [expectation], timeout: 10)
     }
 
     /// Проверяет работоспособность ручки https://api.rasp.yandex.net/v3.0/thread/
-    func testThreadStations() throws {
+    func testThreadStations() async throws {
         let expectation = expectation(description: "testThreadStations")
-        try travelPlanner.threadStations(forUID: "6296x6294x6292x6291_0_9613602_g24_4") { result in
-            switch result {
-            case .success:
-                break
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
-            }
+        do {
+            let result = try await travelPlanner.threadStations(forUID: "6296x6294x6292x6291_0_9613602_g24_4")
+            XCTAssertNotNil(result)
             expectation.fulfill()
+        } catch {
+            XCTFail(error.localizedDescription)
         }
-        waitForExpectations(timeout: 10, handler: nil)
+        await fulfillment(of: [expectation], timeout: 10)
     }
 
     /// Проверяет работоспособность ручки https://api.rasp.yandex.net/v3.0/nearest_stations/
-    func testNearestStations() throws {
+    func testNearestStations() async throws {
         let expectation = expectation(description: "testNearestStations")
-        try travelPlanner.nearestStations(latitude: 45.035470, longitude: 38.975313, distance: 50) { result in
-            switch result {
-            case .success:
-                break
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
-            }
+        do {
+            let result = try await travelPlanner.nearestStations(latitude: 45.035470, longitude: 38.975313, distance: 50)
+            XCTAssertNotNil(result)
             expectation.fulfill()
+        } catch {
+            XCTFail(error.localizedDescription)
         }
-        waitForExpectations(timeout: 10, handler: nil)
+        await fulfillment(of: [expectation], timeout: 10)
     }
 
     /// Проверяет работоспособность ручки https://api.rasp.yandex.net/v3.0/nearest_settlement/
-    func testNearestSettlements() throws {
+    func testNearestSettlements() async throws {
         let expectation = expectation(description: "testNearestSettlements")
-        try travelPlanner.nearestSettlements(latitude: 59.864177, longitude: 30.319163, distance: 50) { result in
-            switch result {
-            case .success:
-                break
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
-            }
+        do {
+            let result = try await travelPlanner.nearestSettlements(latitude: 59.864177, longitude: 30.319163, distance: 50)
+            XCTAssertNotNil(result)
             expectation.fulfill()
+        } catch {
+            XCTFail(error.localizedDescription)
         }
-        waitForExpectations(timeout: 10, handler: nil)
+        await fulfillment(of: [expectation], timeout: 10)
     }
 
     /// Проверяет работоспособность ручки https://api.rasp.yandex.net/v3.0/carrier/
-    func testCarrier() throws {
+    func testCarrier() async throws {
         let expectation = expectation(description: "testCarrier")
-        try travelPlanner.carrier(forCode: "1369") { result in
-            switch result {
-            case .success:
-                break
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
-            }
+        do {
+            let result = try await travelPlanner.carrier(forCode: "1369")
+            XCTAssertNotNil(result)
             expectation.fulfill()
+        } catch {
+            XCTFail(error.localizedDescription)
         }
-        waitForExpectations(timeout: 10, handler: nil)
+        await fulfillment(of: [expectation], timeout: 10)
     }
 
     /// Проверяет работоспособность ручки https://api.rasp.yandex.net/v3.0/stations_list/
-    func testStationsList() throws {
+    func testStationsList() async throws {
         let expectation = expectation(description: "testStations")
-        try travelPlanner.stationsList { result in
-            switch result {
-            case .success:
-                break
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
-            }
+        do {
+            let result = try await travelPlanner.stationsList()
+            XCTAssertNotNil(result)
             expectation.fulfill()
+        } catch {
+            XCTFail(error.localizedDescription)
         }
-        waitForExpectations(timeout: 10, handler: nil)
+        await fulfillment(of: [expectation], timeout: 10)
     }
 
     /// Проверяет работоспособность ручки https://api.rasp.yandex.net/v3.0/copyright/
-    func testCopyright() throws {
+    func testCopyright() async throws {
         let expectation = expectation(description: "testCopyright")
-        try travelPlanner.copyright { result in
-            switch result {
-            case .success:
-                break
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
-            }
+        do {
+            let result = try await travelPlanner.copyright()
+            XCTAssertNotNil(result)
             expectation.fulfill()
+        } catch {
+            XCTFail(error.localizedDescription)
         }
-        waitForExpectations(timeout: 10, handler: nil)
+        await fulfillment(of: [expectation], timeout: 10)
     }
 }

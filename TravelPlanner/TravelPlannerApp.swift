@@ -20,7 +20,7 @@ struct TravelPlannerApp: App {
         AnalyticsService.activate()
     }
 
-    func schedulesBetweenStations(fromStation: String, toStation: String, completion: ((Result<SchedulesBetweenStationsResponse, Error>) -> Void)? = nil) throws {
+    func schedulesBetweenStations(fromStation: String, toStation: String) async throws -> SchedulesBetweenStationsResponse {
         let client = Client(
             serverURL: try Servers.server1(),
             transport: URLSessionTransport(),
@@ -28,18 +28,10 @@ struct TravelPlannerApp: App {
         )
 
         let service = SchedulesBetweenStationService(client: client)
-
-        Task {
-            do {
-                let schedule = try await service.getSchedulesBetweenStations(fromStation: fromStation, toStation: toStation)
-                completion?(.success(schedule))
-            } catch {
-                completion?(.failure(error))
-            }
-        }
+        return try await service.getSchedulesBetweenStations(fromStation: fromStation, toStation: toStation)
     }
 
-    func stationSchedule(forStation: String, completion: ((Result<StationScheduleResponse, Error>) -> Void)? = nil) throws {
+    func stationSchedule(forStation: String) async throws -> StationScheduleResponse {
         let client = Client(
             serverURL: try Servers.server1(),
             transport: URLSessionTransport(),
@@ -47,18 +39,10 @@ struct TravelPlannerApp: App {
         )
 
         let service = StationScheduleService(client: client)
-
-        Task {
-            do {
-                let stationSchedule = try await service.getStationSchedule(forStation: forStation)
-                completion?(.success(stationSchedule))
-            } catch {
-                completion?(.failure(error))
-            }
-        }
+        return try await service.getStationSchedule(forStation: forStation)
     }
 
-    func threadStations(forUID: String, completion: ((Result<ThreadResponse, Error>) -> Void)? = nil) throws {
+    func threadStations(forUID: String) async throws -> ThreadResponse {
         let client = Client(
             serverURL: try Servers.server1(),
             transport: URLSessionTransport(),
@@ -66,18 +50,10 @@ struct TravelPlannerApp: App {
         )
 
         let service = ThreadStationsService(client: client)
-
-        Task {
-            do {
-                let threadStations = try await service.getThreadStations(forUID: forUID)
-                completion?(.success(threadStations))
-            } catch {
-                completion?(.failure(error))
-            }
-        }
+        return try await service.getThreadStations(forUID: forUID)
     }
 
-    func nearestStations(latitude: Double, longitude: Double, distance: Int, completion: ((Result<NearestStationsResponse, Error>) -> Void)? = nil) throws {
+    func nearestStations(latitude: Double, longitude: Double, distance: Int) async throws -> NearestStationsResponse {
         let client = Client(
             serverURL: try Servers.server1(),
             transport: URLSessionTransport(),
@@ -85,18 +61,10 @@ struct TravelPlannerApp: App {
         )
 
         let service = NearestStationsService(client: client)
-
-        Task {
-            do {
-                let nearestStations = try await service.getNearestStations(lat: latitude, lng: longitude, distance: distance)
-                completion?(.success(nearestStations))
-            } catch {
-                completion?(.failure(error))
-            }
-        }
+        return try await service.getNearestStations(lat: latitude, lng: longitude, distance: distance)
     }
 
-    func nearestSettlements(latitude: Double, longitude: Double, distance: Int, completion: ((Result<NearestSettlementResponse, Error>) -> Void)? = nil) throws {
+    func nearestSettlements(latitude: Double, longitude: Double, distance: Int) async throws -> NearestSettlementResponse {
         let client = Client(
             serverURL: try Servers.server1(),
             transport: URLSessionTransport(),
@@ -104,18 +72,10 @@ struct TravelPlannerApp: App {
         )
 
         let service = NearestSettlementService(client: client)
-
-        Task {
-            do {
-                let nearestSettlements = try await service.getNearestSettlement(lat: latitude, lng: longitude, distance: distance)
-                completion?(.success(nearestSettlements))
-            } catch {
-                completion?(.failure(error))
-            }
-        }
+        return try await service.getNearestSettlement(lat: latitude, lng: longitude, distance: distance)
     }
 
-    func carrier(forCode: String, completion: ((Result<CarrierResponse, Error>) -> Void)? = nil) throws {
+    func carrier(forCode: String) async throws -> CarrierResponse {
         let client = Client(
             serverURL: try Servers.server1(),
             transport: URLSessionTransport(),
@@ -123,18 +83,10 @@ struct TravelPlannerApp: App {
         )
 
         let service = CarrierService(client: client)
-
-        Task {
-            do {
-                let carrier = try await service.getCarrier(code: forCode)
-                completion?(.success(carrier))
-            } catch {
-                completion?(.failure(error))
-            }
-        }
+        return try await service.getCarrier(code: forCode)
     }
 
-    func stationsList(completion: ((Result<StationsListResponse, Error>) -> Void)? = nil) throws {
+    func stationsList() async throws -> StationsListResponse {
         let client = Client(
             serverURL: try Servers.server1(),
             transport: URLSessionTransport(),
@@ -142,18 +94,10 @@ struct TravelPlannerApp: App {
         )
 
         let service = StationsListService(client: client)
-
-        Task {
-            do {
-                let stations = try await service.getStations()
-                completion?(.success(stations))
-            } catch {
-                completion?(.failure(error))
-            }
-        }
+        return try await service.getStations()
     }
 
-    func copyright(completion: ((Result<CopyrightResponse, Error>) -> Void)? = nil) throws {
+    func copyright() async throws -> CopyrightResponse {
         let client = Client(
             serverURL: try Servers.server1(),
             transport: URLSessionTransport(),
@@ -161,14 +105,6 @@ struct TravelPlannerApp: App {
         )
 
         let service = CopyrightService(client: client)
-
-        Task {
-            do {
-                let copyright = try await service.getCopyright()
-                completion?(.success(copyright))
-            } catch {
-                completion?(.failure(error))
-            }
-        }
+        return try await service.getCopyright()
     }
 }
