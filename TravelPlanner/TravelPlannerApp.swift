@@ -12,7 +12,7 @@ import OpenAPIURLSession
 struct TravelPlannerApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            SplashView()
         }
     }
 
