@@ -172,9 +172,9 @@
 			developmentRegion = ru;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
 				ru,
+				en,
 			);
 			mainGroup = 07CBC84F2CAEAFFB00CD1C7E;
 			minimizedProjectReferenceProxies = 1;

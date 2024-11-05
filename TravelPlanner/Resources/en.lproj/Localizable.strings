@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings
+  TravelPlanner
+
+  Created by Сергей Кухарев on 05.11.2024.
+  
+*/
+"CopyrightText" = "The application uses the «Yandex.Schedules» API";
+"SettingsViewDarkModeLabel" = "Dark mode";
+"SettingsViewUserAgreementLabel" = "User agreement";
+"YandexAPIVersion" = "Version 1.0 (beta)";

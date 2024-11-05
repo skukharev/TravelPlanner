@@ -10,9 +10,13 @@ import OpenAPIURLSession
 
 @main
 struct TravelPlannerApp: App {
+    @StateObject var appSettings = AppSettings()
+
     var body: some Scene {
         WindowGroup {
             SplashView()
+                .environmentObject(appSettings)
+                .preferredColorScheme(appSettings.isDarkMode ? .dark : .light)
         }
     }
 

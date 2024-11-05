@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings
+  TravelPlanner
+
+  Created by Сергей Кухарев on 05.11.2024.
+  
+*/
+"CopyrightText" = "Приложение использует API «Яндекс.Расписания»";
+"SettingsViewDarkModeLabel" = "Тёмная тема";
+"SettingsViewUserAgreementLabel" = "Пользовательское соглашение";
+"YandexAPIVersion" = "Версия 1.0 (beta)";

@@ -14,7 +14,7 @@ struct SplashView: View {
         if isShowSplashScreen {
             ZStack {
                 Color.black.edgesIgnoringSafeArea(.all)
-                Image(asset: Asset.splashView)
+                Image(asset: Asset.Images.splashView)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .edgesIgnoringSafeArea(.all)
@@ -26,7 +26,7 @@ struct SplashView: View {
                 }
             }
         } else {
-            ContentView()
+            MainView()
         }
     }
 }
