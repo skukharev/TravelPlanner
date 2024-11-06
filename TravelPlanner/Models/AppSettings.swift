@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SwiftUI
 
 class AppSettings: ObservableObject {
     // MARK: - Constants
@@ -22,12 +21,18 @@ class AppSettings: ObservableObject {
     // MARK: - Initializers
 
     init() {
-        isDarkMode = UserDefaults.standard.bool(forKey: Constants.useDarkThemeKey)
+        isDarkMode = loadDarkModeSetting()
     }
 
     // MARK: - Public Methods
 
     public func saveDarkModeSetting(with newValue: Bool) {
         UserDefaults.standard.setValue(newValue, forKey: Constants.useDarkThemeKey)
+    }
+
+    // MARK: - Private Methods
+
+    private func loadDarkModeSetting() -> Bool {
+        return UserDefaults.standard.bool(forKey: Constants.useDarkThemeKey)
     }
 }

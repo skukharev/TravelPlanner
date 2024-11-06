@@ -8,4 +8,4 @@
 "CopyrightText" = "Приложение использует API «Яндекс.Расписания»";
 "SettingsViewDarkModeLabel" = "Тёмная тема";
 "SettingsViewUserAgreementLabel" = "Пользовательское соглашение";
-"YandexAPIVersion" = "Версия 1.0 (beta)";
+"YandexAPIVersion" = "Версия";

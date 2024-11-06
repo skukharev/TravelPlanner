@@ -8,51 +8,65 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @EnvironmentObject var appSettings: AppSettings
+    private enum Constants {
+        static let settingsViewDarkModeLabelFont = GlobalConstants.ypRegular17
+        static let settingsViewUserAgreementLabelFont = GlobalConstants.ypRegular17
+        static let copyrightTextFont = GlobalConstants.ypRegular12
+        static let yandexAPIVersionFont = GlobalConstants.ypRegular12
+    }
+
+    @StateObject var viewModel = SettingsViewModel()
+    @EnvironmentObject private var appSettings: AppSettings
+    @State private var showUserAgreementView: Bool = false
 
     var body: some View {
-        VStack {
-            HStack {
-                Text(L10n.settingsViewDarkModeLabel)
-                    .font(.system(size: 17))
-                    .padding()
-                Spacer()
-                Toggle("", isOn: $appSettings.isDarkMode)
-                    .padding()
-                    .tint(.blueUniversal)
-                    .onChange(of: appSettings.isDarkMode) { isDarkMode in
-                        appSettings.saveDarkModeSetting(with: isDarkMode)
-                    }
-            }
-            HStack {
-                Text(L10n.settingsViewUserAgreementLabel)
-                    .font(.system(size: 17))
-                    .padding()
-                Spacer()
-                Button(action: userAgreementOnTap) {
-                    Label("", systemImage: "chevron.right")
-                        .labelStyle(.iconOnly)
+        NavigationView {
+            VStack {
+                HStack {
+                    Text(L10n.settingsViewDarkModeLabel)
+                        .font(Constants.settingsViewDarkModeLabelFont)
+                        .padding()
+                    Spacer()
+                    Toggle("", isOn: $appSettings.isDarkMode)
+                        .padding()
+                        .tint(.blueUniversal)
+                        .onChange(of: appSettings.isDarkMode) { isDarkMode in
+                            appSettings.saveDarkModeSetting(with: isDarkMode)
+                        }
                 }
-                .padding()
-                .tint(.appBlack)
+                HStack {
+                    Text(L10n.settingsViewUserAgreementLabel)
+                        .font(Constants.settingsViewUserAgreementLabelFont)
+                        .padding()
+                    Spacer()
+                    Button(action: userAgreementOnTap) {
+                        Label("", systemImage: "chevron.right")
+                            .labelStyle(.iconOnly)
+                    }
+                    .padding()
+                    .tint(.appBlack)
+                    NavigationLink(destination: UserAgreementView(), isActive: $showUserAgreementView) {
+                        EmptyView()
+                    }
+                }
+                Spacer()
+                Text(L10n.copyrightText)
+                    .font(Constants.copyrightTextFont)
+                Text(viewModel.appVersionText)
+                    .font(Constants.yandexAPIVersionFont)
+                    .padding()
+                Divider()
             }
-            Spacer()
-            Text(L10n.copyrightText)
-                .font(.system(size: 12))
-            Text(L10n.yandexAPIVersion)
-                .font(.system(size: 12))
-                .padding()
-            Divider()
         }
+        .tint(.appBlack)
     }
 
     private func userAgreementOnTap() {
+        showUserAgreementView = true
     }
 }
 
 #Preview {
-    let appSettings = AppSettings()
-
     SettingsView()
-        .environmentObject(appSettings)
+        .environmentObject(AppSettings())
 }

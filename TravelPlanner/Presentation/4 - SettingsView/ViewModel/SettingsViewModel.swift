@@ -8,7 +8,25 @@
 import Foundation
 
 final class SettingsViewModel: ObservableObject {
-    @Published var isDarkMode: Bool = false
+    // MARK: - Public Properties
 
-    init() {}
+    @Published var appVersionText: String = ""
+
+    // MARK: - Initializers
+
+    init() {
+        appVersionText = L10n.yandexAPIVersion + " " + loadAppVersion()
+    }
+
+    // MARK: - Private Methods
+
+    private func loadAppVersion() -> String {
+        guard
+            let nsObject = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? AnyObject,
+            let version = nsObject as? String
+        else {
+            return ""
+        }
+        return version
+    }
 }

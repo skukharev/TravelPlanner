@@ -19,8 +19,8 @@ internal enum L10n {
   internal static let settingsViewDarkModeLabel = L10n.tr("Localizable", "SettingsViewDarkModeLabel", fallback: "Тёмная тема")
   /// Пользовательское соглашение
   internal static let settingsViewUserAgreementLabel = L10n.tr("Localizable", "SettingsViewUserAgreementLabel", fallback: "Пользовательское соглашение")
-  /// Версия 1.0 (beta)
-  internal static let yandexAPIVersion = L10n.tr("Localizable", "YandexAPIVersion", fallback: "Версия 1.0 (beta)")
+  /// Версия
+  internal static let yandexAPIVersion = L10n.tr("Localizable", "YandexAPIVersion", fallback: "Версия")
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:enable nesting type_body_length type_name vertical_whitespace_opening_braces

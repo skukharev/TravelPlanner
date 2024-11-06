@@ -32,7 +32,9 @@ internal enum Asset {
     internal static let launchScreenBackgroundColor = ColorAsset(name: "LaunchScreenBackgroundColor")
   }
   internal enum Images {
+    internal static let noInternetError = ImageAsset(name: "NoInternetError")
     internal static let scheduleTabItem = ImageAsset(name: "ScheduleTabItem")
+    internal static let serverError = ImageAsset(name: "ServerError")
     internal static let settingsTabItem = ImageAsset(name: "SettingsTabItem")
     internal static let splashView = ImageAsset(name: "SplashView")
   }
