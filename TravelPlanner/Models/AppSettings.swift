@@ -7,7 +7,7 @@
 
 import Foundation
 
-class AppSettings: ObservableObject {
+final class AppSettings: ObservableObject {
     // MARK: - Constants
 
     private enum Constants {
