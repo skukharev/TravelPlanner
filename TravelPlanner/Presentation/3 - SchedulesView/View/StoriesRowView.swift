@@ -31,11 +31,20 @@ struct StoriesRowView: View {
                 .resizable()
                 .scaledToFit()
                 .opacity(Double(story.isViewed ? 1 : 0.5))
-                .border(
-                    story.isViewed ? Constants.previewImageBorderColor : Color.clear,
-                    width: story.isViewed ? Constants.previewImageBorderWidth : 0
+                .clipShape(
+                    RoundedRectangle(
+                        cornerRadius: Constants.previewImageCornerRadius
+                    )
                 )
-                .clipShape(RoundedRectangle(cornerRadius: 16.0))
+                .overlay(
+                    RoundedRectangle(
+                        cornerRadius: Constants.previewImageCornerRadius
+                    )
+                    .stroke(
+                        story.isViewed ? Constants.previewImageBorderColor : Color.clear,
+                        lineWidth: story.isViewed ? Constants.previewImageBorderWidth : 0
+                    )
+                )
             Text(story.title)
                 .font(Constants.titleFont)
                 .foregroundStyle(Constants.titleColor)
