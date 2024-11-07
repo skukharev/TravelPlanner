@@ -27,7 +27,18 @@ class AppSettings: ObservableObject {
     // MARK: - Public Methods
 
     public func saveDarkModeSetting(with newValue: Bool) {
+        isDarkMode = newValue
         UserDefaults.standard.setValue(newValue, forKey: Constants.useDarkThemeKey)
+    }
+
+    public func loadAppVersion() -> String {
+        guard
+            let nsObject = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? AnyObject,
+            let appVersion = nsObject as? String
+        else {
+            return ""
+        }
+        return appVersion
     }
 
     // MARK: - Private Methods

@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct SettingsView: View {
+    // MARK: - Types
+
     private enum Constants {
         static let settingsViewDarkModeLabelFont = GlobalConstants.ypRegular17
         static let settingsViewUserAgreementLabelFont = GlobalConstants.ypRegular17
@@ -15,9 +17,7 @@ struct SettingsView: View {
         static let yandexAPIVersionFont = GlobalConstants.ypRegular12
     }
 
-    @StateObject var viewModel = SettingsViewModel()
-    @EnvironmentObject private var appSettings: AppSettings
-    @State private var showUserAgreementView: Bool = false
+    // MARK: - Public Properties
 
     var body: some View {
         NavigationView {
@@ -27,11 +27,11 @@ struct SettingsView: View {
                         .font(Constants.settingsViewDarkModeLabelFont)
                         .padding()
                     Spacer()
-                    Toggle("", isOn: $appSettings.isDarkMode)
+                    Toggle("", isOn: $viewModel.isDarkMode)
                         .padding()
                         .tint(.blueUniversal)
-                        .onChange(of: appSettings.isDarkMode) { isDarkMode in
-                            appSettings.saveDarkModeSetting(with: isDarkMode)
+                        .onChange(of: viewModel.isDarkMode) { isDarkMode in
+                            viewModel.saveDarkMode(isDarkMode: isDarkMode)
                         }
                 }
                 HStack {
@@ -45,7 +45,7 @@ struct SettingsView: View {
                     }
                     .padding()
                     .tint(.appBlack)
-                    NavigationLink(destination: UserAgreementView(), isActive: $showUserAgreementView) {
+                    NavigationLink(destination: UserAgreementView(), isActive: $viewModel.isShowUserAgreementView) {
                         EmptyView()
                     }
                 }
@@ -59,10 +59,20 @@ struct SettingsView: View {
             }
         }
         .tint(.appBlack)
+        .onAppear {
+            self.viewModel.setup(self.appSettings)
+        }
     }
 
+    // MARK: - Private Properties
+
+    @StateObject private var viewModel = SettingsViewModel()
+    @EnvironmentObject private var appSettings: AppSettings
+
+    // MARK: - Private Methods
+
     private func userAgreementOnTap() {
-        showUserAgreementView = true
+        viewModel.showUserAgreementView()
     }
 }
 

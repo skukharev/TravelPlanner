@@ -6,27 +6,35 @@
 //
 
 import Foundation
+import SwiftUI
 
 final class SettingsViewModel: ObservableObject {
     // MARK: - Public Properties
 
     @Published var appVersionText: String = ""
+    @Published var isDarkMode: Bool = false
+    @Published var isShowUserAgreementView: Bool = false
 
-    // MARK: - Initializers
+    // MARK: - Private Properties
 
-    init() {
-        appVersionText = L10n.yandexAPIVersion + " " + loadAppVersion()
+    private var appSettings: AppSettings?
+
+    // MARK: - Public Methods
+
+    public func setup(_ appSettings: AppSettings) {
+        self.appSettings = appSettings
+        appVersionText = L10n.yandexAPIVersion + " " + appSettings.loadAppVersion()
+        isDarkMode = appSettings.isDarkMode
     }
 
-    // MARK: - Private Methods
+    public func saveDarkMode(isDarkMode: Bool) {
+        appSettings?.saveDarkModeSetting(with: isDarkMode)
+    }
 
-    private func loadAppVersion() -> String {
-        guard
-            let nsObject = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? AnyObject,
-            let version = nsObject as? String
-        else {
-            return ""
-        }
-        return version
+    public func showUserAgreementView() {
+        let params: AnalyticsEventParam = ["screen": "Settings", "item": "userAgreements"]
+        AnalyticsService.report(event: "click", params: params)
+        print("Зарегистрировано событие аналитики 'click' с параметрами \(params)")
+        isShowUserAgreementView = true
     }
 }

@@ -23,11 +23,11 @@ struct UserAgreementView: View {
                 url: Constants.userAgreementURL,
                 viewModel: viewModel
             )
-                .navigationTitle(L10n.settingsViewUserAgreementLabel)
             ProgressView(value: viewModel.progress)
                 .progressViewStyle(.linear)
                 .isHidden(viewModel.progress == 1.0)
         }
+        .navigationTitle(L10n.settingsViewUserAgreementLabel)
     }
 }
 
