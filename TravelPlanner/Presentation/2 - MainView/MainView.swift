@@ -28,5 +28,7 @@ struct MainView: View {
 }
 
 #Preview {
+    let appSettings = AppSettings()
     MainView()
+        .environmentObject(appSettings)
 }

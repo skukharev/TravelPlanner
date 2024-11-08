@@ -19,14 +19,15 @@ struct UserAgreementView: View {
 
     var body: some View {
         VStack {
+            ProgressView(value: viewModel.progress)
+                .progressViewStyle(.linear)
+                .isHidden(viewModel.progress == 1.0)
             WebView(
                 url: Constants.userAgreementURL,
                 viewModel: viewModel
             )
-            ProgressView(value: viewModel.progress)
-                .progressViewStyle(.linear)
-                .isHidden(viewModel.progress == 1.0)
         }
+        .ignoresSafeArea(.all)
         .navigationTitle(L10n.settingsViewUserAgreementLabel)
     }
 }

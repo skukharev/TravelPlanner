@@ -45,8 +45,12 @@ struct SettingsView: View {
                     }
                     .padding()
                     .tint(.appBlack)
-                    NavigationLink(destination: UserAgreementView(), isActive: $viewModel.isShowUserAgreementView) {
-                        EmptyView()
+                    .fullScreenCover(isPresented: $viewModel.isShowUserAgreementView) {
+                        NavigationView {
+                            NavigationLink(destination: UserAgreementView(), isActive: $viewModel.isShowUserAgreementView) {
+                                EmptyView()
+                            }
+                        }
                     }
                 }
                 Spacer()
