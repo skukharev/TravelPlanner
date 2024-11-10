@@ -90,17 +90,6 @@ struct TravelPlannerApp: App {
         return try await service.getCarrier(code: forCode)
     }
 
-    func stationsList() async throws -> StationsListResponse {
-        let client = Client(
-            serverURL: try Servers.server1(),
-            transport: URLSessionTransport(),
-            middlewares: [AuthenticationMiddleware(authorizationHeaderFieldValue: GlobalConstants.yandexSchedulesApi)]
-        )
-
-        let service = StationsListService(client: client)
-        return try await service.getStations()
-    }
-
     func copyright() async throws -> CopyrightResponse {
         let client = Client(
             serverURL: try Servers.server1(),

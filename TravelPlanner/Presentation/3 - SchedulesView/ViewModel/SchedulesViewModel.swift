@@ -11,6 +11,12 @@ final class SchedulesViewModel: ObservableObject {
     // MARK: - Public Properties
 
     @Published var stories: [Story]
+    // swiftlint:disable:next redundant_type_annotation
+    @Published var fromStation: Station = Station.init(stationType: .fromStation)
+    // swiftlint:disable:next redundant_type_annotation
+    @Published var toStation: Station = Station.init(stationType: .toStation)
+    @Published var isSelectionFromStationPresented: Bool = false
+    @Published var isSelectionToStationPresented: Bool = false
 
     // MARK: - Initializers
 
@@ -71,5 +77,25 @@ final class SchedulesViewModel: ObservableObject {
         )
 
         self.stories = [story1, story2, story3, story4, story5, story6, story7, story8, story9]
+    }
+
+    // MARK: - Public Methods
+
+    public func changeStations() {
+        let params: AnalyticsEventParam = ["screen": "Main", "item": "changeStationsButton"]
+        AnalyticsService.report(event: "click", params: params)
+        print("Зарегистрировано событие аналитики 'click' с параметрами \(params)")
+    }
+
+    public func selectStation(_ station: Station) {
+        let params: AnalyticsEventParam = ["screen": "Main", "item": "selectStationButton", "stationType": station.stationType.prompt]
+        AnalyticsService.report(event: "click", params: params)
+        print("Зарегистрировано событие аналитики 'click' с параметрами \(params)")
+        switch station.stationType {
+        case .fromStation:
+            isSelectionFromStationPresented = true
+        case .toStation:
+            isSelectionToStationPresented = true
+        }
     }
 }

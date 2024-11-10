@@ -15,10 +15,20 @@ internal enum L10n {
   /// 
   ///   Created by Сергей Кухарев on 05.11.2024.
   internal static let copyrightText = L10n.tr("Localizable", "CopyrightText", fallback: "Приложение использует API «Яндекс.Расписания»")
+  /// Откуда
+  internal static let fromStationPrompt = L10n.tr("Localizable", "FromStationPrompt", fallback: "Откуда")
+  /// Город не найден
+  internal static let searchCityNotFound = L10n.tr("Localizable", "SearchCityNotFound", fallback: "Город не найден")
+  /// Введите запрос
+  internal static let searchCityPlaceholder = L10n.tr("Localizable", "SearchCityPlaceholder", fallback: "Введите запрос")
+  /// Выбор города
+  internal static let selectionCityTitle = L10n.tr("Localizable", "SelectionCityTitle", fallback: "Выбор города")
   /// Тёмная тема
   internal static let settingsViewDarkModeLabel = L10n.tr("Localizable", "SettingsViewDarkModeLabel", fallback: "Тёмная тема")
   /// Пользовательское соглашение
   internal static let settingsViewUserAgreementLabel = L10n.tr("Localizable", "SettingsViewUserAgreementLabel", fallback: "Пользовательское соглашение")
+  /// Куда
+  internal static let toStationPrompt = L10n.tr("Localizable", "ToStationPrompt", fallback: "Куда")
   /// Версия
   internal static let yandexAPIVersion = L10n.tr("Localizable", "YandexAPIVersion", fallback: "Версия")
 }

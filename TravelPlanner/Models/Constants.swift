@@ -21,4 +21,6 @@ enum GlobalConstants {
     static let yandexSchedulesApi = "ff0eaf80-755e-4f8e-a0d2-637083058654"
     static let ypRegular12: Font = .system(size: 12, weight: .regular, design: .default)
     static let ypRegular17: Font = .system(size: 17, weight: .regular, design: .default)
+    static let ypBold24: Font = .system(size: 24, weight: .bold, design: .default)
+    static let defaultCornerRadius: CGFloat = 16
 }

@@ -11,7 +11,6 @@ struct StoriesRowView: View {
     private enum Constants {
         static let previewImageSizeWidth: CGFloat = 92
         static let previewImageSizeHeight: CGFloat = 140
-        static let previewImageCornerRadius: CGFloat = 16
         static let previewImageBorderColor: Color = .blueUniversal
         static let previewImageBorderWidth: CGFloat = 4
         static let titleFont = GlobalConstants.ypRegular12
@@ -33,12 +32,12 @@ struct StoriesRowView: View {
                 .opacity(Double(story.isViewed ? 1 : 0.5))
                 .clipShape(
                     RoundedRectangle(
-                        cornerRadius: Constants.previewImageCornerRadius
+                        cornerRadius: GlobalConstants.defaultCornerRadius
                     )
                 )
                 .overlay(
                     RoundedRectangle(
-                        cornerRadius: Constants.previewImageCornerRadius
+                        cornerRadius: GlobalConstants.defaultCornerRadius
                     )
                     .stroke(
                         story.isViewed ? Constants.previewImageBorderColor : Color.clear,

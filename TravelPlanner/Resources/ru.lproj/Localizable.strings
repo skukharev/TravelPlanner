@@ -9,3 +9,8 @@
 "SettingsViewDarkModeLabel" = "Тёмная тема";
 "SettingsViewUserAgreementLabel" = "Пользовательское соглашение";
 "YandexAPIVersion" = "Версия";
+"FromStationPrompt" = "Откуда";
+"ToStationPrompt" = "Куда";
+"SelectionCityTitle" = "Выбор города";
+"SearchCityPlaceholder" = "Введите запрос";
+"SearchCityNotFound" = "Город не найден";

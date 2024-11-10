@@ -9,3 +9,8 @@
 "SettingsViewDarkModeLabel" = "Dark mode";
 "SettingsViewUserAgreementLabel" = "User agreement";
 "YandexAPIVersion" = "Version";
+"FromStationPrompt" = "From";
+"ToStationPrompt" = "To";
+"SelectionCityTitle" = "Choosing a city";
+"SearchCityPlaceholder" = "Enter the query";
+"SearchCityNotFound" = "City not found";
