@@ -21,8 +21,14 @@ internal enum L10n {
   internal static let searchCityNotFound = L10n.tr("Localizable", "SearchCityNotFound", fallback: "Город не найден")
   /// Введите запрос
   internal static let searchCityPlaceholder = L10n.tr("Localizable", "SearchCityPlaceholder", fallback: "Введите запрос")
+  /// Станция не найдена
+  internal static let searchStationsNotFound = L10n.tr("Localizable", "SearchStationsNotFound", fallback: "Станция не найдена")
+  /// Введите запрос
+  internal static let searchStationsPlaceholder = L10n.tr("Localizable", "SearchStationsPlaceholder", fallback: "Введите запрос")
   /// Выбор города
   internal static let selectionCityTitle = L10n.tr("Localizable", "SelectionCityTitle", fallback: "Выбор города")
+  /// Выбор cтанции
+  internal static let selectionStationTitle = L10n.tr("Localizable", "SelectionStationTitle", fallback: "Выбор cтанции")
   /// Тёмная тема
   internal static let settingsViewDarkModeLabel = L10n.tr("Localizable", "SettingsViewDarkModeLabel", fallback: "Тёмная тема")
   /// Пользовательское соглашение

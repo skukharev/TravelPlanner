@@ -14,3 +14,6 @@
 "SelectionCityTitle" = "Выбор города";
 "SearchCityPlaceholder" = "Введите запрос";
 "SearchCityNotFound" = "Город не найден";
+"SearchStationsPlaceholder" = "Введите запрос";
+"SearchStationsNotFound" = "Станция не найдена";
+"SelectionStationTitle" = "Выбор cтанции";

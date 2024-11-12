@@ -12,9 +12,9 @@ final class SchedulesViewModel: ObservableObject {
 
     @Published var stories: [Story]
     // swiftlint:disable:next redundant_type_annotation
-    @Published var fromStation: Station = Station.init(stationType: .fromStation)
+    @Published var fromStation: StationData = StationData.init(stationType: .fromStation)
     // swiftlint:disable:next redundant_type_annotation
-    @Published var toStation: Station = Station.init(stationType: .toStation)
+    @Published var toStation: StationData = StationData.init(stationType: .toStation)
     @Published var isSelectionFromStationPresented: Bool = false
     @Published var isSelectionToStationPresented: Bool = false
 
@@ -85,17 +85,28 @@ final class SchedulesViewModel: ObservableObject {
         let params: AnalyticsEventParam = ["screen": "Main", "item": "changeStationsButton"]
         AnalyticsService.report(event: "click", params: params)
         print("Зарегистрировано событие аналитики 'click' с параметрами \(params)")
+
+        let buffer = fromStation
+        copyStationData(from: toStation, to: &fromStation)
+        copyStationData(from: buffer, to: &toStation)
     }
 
-    public func selectStation(_ station: Station) {
-        let params: AnalyticsEventParam = ["screen": "Main", "item": "selectStationButton", "stationType": station.stationType.prompt]
+    public func selectStation(_ stationData: StationData) {
+        let params: AnalyticsEventParam = ["screen": "Main", "item": "selectStationButton", "stationType": stationData.stationType.prompt]
         AnalyticsService.report(event: "click", params: params)
         print("Зарегистрировано событие аналитики 'click' с параметрами \(params)")
-        switch station.stationType {
+        switch stationData.stationType {
         case .fromStation:
             isSelectionFromStationPresented = true
         case .toStation:
             isSelectionToStationPresented = true
         }
+    }
+
+    // MARK: - Private Methods
+
+    private func copyStationData(from source: StationData, to destination: inout StationData) {
+        destination.city = source.city
+        destination.station = source.station
     }
 }

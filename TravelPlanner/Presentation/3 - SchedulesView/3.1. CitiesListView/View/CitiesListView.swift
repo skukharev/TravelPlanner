@@ -16,47 +16,60 @@ struct CitiesListView: View {
         static let selectionCityTitle = L10n.selectionCityTitle
         static let searchCityNotFoundFont = GlobalConstants.ypBold24
         static let defaultForegroundColor: Color = .appBlack
-        static let searchBarMagnifyingGlassImageName = "magnifyingglass"
-        static let searchBarClearSearchTextImageName = "xmark.circle.fill"
-        static let searchBarCornerRadius: CGFloat = 10.0
-        static let searchBarPaddingInsets = EdgeInsets(top: 8, leading: 6, bottom: 8, trailing: 6)
     }
 
     // MARK: - Public Properties
 
-    @Binding var station: Station
+    @Binding var stationData: StationData
     @Binding var isShowRootLink: Bool
     @StateObject var viewModel = CitiesListViewModel()
+    @State var selectedCity: City?
+    @State var isSelectionStationLinkActivated: Bool = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             /// SearchBar
             HStack {
                 HStack {
-                    Image(systemName: Constants.searchBarMagnifyingGlassImageName)
+                    Image(systemName: GlobalConstants.searchBarMagnifyingGlassImageName)
                     TextField("", text: $viewModel.filterText, prompt: Text(Constants.searchCityPlaceholder))
                     Button(
                         action: { viewModel.filterText = "" },
                         label: {
-                            Image(systemName:  Constants.searchBarClearSearchTextImageName).opacity(viewModel.filterText.isEmpty ? 0 : 1)
+                            Image(systemName: GlobalConstants.searchBarClearSearchTextImageName).opacity(viewModel.filterText.isEmpty ? 0 : 1)
                         }
                     )
                 }
-                .padding(Constants.searchBarPaddingInsets)
+                .padding(GlobalConstants.searchBarPaddingInsets)
                 .background(Color(.secondarySystemBackground))
-                .cornerRadius(Constants.searchBarCornerRadius)
+                .cornerRadius(GlobalConstants.searchBarCornerRadius)
             }
             .padding(.horizontal)
             /// Cities list
             ZStack {
                 List(viewModel.cities) { city in
-                    NavigationLink {
-                        EmptyView()
-                    } label: {
-                        Text(city.name)
+                    HStack {
+                        Button(
+                            action: { selectCity(city) },
+                            label: { Text(city.name) }
+                        )
+                        Spacer()
+                        Image(systemName: GlobalConstants.listNavigationLinkImageName)
                     }
                     .listRowSeparator(.hidden)
                 }
+                .background(
+                    NavigationLink(
+                        destination: StationsListView(
+                            stationData: $stationData,
+                            isShowRootLink: $isShowRootLink,
+                            city: selectedCity
+                        ),
+                        isActive: $isSelectionStationLinkActivated
+                    ) {
+                        EmptyView()
+                    }
+                )
                 .listStyle(.plain)
                 /// The Progress view displayed during the loading of the list of cities
                 ProgressView()
@@ -77,14 +90,22 @@ struct CitiesListView: View {
             }
         }
     }
+
+    // MARK: - Private Methods
+
+    private func selectCity(_ city: City) {
+        viewModel.selectCity(city)
+        selectedCity = city
+        isSelectionStationLinkActivated = true
+    }
 }
 
 final class CitiesListViewPreview: ObservableObject {
-    @State var station = Station(stationType: .fromStation)
+    @State var stationData = StationData(stationType: .fromStation)
     @State var isShowRootLink: Bool = true
 }
 
 #Preview {
     let params = CitiesListViewPreview()
-    CitiesListView(station: params.$station, isShowRootLink: params.$isShowRootLink)
+    CitiesListView(stationData: params.$stationData, isShowRootLink: params.$isShowRootLink)
 }

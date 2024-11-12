@@ -14,3 +14,6 @@
 "SelectionCityTitle" = "Choosing a city";
 "SearchCityPlaceholder" = "Enter the query";
 "SearchCityNotFound" = "City not found";
+"SearchStationsPlaceholder" = "Enter the query";
+"SearchStationsNotFound" = "Station not found";
+"SelectionStationTitle" = "Choosing a station";

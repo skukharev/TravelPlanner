@@ -35,6 +35,7 @@ struct SchedulesView: View {
 
     var body: some View {
         VStack {
+            /// Stories
             ScrollView(.horizontal) {
                 LazyHGrid(rows: rows, alignment: .center, spacing: Constants.storiesSpacing) {
                     ForEach(viewModel.stories) { story in
@@ -44,6 +45,7 @@ struct SchedulesView: View {
                 .frame(maxHeight: Constants.storiesHeight)
             }
             .padding()
+            /// Stations selection controls
             ZStack {
                 RoundedRectangle(cornerRadius: GlobalConstants.defaultCornerRadius)
                     .fill(Constants.stationsBackgroundColor)
@@ -53,15 +55,16 @@ struct SchedulesView: View {
                     HStack(spacing: Constants.stationsElementsSpacing) {
                         List {
                             Group {
+                                /// From station
                                 Button(
                                     action: { stationSelectionTap(viewModel.fromStation) },
-                                    label: { Text(viewModel.fromStation.stationTitle) }
+                                    label: { Text(viewModel.fromStation.stationTitle).lineLimit(1) }
                                 )
                                 .fullScreenCover(isPresented: $viewModel.isSelectionFromStationPresented) {
                                     NavigationView {
                                         NavigationLink(
                                             destination: CitiesListView(
-                                                station: $viewModel.fromStation,
+                                                stationData: $viewModel.fromStation,
                                                 isShowRootLink: $viewModel.isSelectionFromStationPresented
                                             ),
                                             isActive: $viewModel.isSelectionFromStationPresented
@@ -70,16 +73,17 @@ struct SchedulesView: View {
                                         }
                                     }
                                 }
+                                /// To station
                                 Button(
                                     action: { stationSelectionTap(viewModel.toStation) },
-                                    label: { Text(viewModel.toStation.stationTitle) }
+                                    label: { Text(viewModel.toStation.stationTitle).lineLimit(1) }
                                 )
                                 .fullScreenCover(isPresented: $viewModel.isSelectionToStationPresented) {
                                     NavigationView {
                                         NavigationView {
                                             NavigationLink(
                                                 destination: CitiesListView(
-                                                    station: $viewModel.toStation,
+                                                    stationData: $viewModel.toStation,
                                                     isShowRootLink: $viewModel.isSelectionToStationPresented
                                                 ),
                                                 isActive: $viewModel.isSelectionToStationPresented
@@ -123,9 +127,9 @@ struct SchedulesView: View {
         viewModel.changeStations()
     }
 
-    private func stationSelectionTap(_ station: Station) {
+    private func stationSelectionTap(_ stationData: StationData) {
         impactMed.impactOccurred()
-        viewModel.selectStation(station)
+        viewModel.selectStation(stationData)
     }
 }
 
