@@ -21,6 +21,9 @@ struct StationData: Identifiable, Hashable {
         }
         return city.name + " (" + station.name + ")"
     }
+    var isEmpty: Bool {
+        return (city != nil && station != nil) ? false : true
+    }
 
     init(stationType: StationType) {
         self.stationType = stationType

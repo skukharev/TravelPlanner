@@ -18,7 +18,8 @@ struct SchedulesView: View {
         static let stationsElementsSpacing: CGFloat = 0
         static let stationsElementsHeight: CGFloat = 96
         static let stationsElementsBackgroundColor: Color = .white
-        static let stationsElementsTextColor: Color = .grayUniversal
+        static let stationsElementsEmptyTextColor: Color = .grayUniversal
+        static let stationsElementsDefinedTextColor: Color = .black
         static let changeStationsButtonWidth: CGFloat = 36
         static let changeStationsButtonColor: Color = .white
         static let changeStationsButtonCornerRadius: CGFloat = 40
@@ -60,6 +61,7 @@ struct SchedulesView: View {
                                     action: { stationSelectionTap(viewModel.fromStation) },
                                     label: { Text(viewModel.fromStation.stationTitle).lineLimit(1) }
                                 )
+                                .foregroundStyle(viewModel.fromStation.isEmpty ? Constants.stationsElementsEmptyTextColor : Constants.stationsElementsDefinedTextColor)
                                 .fullScreenCover(isPresented: $viewModel.isSelectionFromStationPresented) {
                                     NavigationView {
                                         NavigationLink(
@@ -78,6 +80,7 @@ struct SchedulesView: View {
                                     action: { stationSelectionTap(viewModel.toStation) },
                                     label: { Text(viewModel.toStation.stationTitle).lineLimit(1) }
                                 )
+                                .foregroundStyle(viewModel.toStation.isEmpty ? Constants.stationsElementsEmptyTextColor : Constants.stationsElementsDefinedTextColor)
                                 .fullScreenCover(isPresented: $viewModel.isSelectionToStationPresented) {
                                     NavigationView {
                                         NavigationView {
@@ -98,7 +101,6 @@ struct SchedulesView: View {
                             .listRowBackground(Rectangle().fill(Constants.stationsElementsBackgroundColor))
                             .tint(.appBlack)
                         }
-                        .foregroundStyle(Constants.stationsElementsTextColor)
                         .background(Constants.stationsElementsBackgroundColor)
                         .listStyle(.plain)
                         .clipShape(RoundedRectangle(cornerRadius: GlobalConstants.defaultCornerRadius))
