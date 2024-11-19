@@ -17,6 +17,7 @@ final class SchedulesViewModel: ObservableObject {
     @Published var toStation: StationData = StationData.init(stationType: .toStation)
     @Published var isSelectionFromStationPresented: Bool = false
     @Published var isSelectionToStationPresented: Bool = false
+    @Published var isFindSegmentsPresented: Bool = false
 
     // MARK: - Initializers
 
@@ -101,6 +102,13 @@ final class SchedulesViewModel: ObservableObject {
         case .toStation:
             isSelectionToStationPresented = true
         }
+    }
+
+    public func findSegments() {
+        let params: AnalyticsEventParam = ["screen": "Main", "item": "findSegmentsButton"]
+        AnalyticsService.report(event: "click", params: params)
+        print("Зарегистрировано событие аналитики 'click' с параметрами \(params)")
+        isFindSegmentsPresented = true
     }
 
     // MARK: - Private Methods

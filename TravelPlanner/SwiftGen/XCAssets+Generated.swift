@@ -28,9 +28,12 @@ internal enum Asset {
   internal enum Colors {
     internal static let activeTabItemColor = ColorAsset(name: "ActiveTabItemColor")
     internal static let appBlack = ColorAsset(name: "AppBlack")
+    internal static let blackUniversal = ColorAsset(name: "BlackUniversal")
     internal static let blueUniversal = ColorAsset(name: "BlueUniversal")
     internal static let grayUniversal = ColorAsset(name: "GrayUniversal")
     internal static let launchScreenBackgroundColor = ColorAsset(name: "LaunchScreenBackgroundColor")
+    internal static let lightGrayUniversal = ColorAsset(name: "LightGrayUniversal")
+    internal static let redUniversal = ColorAsset(name: "RedUniversal")
   }
   internal enum Images {
     internal static let changeStationButton = ImageAsset(name: "ChangeStationButton")

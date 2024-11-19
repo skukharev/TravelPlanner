@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import OpenAPIURLSession
 
 final class StationsListViewModel: ObservableObject {
     // MARK: - Public Properties

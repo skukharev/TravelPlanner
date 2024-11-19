@@ -17,3 +17,6 @@
 "SearchStationsPlaceholder" = "Введите запрос";
 "SearchStationsNotFound" = "Станция не найдена";
 "SelectionStationTitle" = "Выбор cтанции";
+"FindSegmentsButtonTitle" = "Найти";
+"TransferPrefixText" = "С пересадкой в г.";
+"SegmentParametersButtonTitle" = "Уточнить время";

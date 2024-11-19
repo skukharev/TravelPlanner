@@ -24,17 +24,6 @@ struct TravelPlannerApp: App {
         AnalyticsService.activate()
     }
 
-    func schedulesBetweenStations(fromStation: String, toStation: String) async throws -> SchedulesBetweenStationsResponse {
-        let client = Client(
-            serverURL: try Servers.server1(),
-            transport: URLSessionTransport(),
-            middlewares: [AuthenticationMiddleware(authorizationHeaderFieldValue: GlobalConstants.yandexSchedulesApi)]
-        )
-
-        let service = SchedulesBetweenStationService(client: client)
-        return try await service.getSchedulesBetweenStations(fromStation: fromStation, toStation: toStation)
-    }
-
     func stationSchedule(forStation: String) async throws -> StationScheduleResponse {
         let client = Client(
             serverURL: try Servers.server1(),
@@ -77,17 +66,6 @@ struct TravelPlannerApp: App {
 
         let service = NearestSettlementService(client: client)
         return try await service.getNearestSettlement(lat: latitude, lng: longitude, distance: distance)
-    }
-
-    func carrier(forCode: String) async throws -> CarrierResponse {
-        let client = Client(
-            serverURL: try Servers.server1(),
-            transport: URLSessionTransport(),
-            middlewares: [AuthenticationMiddleware(authorizationHeaderFieldValue: GlobalConstants.yandexSchedulesApi)]
-        )
-
-        let service = CarrierService(client: client)
-        return try await service.getCarrier(code: forCode)
     }
 
     func copyright() async throws -> CopyrightResponse {

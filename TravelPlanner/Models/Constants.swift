@@ -21,6 +21,7 @@ enum GlobalConstants {
     static let yandexSchedulesApi = "ff0eaf80-755e-4f8e-a0d2-637083058654"
     static let ypRegular12: Font = .system(size: 12, weight: .regular, design: .default)
     static let ypRegular17: Font = .system(size: 17, weight: .regular, design: .default)
+    static let ypBold17: Font = .system(size: 17, weight: .bold, design: .default)
     static let ypBold24: Font = .system(size: 24, weight: .bold, design: .default)
     static let defaultCornerRadius: CGFloat = 16
     static let RussianFederationId = "l225"
@@ -29,4 +30,5 @@ enum GlobalConstants {
     static let searchBarCornerRadius: CGFloat = 10.0
     static let searchBarPaddingInsets = EdgeInsets(top: 8, leading: 6, bottom: 8, trailing: 6)
     static let listNavigationLinkImageName = "chevron.right"
+    static let defaultVerticalSpacing: CGFloat = 16
 }

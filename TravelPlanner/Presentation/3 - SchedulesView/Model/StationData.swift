@@ -28,4 +28,10 @@ struct StationData: Identifiable, Hashable {
     init(stationType: StationType) {
         self.stationType = stationType
     }
+
+    init(stationType: StationType, city: City, station: Station) {
+        self.stationType = stationType
+        self.city = city
+        self.station = station
+    }
 }

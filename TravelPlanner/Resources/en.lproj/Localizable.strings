@@ -17,3 +17,6 @@
 "SearchStationsPlaceholder" = "Enter the query";
 "SearchStationsNotFound" = "Station not found";
 "SelectionStationTitle" = "Choosing a station";
+"FindSegmentsButtonTitle" = "Find";
+"TransferPrefixText" = "With transfer in the";
+"SegmentParametersButtonTitle" = "Specify the time";

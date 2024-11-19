@@ -23,6 +23,13 @@ struct SchedulesView: View {
         static let changeStationsButtonWidth: CGFloat = 36
         static let changeStationsButtonColor: Color = .white
         static let changeStationsButtonCornerRadius: CGFloat = 40
+        static let findSegmentsButtonTitle = L10n.findSegmentsButtonTitle
+        static let findSegmentsButtonWidth: CGFloat = 150
+        static let findSegmentsButtonHeight: CGFloat = 60
+        static let findSegmentsButtonFont = GlobalConstants.ypBold17
+        static let findSegmentsButtonBackgroundColor: Color = .blueUniversal
+        static let findSegmentsButtonTextColor: Color = .white
+        static let defaultVerticalSpacing: CGFloat = GlobalConstants.defaultVerticalSpacing
     }
 
     // MARK: - Constants
@@ -35,7 +42,7 @@ struct SchedulesView: View {
     @StateObject var viewModel = SchedulesViewModel()
 
     var body: some View {
-        VStack {
+        VStack(spacing: Constants.defaultVerticalSpacing) {
             /// Stories
             ScrollView(.horizontal) {
                 LazyHGrid(rows: rows, alignment: .center, spacing: Constants.storiesSpacing) {
@@ -45,7 +52,7 @@ struct SchedulesView: View {
                 }
                 .frame(maxHeight: Constants.storiesHeight)
             }
-            .padding()
+            .padding(.horizontal)
             /// Stations selection controls
             ZStack {
                 RoundedRectangle(cornerRadius: GlobalConstants.defaultCornerRadius)
@@ -104,11 +111,14 @@ struct SchedulesView: View {
                         .background(Constants.stationsElementsBackgroundColor)
                         .listStyle(.plain)
                         .clipShape(RoundedRectangle(cornerRadius: GlobalConstants.defaultCornerRadius))
-
+                        /// Change stations button
                         Button(action: changeStationsButtonTap) {
                             Image(asset: Asset.Images.changeStationButton)
                         }
-                        .frame(width: Constants.changeStationsButtonWidth, height: Constants.changeStationsButtonWidth)
+                        .frame(
+                            width: Constants.changeStationsButtonWidth,
+                            height: Constants.changeStationsButtonWidth
+                        )
                         .background(Constants.changeStationsButtonColor)
                         .clipShape(RoundedRectangle(cornerRadius: Constants.changeStationsButtonCornerRadius))
                         .padding(.leading)
@@ -118,12 +128,47 @@ struct SchedulesView: View {
                 }
                 .padding(.horizontal)
             }
+            /// Find segments button
+            Button(
+                action: {
+                    findSegmentsButtonTap()
+                },
+                label: {
+                    Text(Constants.findSegmentsButtonTitle)
+                        .frame(
+                            minWidth: Constants.findSegmentsButtonWidth,
+                            minHeight: Constants.findSegmentsButtonHeight
+                        )
+                        .font(Constants.findSegmentsButtonFont)
+                }
+            )
+            .background(Constants.findSegmentsButtonBackgroundColor)
+            .foregroundStyle(Constants.findSegmentsButtonTextColor)
+            .clipShape(RoundedRectangle(cornerRadius: GlobalConstants.defaultCornerRadius))
+            .isHidden(viewModel.fromStation.isEmpty || viewModel.toStation.isEmpty)
+            .fullScreenCover(isPresented: $viewModel.isFindSegmentsPresented) {
+                NavigationView {
+                    NavigationView {
+                        NavigationLink(
+                            destination: SegmentsView(
+                                fromStation: $viewModel.fromStation,
+                                toStation: $viewModel.toStation
+                            ),
+                            isActive: $viewModel.isFindSegmentsPresented
+                        ) {
+                            EmptyView()
+                        }
+                    }
+                }
+            }
+
             Spacer()
+
             Divider()
         }
     }
 
-    // MARK: - Public Methods
+    // MARK: - Private Methods
 
     private func changeStationsButtonTap() {
         viewModel.changeStations()
@@ -132,6 +177,11 @@ struct SchedulesView: View {
     private func stationSelectionTap(_ stationData: StationData) {
         impactMed.impactOccurred()
         viewModel.selectStation(stationData)
+    }
+
+    private func findSegmentsButtonTap() {
+        impactMed.impactOccurred()
+        viewModel.findSegments()
     }
 }
 
