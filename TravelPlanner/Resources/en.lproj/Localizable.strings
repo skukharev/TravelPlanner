@@ -20,3 +20,4 @@
 "FindSegmentsButtonTitle" = "Find";
 "TransferPrefixText" = "With transfer in the";
 "SegmentParametersButtonTitle" = "Specify the time";
+"SegmentsNotFound" = "No variants";

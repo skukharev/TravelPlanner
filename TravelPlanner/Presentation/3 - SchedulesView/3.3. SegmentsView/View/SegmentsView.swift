@@ -19,6 +19,8 @@ struct SegmentsView: View {
         static let segmentsParametersButtonFont = GlobalConstants.ypBold17
         static let segmentsParametersButtonBackgroundColor: Color = .blueUniversal
         static let segmentsParametersButtonTextColor: Color = .white
+        static let segmentsNotFoundText = L10n.segmentsNotFound
+        static let segmentsNotFoundFont = GlobalConstants.ypBold24
     }
 
     // MARK: - Public Properties
@@ -28,34 +30,43 @@ struct SegmentsView: View {
     @StateObject var viewModel = SegmentsViewModel()
 
     var body: some View {
-        VStack(spacing: Constants.defaultVerticalSpacing) {
-            Text(viewModel.navigationTitle)
-                .font(Constants.titleFont)
-                .foregroundStyle(.appBlack)
-            List(viewModel.segments) { segment in
-                SegmentView(segment: segment)
-                    .listRowSeparator(.hidden)
+        ZStack {
+            VStack(spacing: Constants.defaultVerticalSpacing) {
+                Text(viewModel.navigationTitle)
+                    .font(Constants.titleFont)
+                    .foregroundStyle(.appBlack)
+                List(viewModel.segments) { segment in
+                    SegmentView(segment: segment)
+                        .listRowSeparator(.hidden)
+                }
+                .listStyle(.plain)
+                .safeAreaInset(edge: .bottom) {
+                    Button(
+                        action: {
+                            paramsButtonTap()
+                        },
+                        label: {
+                            Text(L10n.segmentParametersButtonTitle)
+                                .frame(
+                                    maxWidth: .infinity,
+                                    minHeight: Constants.segmentsParametersButtonHeight
+                                )
+                                .font(Constants.segmentsParametersButtonFont)
+                        }
+                    )
+                    .background(Constants.segmentsParametersButtonBackgroundColor)
+                    .foregroundStyle(Constants.segmentsParametersButtonTextColor)
+                    .clipShape(RoundedRectangle(cornerRadius: GlobalConstants.defaultCornerRadius))
+                    .padding(.horizontal)
+                }
             }
-            .listStyle(.plain)
-            .safeAreaInset(edge: .bottom) {
-                Button(
-                    action: {
-                        paramsButtonTap()
-                    },
-                    label: {
-                        Text(L10n.segmentParametersButtonTitle)
-                            .frame(
-                                maxWidth: .infinity,
-                                minHeight: Constants.segmentsParametersButtonHeight
-                            )
-                            .font(Constants.segmentsParametersButtonFont)
-                    }
-                )
-                .background(Constants.segmentsParametersButtonBackgroundColor)
-                .foregroundStyle(Constants.segmentsParametersButtonTextColor)
-                .clipShape(RoundedRectangle(cornerRadius: GlobalConstants.defaultCornerRadius))
-                .padding(.horizontal)
-            }
+            /// The Progress view displayed during the loading of the list of segments
+            ProgressView()
+                .isHidden(!viewModel.isLoading)
+            /// The stub displayed when the list of segments is empty
+            Text(Constants.segmentsNotFoundText)
+                .isHidden(viewModel.isEmptyListPlaceholderHidden)
+                .font(Constants.segmentsNotFoundFont)
         }
         .navigationBarBackButtonTitleHidden()
         .foregroundStyle(Constants.defaultForegroundColor)
@@ -66,9 +77,7 @@ struct SegmentsView: View {
 
     // MARK: - Private Methods
 
-    private func paramsButtonTap() {
-        
-    }
+    private func paramsButtonTap() {}
 }
 
 private struct SegmentsViewPreview: View {

@@ -20,3 +20,4 @@
 "FindSegmentsButtonTitle" = "Найти";
 "TransferPrefixText" = "С пересадкой в г.";
 "SegmentParametersButtonTitle" = "Уточнить время";
+"SegmentsNotFound" = "Вариантов нет";

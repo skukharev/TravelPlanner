@@ -29,6 +29,8 @@ internal enum L10n {
   internal static let searchStationsPlaceholder = L10n.tr("Localizable", "SearchStationsPlaceholder", fallback: "Введите запрос")
   /// Уточнить время
   internal static let segmentParametersButtonTitle = L10n.tr("Localizable", "SegmentParametersButtonTitle", fallback: "Уточнить время")
+  /// Вариантов нет
+  internal static let segmentsNotFound = L10n.tr("Localizable", "SegmentsNotFound", fallback: "Вариантов нет")
   /// Выбор города
   internal static let selectionCityTitle = L10n.tr("Localizable", "SelectionCityTitle", fallback: "Выбор города")
   /// Выбор cтанции
