@@ -9,7 +9,7 @@ import SwiftUI
 
 struct StoriesRowView: View {
     // MARK: - Types
-    
+
     private enum Constants {
         static let previewImageSizeWidth: CGFloat = 92
         static let previewImageSizeHeight: CGFloat = 140

@@ -43,6 +43,7 @@ final class CitiesListViewModel: ObservableObject {
     // MARK: - Private Properties
 
     private var allCities: [City] = []
+    private var allowedStationTypes: [String] = ["train_station", "airport", "bus_station", "river_port", "marine_station", "station"]
 
     // MARK: - Public Methods
 
@@ -60,7 +61,12 @@ final class CitiesListViewModel: ObservableObject {
                 if let id = settlement.codes?.yandex_code, let title = settlement.title {
                     var stations: [Station] = []
                     settlement.stations?.forEach { station in
-                        if let stationId = station.codes?.yandex_code, let stationName = station.title {
+                        if
+                            let stationId = station.codes?.yandex_code,
+                            let stationName = station.title,
+                            allowedStationTypes.contains(where: { element in
+                                return element.lowercased() == station.station_type?.lowercased() ?? ""
+                            }) {
                             stations.append(Station(id: stationId, name: stationName))
                         }
                     }

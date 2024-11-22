@@ -9,10 +9,10 @@ import UIKit
 
 struct StationData: Identifiable, Hashable {
     // MARK: - Constants
-    
+
     let id = UUID()
     let stationType: StationType
-    
+
     // MARK: - Public Properties
 
     var city: City?
