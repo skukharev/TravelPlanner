@@ -17,14 +17,44 @@ final class SegmentsViewModel: ObservableObject {
     @Published var isSegmentParamsPresented: Bool = false
     @Published var segmentsParams = SegmentsParams()
     public var segments: [Segment] {
-        DispatchQueue.main.async {
-            if self.isLoading {
-                self.isEmptyListPlaceholderHidden = true
-            } else {
-                self.isEmptyListPlaceholderHidden = !self.allSegments.isEmpty
+        if segmentsParams.isEmpty {
+            DispatchQueue.main.async {
+                if self.isLoading {
+                    self.isEmptyListPlaceholderHidden = true
+                } else {
+                    self.isEmptyListPlaceholderHidden = !self.allSegments.isEmpty
+                }
             }
+            return allSegments
+        } else {
+            let filteredSegments = allSegments.filter { segment in
+                if segment.hasTransfers && !(segmentsParams.isShowTransfers ?? true) {
+                    return false
+                }
+                let hour = segment.getDepartureHour()
+                if hour >= 6 && hour <= 11 && segmentsParams.departureTimes.first(where: { $0.type == .morning })?.value ?? false {
+                    return true
+                }
+                if hour >= 12 && hour <= 17 && segmentsParams.departureTimes.first(where: { $0.type == .afternoon })?.value ?? false {
+                    return true
+                }
+                if hour >= 18 && segmentsParams.departureTimes.first(where: { $0.type == .evening })?.value ?? false {
+                    return true
+                }
+                if hour <= 5 && segmentsParams.departureTimes.first(where: { $0.type == .evening })?.value ?? false {
+                    return true
+                }
+                return false
+            }
+            DispatchQueue.main.async {
+                if self.isLoading {
+                    self.isEmptyListPlaceholderHidden = true
+                } else {
+                    self.isEmptyListPlaceholderHidden = !filteredSegments.isEmpty
+                }
+            }
+            return filteredSegments
         }
-        return allSegments
     }
 
     // MARK: - Private Properties
@@ -65,20 +95,49 @@ final class SegmentsViewModel: ObservableObject {
 
     // MARK: - Private Methods
 
-    private func fetchSegments() async throws {
-        guard let fromStation = fromStation?.station?.id, let toStation = toStation?.station?.id else { return }
-        await MainActor.run {
-            isLoading = true
-        }
-        var internalAllSegments: [Segment] = []
-        let segments = try await schedulesBetweenStations(fromStation: fromStation, toStation: toStation, date: Date(), transfers: true)
-        guard let segments = segments.segments else {
-            await MainActor.run {
-                isLoading = false
+    private func carrier(forCode: String) async throws -> CarrierResponse {
+        let client = Client(
+            serverURL: try Servers.server1(),
+            transport: URLSessionTransport(),
+            middlewares: [AuthenticationMiddleware(authorizationHeaderFieldValue: GlobalConstants.yandexSchedulesApi)]
+        )
+
+        let service = CarrierService(client: client)
+        return try await service.getCarrier(code: forCode)
+    }
+
+    private func fillRawSegmentsData() async throws -> [Components.Schemas.Segment] {
+        var result: [Components.Schemas.Segment] = []
+        guard let fromStation = fromStation?.station?.id, let toStation = toStation?.station?.id else { return result }
+        let currentDate = Date()
+        let dates: [Date] = [
+            currentDate,
+            Calendar.current.date(byAdding: .day, value: 1, to: currentDate) ?? currentDate,
+            Calendar.current.date(byAdding: .day, value: 2, to: currentDate) ?? currentDate
+        ]
+        for date in dates {
+            let segments = try await schedulesBetweenStations(
+                fromStation: fromStation,
+                toStation: toStation,
+                date: date,
+                transfers: true
+            )
+            if let segments = segments.segments {
+                result.append(contentsOf: segments)
             }
+        }
+        return result
+    }
+
+    private func fetchSegments() async throws {
+        await setupIsLoading(true)
+        var internalAllSegments: [Segment] = []
+        let dateSegments = try await fillRawSegmentsData()
+        if dateSegments.isEmpty {
+            await setupIsLoading(false)
             return
         }
-        for segment in segments {
+        for segment in dateSegments {
             guard let departureDate = isoDateFormatter.date(from: segment.departure ?? ""), let arrivalDate = isoDateFormatter.date(from: segment.arrival ?? "") else { continue }
             let hasTransfers = segment.has_transfers ?? false
             var transferSettlements: [String] = []
@@ -123,17 +182,6 @@ final class SegmentsViewModel: ObservableObject {
         }
     }
 
-    private func carrier(forCode: String) async throws -> CarrierResponse {
-        let client = Client(
-            serverURL: try Servers.server1(),
-            transport: URLSessionTransport(),
-            middlewares: [AuthenticationMiddleware(authorizationHeaderFieldValue: GlobalConstants.yandexSchedulesApi)]
-        )
-
-        let service = CarrierService(client: client)
-        return try await service.getCarrier(code: forCode)
-    }
-
     private func schedulesBetweenStations(fromStation: String, toStation: String, date: Date, transfers: Bool) async throws -> SchedulesBetweenStationsResponse {
         let client = Client(
             serverURL: try Servers.server1(),
@@ -143,5 +191,11 @@ final class SegmentsViewModel: ObservableObject {
 
         let service = SchedulesBetweenStationService(client: client)
         return try await service.getSchedulesBetweenStations(fromStation: fromStation, toStation: toStation, date: date, transfers: transfers)
+    }
+
+    private func setupIsLoading(_ value: Bool) async {
+        await MainActor.run {
+            isLoading = value
+        }
     }
 }

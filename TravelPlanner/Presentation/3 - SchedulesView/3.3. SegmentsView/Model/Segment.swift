@@ -51,6 +51,10 @@ struct Segment: Identifiable, Hashable {
         return dateFormatter.string(from: departureDate)
     }
 
+    public func getDepartureHour() -> Int {
+        return Calendar.current.component(.hour, from: departureDate)
+    }
+
     public func getArrivalTime() -> String {
         dateFormatter.dateFormat = "HH:mm"
         return dateFormatter.string(from: arrivalDate)
