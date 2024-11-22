@@ -84,7 +84,7 @@ struct CitiesListView: View {
         .navigationBarBackButtonTitleHidden()
         .navigationBarTitleDisplayMode(.inline)
         .foregroundStyle(Constants.defaultForegroundColor)
-        .onAppear {
+        .onLoad {
             Task {
                 try await viewModel.fetchCities()
             }

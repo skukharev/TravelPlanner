@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MainView: View {
-    @State private var selectedTab = 0
+    // MARK: - Public Properties
 
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -25,6 +25,10 @@ struct MainView: View {
         }
         .accentColor(Asset.Colors.activeTabItemColor.swiftUIColor)
     }
+
+    // MARK: - Private Properties
+
+    @State private var selectedTab = 0
 }
 
 #Preview {

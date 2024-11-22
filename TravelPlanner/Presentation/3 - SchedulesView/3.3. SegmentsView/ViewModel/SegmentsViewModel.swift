@@ -14,6 +14,7 @@ final class SegmentsViewModel: ObservableObject {
     @Published var navigationTitle: String = ""
     @Published var isLoading: Bool = false
     @Published var isEmptyListPlaceholderHidden: Bool = true
+    @Published var isSegmentParamsPresented: Bool = false
     @Published var segmentsParams = SegmentsParams()
     public var segments: [Segment] {
         DispatchQueue.main.async {
@@ -53,6 +54,13 @@ final class SegmentsViewModel: ObservableObject {
         Task {
             try await fetchSegments()
         }
+    }
+
+    public func showSegmentParams() {
+        let params: AnalyticsEventParam = ["screen": "Main", "item": "segmentParamsButton"]
+        AnalyticsService.report(event: "click", params: params)
+        print("Зарегистрировано событие аналитики 'click' с параметрами \(params)")
+        isSegmentParamsPresented = true
     }
 
     // MARK: - Private Methods

@@ -21,3 +21,15 @@
 "TransferPrefixText" = "С пересадкой в г.";
 "SegmentParametersButtonTitle" = "Уточнить время";
 "SegmentsNotFound" = "Вариантов нет";
+"SegmentParamsTimeTitle" = "Время отправления";
+"SegmentParamsShowTransfersTitle" = "Показывать варианты с пересадками";
+"DepartureTimeMorning" = "Утро 06:00 - 12:00";
+"DepartureTimeAfternoon" = "День 12:00 - 18:00";
+"DepartureTimeEvening" = "Вечер 18:00 - 00:00";
+"DepartureTimeNight" = "Ночь 00:00 - 06:00";
+"ShowTransfersRadioButtonTitle" = "Да";
+"HideTransfersRadioButtonTitle" = "Нет";
+"ApplySegmentParamsButtonTitle" = "Применить";
+"CarrierNavigationTitle" = "Информация о перевозчике";
+"EmailCarrierPropertyName" = "E-mail";
+"PhoneCarrierPropertyName" = "Телефон";

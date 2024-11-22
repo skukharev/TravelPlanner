@@ -39,12 +39,13 @@ struct SegmentView: View {
     // MARK: - Public Properties
 
     var segment: Segment
+    @StateObject var viewModel = SegmentViewModel()
 
     var body: some View {
         VStack(spacing: Constants.linesVerticalSpacing) {
             HStack(alignment: .center, spacing: Constants.firstLineHorizontalSpacing) {
                 /// Carrier logo
-                AsyncImage(url: segment.carrier.logo) { image in
+                AsyncImage(url: viewModel.segment?.carrier.logo) { image in
                     image.resizable()
                 } placeholder: {
                     ProgressView()
@@ -54,18 +55,18 @@ struct SegmentView: View {
                 .scaledToFit()
                 .padding(.leading, Constants.carrierLogoLeadingSpacing)
                 /// Carrier name [with transfers]
-                if segment.hasTransfers {
+                if viewModel.segment?.hasTransfers ?? false {
                     VStack(alignment: .leading, spacing: Constants.firstLineVerticalSpacing) {
-                        Text(segment.carrier.title)
+                        Text(viewModel.segment?.carrier.title ?? "")
                             .foregroundStyle(Constants.carrierTextColor)
                             .font(Constants.carrierFont)
                             .lineLimit(1)
-                        Text(segment.getTransferTitle() ?? "" )
+                        Text(viewModel.segment?.getTransferTitle() ?? "" )
                             .foregroundStyle(Constants.transfersTextColor)
                             .font(Constants.transfersFont)
                     }
                 } else {
-                    Text(segment.carrier.title)
+                    Text(viewModel.segment?.carrier.title ?? "")
                         .foregroundStyle(Constants.carrierTextColor)
                         .font(Constants.carrierFont)
                         .lineLimit(1)
@@ -73,7 +74,7 @@ struct SegmentView: View {
                 Spacer()
                 /// Departure day
                 VStack(spacing: 0) {
-                    Text(segment.getDepartureDay())
+                    Text(viewModel.segment?.getDepartureDay() ?? "")
                         .foregroundStyle(Constants.departureDayTextColor)
                         .font(Constants.departureDayFont)
                         .padding(.trailing, Constants.departureDayTrailingSpacing)
@@ -85,21 +86,21 @@ struct SegmentView: View {
             .padding(.top, Constants.firstLineTopPadding)
             /// Segments timing
             HStack(spacing: Constants.secondLineHorizontalSpacing) {
-                Text(segment.getDepartureTime())
+                Text(viewModel.segment?.getDepartureTime() ?? "")
                     .foregroundStyle(Constants.departureTimeTextColor)
                     .font(Constants.departureTimeFont)
                     .padding(.leading, Constants.departureTimeLeadingSpacing)
                 Rectangle()
                     .fill(.grayUniversal)
                     .frame(maxWidth: .infinity, maxHeight: Constants.durationLineWidth)
-                Text(segment.getArrivalTime())
+                Text(viewModel.segment?.getArrivalTime() ?? "")
                     .foregroundStyle(Constants.departureTimeTextColor)
                     .font(Constants.departureTimeFont)
                     .padding(.trailing, Constants.departureTimeLeadingSpacing)
             }
             .frame(height: Constants.secondLineHeight)
             .overlay(alignment: .center) {
-                Text(segment.getSegmentDurationHours())
+                Text(viewModel.segment?.getSegmentDurationHours() ?? "")
                     .padding(.horizontal, Constants.durationTextPadding)
                     .background(.lightGrayUniversal)
             }
@@ -107,6 +108,20 @@ struct SegmentView: View {
         .frame(height: Constants.segmentRowHeight)
         .background(Constants.segmentRowBackground)
         .clipShape(RoundedRectangle(cornerRadius: GlobalConstants.defaultCornerRadius))
+        .onTapGesture {
+            viewModel.carrierDidSelect()
+        }
+        .onAppear {
+            viewModel.setup(segment: segment)
+        }
+        .background {
+            NavigationLink(
+                destination: CarrierView(carrier: viewModel.segment?.carrier),
+                isActive: $viewModel.isCarrierSelected
+            ) {
+                EmptyView()
+            }
+        }
     }
 }
 

@@ -8,8 +8,13 @@
 import UIKit
 
 struct StationData: Identifiable, Hashable {
+    // MARK: - Constants
+    
     let id = UUID()
     let stationType: StationType
+    
+    // MARK: - Public Properties
+
     var city: City?
     var station: Station?
     var stationTitle: String {
@@ -24,6 +29,8 @@ struct StationData: Identifiable, Hashable {
     var isEmpty: Bool {
         return (city != nil && station != nil) ? false : true
     }
+
+    // MARK: - Initializers
 
     init(stationType: StationType) {
         self.stationType = stationType

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SplashView: View {
-    @State var isShowSplashScreen = true
+    // MARK: - Public Properties
 
     var body: some View {
         if isShowSplashScreen {
@@ -29,6 +29,10 @@ struct SplashView: View {
             MainView()
         }
     }
+
+    // MARK: - Private Properties
+
+    @State private var isShowSplashScreen = true
 }
 
 #Preview {

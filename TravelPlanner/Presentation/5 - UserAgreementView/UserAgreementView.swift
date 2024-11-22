@@ -15,6 +15,8 @@ struct UserAgreementView: View {
         static let userAgreementURL: String = "https://yandex.ru/legal/practicum_offer/"
     }
 
+    // MARK: - Public Properties
+
     @StateObject var viewModel = WebView.ProgressViewModel(progress: 0.0)
 
     var body: some View {

@@ -71,7 +71,7 @@ struct StationsListView: View {
         .navigationBarBackButtonTitleHidden()
         .navigationBarTitleDisplayMode(.inline)
         .foregroundStyle(Constants.defaultForegroundColor)
-        .onAppear {
+        .onLoad {
             if let city = city {
                 viewModel.setup(withCity: city)
             }

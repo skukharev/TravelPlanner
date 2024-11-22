@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct StoriesRowView: View {
+    // MARK: - Types
+    
     private enum Constants {
         static let previewImageSizeWidth: CGFloat = 92
         static let previewImageSizeHeight: CGFloat = 140
@@ -21,6 +23,8 @@ struct StoriesRowView: View {
         static let titleVerticalOffsetRelationToImage: CGFloat = 36
         static let notViewedRowOpacity: CGFloat = 0.5
     }
+
+    // MARK: - Public Properties
 
     var story: Story
 

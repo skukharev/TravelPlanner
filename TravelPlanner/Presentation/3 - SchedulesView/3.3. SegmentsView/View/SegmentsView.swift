@@ -14,7 +14,7 @@ struct SegmentsView: View {
         static let defaultForegroundColor: Color = .appBlack
         static let defaultVerticalSpacing = GlobalConstants.defaultVerticalSpacing
         static let titleFont = GlobalConstants.ypBold24
-        static let segmentsParametersButtonTitle = L10n.findSegmentsButtonTitle
+        static let segmentsParametersButtonTitle = L10n.segmentParametersButtonTitle
         static let segmentsParametersButtonHeight: CGFloat = 60
         static let segmentsParametersButtonFont = GlobalConstants.ypBold17
         static let segmentsParametersButtonBackgroundColor: Color = .blueUniversal
@@ -22,6 +22,10 @@ struct SegmentsView: View {
         static let segmentsNotFoundText = L10n.segmentsNotFound
         static let segmentsNotFoundFont = GlobalConstants.ypBold24
     }
+
+    // MARK: - Constants
+
+    let impactMed = UIImpactFeedbackGenerator(style: .medium)
 
     // MARK: - Public Properties
 
@@ -46,18 +50,28 @@ struct SegmentsView: View {
                             paramsButtonTap()
                         },
                         label: {
-                            Text(L10n.segmentParametersButtonTitle)
-                                .frame(
-                                    maxWidth: .infinity,
-                                    minHeight: Constants.segmentsParametersButtonHeight
-                                )
-                                .font(Constants.segmentsParametersButtonFont)
+                            HStack {
+                                Text(Constants.segmentsParametersButtonTitle)
+                                Image(asset: Asset.Images.redMarker)
+                                    .isHidden(viewModel.segmentsParams.isEmpty)
+                            }
+                            .frame(
+                                maxWidth: .infinity,
+                                minHeight: Constants.segmentsParametersButtonHeight
+                            )
+                            .font(Constants.segmentsParametersButtonFont)
                         }
                     )
                     .background(Constants.segmentsParametersButtonBackgroundColor)
                     .foregroundStyle(Constants.segmentsParametersButtonTextColor)
                     .clipShape(RoundedRectangle(cornerRadius: GlobalConstants.defaultCornerRadius))
                     .padding(.horizontal)
+                    NavigationLink(
+                        destination: SegmentParamsView(params: $viewModel.segmentsParams),
+                        isActive: $viewModel.isSegmentParamsPresented
+                    ) {
+                        EmptyView()
+                    }
                 }
             }
             /// The Progress view displayed during the loading of the list of segments
@@ -70,14 +84,17 @@ struct SegmentsView: View {
         }
         .navigationBarBackButtonTitleHidden()
         .foregroundStyle(Constants.defaultForegroundColor)
-        .onAppear {
+        .onLoad {
             viewModel.setup(fromStation: fromStation, toStation: toStation)
         }
     }
 
     // MARK: - Private Methods
 
-    private func paramsButtonTap() {}
+    private func paramsButtonTap() {
+        impactMed.impactOccurred()
+        viewModel.showSegmentParams()
+    }
 }
 
 private struct SegmentsViewPreview: View {
