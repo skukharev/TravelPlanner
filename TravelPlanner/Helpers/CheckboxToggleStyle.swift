@@ -15,9 +15,9 @@ struct CheckboxToggleStyle: ToggleStyle {
             Image(asset: configuration.isOn ? Asset.Images.checkboxOn : Asset.Images.checkboxOff)
                 .resizable()
                 .frame(width: 24, height: 24)
-                .onTapGesture {
-                    configuration.isOn.toggle()
-                }
+        }
+        .onTapGesture {
+            configuration.isOn.toggle()
         }
     }
 }

@@ -15,9 +15,9 @@ struct RadionbuttonToggleStyle: ToggleStyle {
             Image(asset: configuration.isOn ? Asset.Images.radiobuttonOn : Asset.Images.radiobuttonOff)
                 .resizable()
                 .frame(width: 24, height: 24)
-                .onTapGesture {
-                    configuration.isOn.toggle()
-                }
+        }
+        .onTapGesture {
+            configuration.isOn.toggle()
         }
     }
 }
