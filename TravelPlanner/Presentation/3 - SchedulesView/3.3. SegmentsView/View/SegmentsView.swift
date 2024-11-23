@@ -74,6 +74,7 @@ struct SegmentsView: View {
                     }
                 }
             }
+            .isHidden(viewModel.loadingError != nil)
             /// The Progress view displayed during the loading of the list of segments
             ProgressView()
                 .isHidden(!viewModel.isLoading)
@@ -81,6 +82,8 @@ struct SegmentsView: View {
             Text(Constants.segmentsNotFoundText)
                 .isHidden(viewModel.isEmptyListPlaceholderHidden)
                 .font(Constants.segmentsNotFoundFont)
+            ErrorView(errorType: viewModel.loadingError)
+                .isHidden(viewModel.loadingError == nil)
         }
         .navigationBarBackButtonTitleHidden()
         .foregroundStyle(Constants.defaultForegroundColor)

@@ -7,12 +7,14 @@
 
 import SwiftUI
 import OpenAPIURLSession
+import OpenAPIRuntime
 
 final class SegmentsViewModel: ObservableObject {
     // MARK: - Public Properties
 
     @Published var navigationTitle: String = ""
     @Published var isLoading: Bool = false
+    @Published var loadingError: ErrorViewType?
     @Published var isEmptyListPlaceholderHidden: Bool = true
     @Published var isSegmentParamsPresented: Bool = false
     @Published var segmentsParams = SegmentsParams()
@@ -79,10 +81,17 @@ final class SegmentsViewModel: ObservableObject {
     public func setup(fromStation: StationData, toStation: StationData) {
         self.fromStation = fromStation
         self.toStation = toStation
+        loadingError = nil
 
         navigationTitle = "\(fromStation.stationTitle) → \(toStation.stationTitle)"
         Task {
-            try await fetchSegments()
+            do {
+                try await fetchSegments()
+            } catch ErrorViewType.serverError {
+                loadingError = ErrorViewType.serverError
+            } catch {
+                loadingError = ErrorViewType.noInternetError
+            }
         }
     }
 
@@ -153,27 +162,23 @@ final class SegmentsViewModel: ObservableObject {
                 }
             }
             if let carrierId = carrierId {
-                do {
-                    let carrierData = try await carrier(forCode: String(carrierId))
-                    let carrier = Carrier(
-                        id: carrierId,
-                        title: carrierData.carrier?.title ?? "",
-                        logo: URL(string: carrierData.carrier?.logo ?? ""),
-                        email: carrierData.carrier?.email,
-                        phone: carrierData.carrier?.phone
+                let carrierData = try await carrier(forCode: String(carrierId))
+                let carrier = Carrier(
+                    id: carrierId,
+                    title: carrierData.carrier?.title ?? "",
+                    logo: URL(string: carrierData.carrier?.logo ?? ""),
+                    email: carrierData.carrier?.email,
+                    phone: carrierData.carrier?.phone
+                )
+                internalAllSegments.append(
+                    Segment(
+                        departureDate: departureDate,
+                        arrivalDate: arrivalDate,
+                        hasTransfers: hasTransfers,
+                        transferTitle: transferSettlements.joined(separator: ", "),
+                        carrier: carrier
                     )
-                    internalAllSegments.append(
-                        Segment(
-                            departureDate: departureDate,
-                            arrivalDate: arrivalDate,
-                            hasTransfers: hasTransfers,
-                            transferTitle: transferSettlements.joined(separator: ", "),
-                            carrier: carrier
-                        )
-                    )
-                } catch {
-                    print(error)
-                }
+                )
             }
         }
         await MainActor.run { [internalAllSegments] in

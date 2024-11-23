@@ -17,21 +17,41 @@ struct UserAgreementView: View {
 
     // MARK: - Public Properties
 
-    @StateObject var viewModel = WebView.ProgressViewModel(progress: 0.0)
-
     var body: some View {
         VStack {
-            ProgressView(value: viewModel.progress)
+            ProgressView(value: loadingProgress)
                 .progressViewStyle(.linear)
-                .isHidden(viewModel.progress == 1.0)
-            WebView(
-                url: Constants.userAgreementURL,
-                viewModel: viewModel
-            )
+                .isHidden(loadingProgress == 1.0)
+            ZStack {
+                WebView(
+                    url: Constants.userAgreementURL,
+                    isLoading: $isLoading,
+                    isLoadingError: $isLoadingError,
+                    progress: $loadingProgress
+                )
+                    .isHidden(isLoadingError)
+                ProgressView()
+                    .isHidden(!isLoading)
+                ErrorView(errorType: .noInternetError)
+                    .isHidden(!isLoadingError)
+            }
         }
-        .ignoresSafeArea(.all)
+        .ignoresSafeArea(edges: [.leading, .trailing, .bottom])
         .navigationTitle(L10n.settingsViewUserAgreementLabel)
+        .navigationBarBackButtonTitleHidden()
+        .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            isLoading = true
+            loadingProgress = 0.0
+            isLoadingError = false
+        }
     }
+
+    // MARK: - Public Properties
+
+    @State private var isLoading = true
+    @State private var loadingProgress: Double = 0.0
+    @State private var isLoadingError = false
 }
 
 #Preview {

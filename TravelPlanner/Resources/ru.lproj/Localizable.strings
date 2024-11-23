@@ -33,3 +33,5 @@
 "CarrierNavigationTitle" = "Информация о перевозчике";
 "EmailCarrierPropertyName" = "E-mail";
 "PhoneCarrierPropertyName" = "Телефон";
+"ErrorNoInternet" = "Нет интернета";
+"ErrorServerError" = "Ошибка сервера";

@@ -11,20 +11,19 @@ import WebKit
 struct WebView: UIViewRepresentable {
     // MARK: - Types
 
-    class Coordinator: NSObject {
+    class Coordinator: NSObject, WKNavigationDelegate {
         private var parent: WebView
-        private var viewModel: ProgressViewModel
         private var observer: NSKeyValueObservation?
 
-        init(_ parent: WebView, viewModel: ProgressViewModel) {
+        init(_ parent: WebView) {
             self.parent = parent
-            self.viewModel = viewModel
             super.init()
+            self.parent.webView.navigationDelegate = self
 
             observer = self.parent.webView.observe(\.estimatedProgress) { [weak self] webView, _ in
                 guard let self = self else { return }
                 DispatchQueue.main.async {
-                    self.parent.viewModel.progress = webView.estimatedProgress
+                    self.parent.progress = webView.estimatedProgress
                 }
             }
         }
@@ -32,13 +31,28 @@ struct WebView: UIViewRepresentable {
         deinit {
             observer = nil
         }
-    }
 
-    class ProgressViewModel: ObservableObject {
-        @Published var progress: Double = 0.0
+        // swiftlint:disable:next implicitly_unwrapped_optional
+        func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+            DispatchQueue.main.async {
+                self.parent.isLoading = true
+            }
+        }
 
-        init (progress: Double) {
-            self.progress = progress
+        // swiftlint:disable:next implicitly_unwrapped_optional
+        func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+            DispatchQueue.main.async {
+                self.parent.isLoading = false
+            }
+        }
+
+        // swiftlint:disable:next implicitly_unwrapped_optional
+        func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+            DispatchQueue.main.async {
+                self.parent.isLoading = false
+                self.parent.progress = 0.0
+                self.parent.isLoadingError = true
+            }
         }
     }
 
@@ -49,7 +63,11 @@ struct WebView: UIViewRepresentable {
     // MARK: - Public Properties
 
     var url: String
-    @ObservedObject var viewModel: ProgressViewModel
+    @Binding var isLoading: Bool
+    @Binding var isLoadingError: Bool
+    @Binding var progress: Double
+
+    // MARK: - Public Methods
 
     func makeUIView(context: Context) -> WKWebView {
         if let url = URL(string: url) {
@@ -59,11 +77,9 @@ struct WebView: UIViewRepresentable {
         return webView
     }
 
-    // MARK: - Public Methods
-
     func updateUIView(_ webView: WKWebView, context: Context) {}
 
     func makeCoordinator() -> Coordinator {
-        Coordinator(self, viewModel: viewModel)
+        Coordinator(self)
     }
 }

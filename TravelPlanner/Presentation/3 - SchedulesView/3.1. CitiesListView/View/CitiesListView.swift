@@ -27,64 +27,69 @@ struct CitiesListView: View {
     @State var isSelectionStationLinkActivated: Bool = false
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            /// SearchBar
-            HStack {
+        ZStack {
+            VStack(alignment: .leading, spacing: 0) {
+                /// SearchBar
                 HStack {
-                    Image(systemName: GlobalConstants.searchBarMagnifyingGlassImageName)
-                    TextField("", text: $viewModel.filterText, prompt: Text(Constants.searchCityPlaceholder))
-                    Button(
-                        action: { viewModel.filterText = "" },
-                        label: {
-                            Image(systemName: GlobalConstants.searchBarClearSearchTextImageName).opacity(viewModel.filterText.isEmpty ? 0 : 1)
+                    HStack {
+                        Image(systemName: GlobalConstants.searchBarMagnifyingGlassImageName)
+                        TextField("", text: $viewModel.filterText, prompt: Text(Constants.searchCityPlaceholder))
+                        Button(
+                            action: { viewModel.filterText = "" },
+                            label: {
+                                Image(systemName: GlobalConstants.searchBarClearSearchTextImageName).opacity(viewModel.filterText.isEmpty ? 0 : 1)
+                            }
+                        )
+                    }
+                    .padding(GlobalConstants.searchBarPaddingInsets)
+                    .background(Color(.secondarySystemBackground))
+                    .cornerRadius(GlobalConstants.searchBarCornerRadius)
+                }
+                .padding(.horizontal)
+                /// Cities list
+                ZStack {
+                    List(viewModel.cities) { city in
+                        HStack {
+                            Button(
+                                action: { selectCity(city) },
+                                label: { Text(city.name) }
+                            )
+                            Spacer()
+                            Image(systemName: GlobalConstants.listNavigationLinkImageName)
+                        }
+                        .listRowSeparator(.hidden)
+                    }
+                    .background(
+                        NavigationLink(
+                            destination: StationsListView(
+                                stationData: $stationData,
+                                isShowRootLink: $isShowRootLink,
+                                city: selectedCity
+                            ),
+                            isActive: $isSelectionStationLinkActivated
+                        ) {
+                            EmptyView()
                         }
                     )
+                    .listStyle(.plain)
+                    /// The Progress view displayed during the loading of the list of cities
+                    ProgressView()
+                        .isHidden(!viewModel.isLoading)
+                    /// The stub displayed when the list of cities is empty
+                    Text(Constants.searchCityNotFound)
+                        .isHidden(viewModel.isEmptyListPlaceholderHidden)
+                        .font(Constants.searchCityNotFoundFont)
                 }
-                .padding(GlobalConstants.searchBarPaddingInsets)
-                .background(Color(.secondarySystemBackground))
-                .cornerRadius(GlobalConstants.searchBarCornerRadius)
             }
-            .padding(.horizontal)
-            /// Cities list
-            ZStack {
-                List(viewModel.cities) { city in
-                    HStack {
-                        Button(
-                            action: { selectCity(city) },
-                            label: { Text(city.name) }
-                        )
-                        Spacer()
-                        Image(systemName: GlobalConstants.listNavigationLinkImageName)
-                    }
-                    .listRowSeparator(.hidden)
-                }
-                .background(
-                    NavigationLink(
-                        destination: StationsListView(
-                            stationData: $stationData,
-                            isShowRootLink: $isShowRootLink,
-                            city: selectedCity
-                        ),
-                        isActive: $isSelectionStationLinkActivated
-                    ) {
-                        EmptyView()
-                    }
-                )
-                .listStyle(.plain)
-                /// The Progress view displayed during the loading of the list of cities
-                ProgressView()
-                    .isHidden(!viewModel.isLoading)
-                /// The stub displayed when the list of cities is empty
-                Text(Constants.searchCityNotFound)
-                    .isHidden(viewModel.isEmptyListPlaceholderHidden)
-                    .font(Constants.searchCityNotFoundFont)
-            }
+            .isHidden(viewModel.isLoadingError)
+            ErrorView(errorType: .noInternetError)
+                .isHidden(!viewModel.isLoadingError)
         }
         .navigationTitle(Constants.selectionCityTitle)
         .navigationBarBackButtonTitleHidden()
         .navigationBarTitleDisplayMode(.inline)
         .foregroundStyle(Constants.defaultForegroundColor)
-        .onLoad {
+        .onAppear {
             Task {
                 try await viewModel.fetchCities()
             }

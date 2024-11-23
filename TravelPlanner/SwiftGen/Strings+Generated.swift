@@ -29,6 +29,10 @@ internal enum L10n {
   internal static let departureTimeNight = L10n.tr("Localizable", "DepartureTimeNight", fallback: "Ночь 00:00 - 06:00")
   /// E-mail
   internal static let emailCarrierPropertyName = L10n.tr("Localizable", "EmailCarrierPropertyName", fallback: "E-mail")
+  /// Нет интернета
+  internal static let errorNoInternet = L10n.tr("Localizable", "ErrorNoInternet", fallback: "Нет интернета")
+  /// Ошибка сервера
+  internal static let errorServerError = L10n.tr("Localizable", "ErrorServerError", fallback: "Ошибка сервера")
   /// Найти
   internal static let findSegmentsButtonTitle = L10n.tr("Localizable", "FindSegmentsButtonTitle", fallback: "Найти")
   /// Откуда

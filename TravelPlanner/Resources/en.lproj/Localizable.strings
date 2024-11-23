@@ -33,3 +33,5 @@
 "CarrierNavigationTitle" = "Carrier information";
 "EmailCarrierPropertyName" = "E-mail";
 "PhoneCarrierPropertyName" = "Phone";
+"ErrorNoInternet" = "No internet";
+"ErrorServerError" = "Server error";

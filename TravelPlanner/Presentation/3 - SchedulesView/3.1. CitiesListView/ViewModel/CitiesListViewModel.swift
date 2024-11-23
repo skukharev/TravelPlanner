@@ -13,6 +13,7 @@ final class CitiesListViewModel: ObservableObject {
     // MARK: - Public Properties
 
     @Published var isLoading: Bool = false
+    @Published var isLoadingError: Bool = false
     @Published var filterText: String = ""
     @Published var isEmptyListPlaceholderHidden: Bool = true
     public var cities: [City] {
@@ -50,33 +51,42 @@ final class CitiesListViewModel: ObservableObject {
     public func fetchCities() async throws {
         await MainActor.run {
             isLoading = true
+            isLoadingError = false
         }
         var allSettlements: [City] = []
-        let stationsList = try await stationsList()
-        let russia = stationsList.countries?.first {
-            $0.codes?.yandex_code == GlobalConstants.RussianFederationId
-        }
-        russia?.regions?.compactMap { $0.settlements }.forEach { settlements in
-            settlements.forEach { settlement in
-                if let id = settlement.codes?.yandex_code, let title = settlement.title {
-                    var stations: [Station] = []
-                    settlement.stations?.forEach { station in
-                        if
-                            let stationId = station.codes?.yandex_code,
-                            let stationName = station.title,
-                            allowedStationTypes.contains(where: { element in
-                                return element.lowercased() == station.station_type?.lowercased() ?? ""
-                            }) {
-                            stations.append(Station(id: stationId, name: stationName))
+        do {
+            let stationsList = try await stationsList()
+            let russia = stationsList.countries?.first {
+                $0.codes?.yandex_code == GlobalConstants.RussianFederationId
+            }
+            russia?.regions?.compactMap { $0.settlements }.forEach { settlements in
+                settlements.forEach { settlement in
+                    if let id = settlement.codes?.yandex_code, let title = settlement.title {
+                        var stations: [Station] = []
+                        settlement.stations?.forEach { station in
+                            if
+                                let stationId = station.codes?.yandex_code,
+                                let stationName = station.title,
+                                allowedStationTypes.contains(where: { element in
+                                    return element.lowercased() == station.station_type?.lowercased() ?? ""
+                                }) {
+                                stations.append(Station(id: stationId, name: stationName))
+                            }
                         }
+                        allSettlements.append(City(id: id, name: title, stations: stations))
                     }
-                    allSettlements.append(City(id: id, name: title, stations: stations))
                 }
             }
-        }
-        await MainActor.run { [allSettlements] in
-            allCities = allSettlements
-            isLoading = false
+            await MainActor.run { [allSettlements] in
+                allCities = allSettlements
+                isLoading = false
+            }
+        } catch {
+            await MainActor.run {
+                isLoading = false
+                isLoadingError = true
+            }
+            return
         }
     }
 
