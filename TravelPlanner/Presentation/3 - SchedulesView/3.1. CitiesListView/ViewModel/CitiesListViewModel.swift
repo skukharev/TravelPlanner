@@ -73,7 +73,9 @@ final class CitiesListViewModel: ObservableObject {
                                 stations.append(Station(id: stationId, name: stationName))
                             }
                         }
-                        allSettlements.append(City(id: id, name: title, stations: stations))
+                        if !stations.isEmpty {
+                            allSettlements.append(City(id: id, name: title, stations: stations))
+                        }
                     }
                 }
             }
