@@ -34,6 +34,7 @@ struct SegmentView: View {
         static let secondLineHeight: CGFloat = 48
         static let durationTextPadding: CGFloat = 5
         static let durationLineWidth: CGFloat = 1
+        static let durationTextColor: Color = .blackUniversal
     }
 
     // MARK: - Public Properties
@@ -101,8 +102,9 @@ struct SegmentView: View {
             .frame(height: Constants.secondLineHeight)
             .overlay(alignment: .center) {
                 Text(viewModel.segment?.getSegmentDurationHours() ?? "")
+                    .foregroundStyle(Constants.durationTextColor)
                     .padding(.horizontal, Constants.durationTextPadding)
-                    .background(.lightGrayUniversal)
+                    .background(Constants.segmentRowBackground)
             }
         }
         .frame(height: Constants.segmentRowHeight)
