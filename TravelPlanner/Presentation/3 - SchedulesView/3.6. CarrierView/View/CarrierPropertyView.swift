@@ -12,7 +12,7 @@ struct CarrierPropertyView: View {
 
     private enum Constants {
         static let rowHeight: CGFloat = 60
-        static let propertiesVerticalSpacing: CGFloat = -4
+        static let propertiesVerticalSpacing: CGFloat = -2
         static let propertyNameFont: Font = GlobalConstants.ypRegular17
         static let propertyNameTextColor: Color = .appBlack
         static let propertyValueFont: Font = GlobalConstants.ypRegular12
@@ -42,7 +42,7 @@ struct CarrierPropertyView: View {
     }
 }
 
-struct CarrierPropertyPreview: View {
+struct CarrierPropertyEmailPreview: View {
     let propertyName: String = "E-mail"
     let propertyValue: String = "i.lozgkina@yandex.ru"
 
@@ -51,6 +51,19 @@ struct CarrierPropertyPreview: View {
     }
 }
 
-#Preview {
-    CarrierPropertyPreview()
+struct CarrierPropertyPhonePreview: View {
+    let propertyName: String = "Телефон"
+    let propertyValue: String = "+7 (495) 123-45-67"
+
+    var body: some View {
+        CarrierPropertyView(propertyName: propertyName, propertyValue: propertyValue)
+    }
+}
+
+#Preview("E-mail") {
+    CarrierPropertyEmailPreview()
+}
+
+#Preview("Phone") {
+    CarrierPropertyPhonePreview()
 }
