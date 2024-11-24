@@ -42,7 +42,7 @@ final class SegmentParamsViewModel: ObservableObject {
 
     // MARK: - Public Methods
 
-    public func setup(segmentsParams: SegmentsParams) {
+    func setup(segmentsParams: SegmentsParams) {
         internalParams.departureTimes = segmentsParams.departureTimes
         internalParams.isShowTransfers = segmentsParams.isShowTransfers
         guard let isShowTransfers = segmentsParams.isShowTransfers else { return }
@@ -50,7 +50,7 @@ final class SegmentParamsViewModel: ObservableObject {
         isHideTransferOptions = !isShowTransferOptions
     }
 
-    public func applyParams(segmentsParams: inout SegmentsParams) {
+    func applyParams(segmentsParams: inout SegmentsParams) {
         let params: AnalyticsEventParam = ["screen": "Main", "item": "applyParamsButton"]
         AnalyticsService.report(event: "click", params: params)
         print("Зарегистрировано событие аналитики 'click' с параметрами \(params)")

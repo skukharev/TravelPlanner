@@ -14,7 +14,7 @@ final class StationsListViewModel: ObservableObject {
     @Published var filterText: String = ""
     @Published var isEmptyListPlaceholderHidden: Bool = true
 
-    public var stations: [Station] {
+    var stations: [Station] {
         if filterText.isEmpty {
             DispatchQueue.main.async {
                 if self.isLoading {
@@ -45,11 +45,11 @@ final class StationsListViewModel: ObservableObject {
 
     // MARK: - Public Methods
 
-    public func setup(withCity city: City) {
+    func setup(withCity city: City) {
         self.allStations = city.stations
     }
 
-    public func selectStation(station: Station, forCity city: City, withStationData stationData: inout StationData) {
+    func selectStation(station: Station, forCity city: City, withStationData stationData: inout StationData) {
         let params: AnalyticsEventParam = ["screen": "Main", "item": "selectStationLink", "stationId": station.id, "stationName": station.name]
         AnalyticsService.report(event: "click", params: params)
         print("Зарегистрировано событие аналитики 'click' с параметрами \(params)")

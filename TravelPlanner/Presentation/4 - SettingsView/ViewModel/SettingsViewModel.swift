@@ -21,17 +21,17 @@ final class SettingsViewModel: ObservableObject {
 
     // MARK: - Public Methods
 
-    public func setup(_ appSettings: AppSettings) {
+    func setup(_ appSettings: AppSettings) {
         self.appSettings = appSettings
         appVersionText = L10n.yandexAPIVersion + " " + appSettings.loadAppVersion()
-        isDarkMode = appSettings.isDarkMode
+        isDarkMode = appSettings.isDarkMode ?? false
     }
 
-    public func saveDarkMode(isDarkMode: Bool) {
-        appSettings?.saveDarkModeSetting(with: isDarkMode)
+    func saveDarkMode(isDarkMode: Bool) {
+        appSettings?.isDarkMode = isDarkMode
     }
 
-    public func showUserAgreementView() {
+    func showUserAgreementView() {
         let params: AnalyticsEventParam = ["screen": "Settings", "item": "userAgreements"]
         AnalyticsService.report(event: "click", params: params)
         print("Зарегистрировано событие аналитики 'click' с параметрами \(params)")

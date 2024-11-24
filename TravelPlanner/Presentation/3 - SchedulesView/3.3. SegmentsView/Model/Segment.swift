@@ -33,7 +33,7 @@ struct Segment: Identifiable, Hashable {
 
     // MARK: - Public Methods
 
-    public func getTransferTitle() -> String? {
+    func getTransferTitle() -> String? {
         if hasTransfers, let transferTitle = transferTitle {
             return L10n.transferPrefixText + " " + transferTitle
         } else {
@@ -41,26 +41,26 @@ struct Segment: Identifiable, Hashable {
         }
     }
 
-    public func getDepartureDay() -> String {
+    func getDepartureDay() -> String {
         dateFormatter.dateFormat = "d MMMM"
         return dateFormatter.string(from: departureDate)
     }
 
-    public func getDepartureTime() -> String {
+    func getDepartureTime() -> String {
         dateFormatter.dateFormat = "HH:mm"
         return dateFormatter.string(from: departureDate)
     }
 
-    public func getDepartureHour() -> Int {
+    func getDepartureHour() -> Int {
         return Calendar.current.component(.hour, from: departureDate)
     }
 
-    public func getArrivalTime() -> String {
+    func getArrivalTime() -> String {
         dateFormatter.dateFormat = "HH:mm"
         return dateFormatter.string(from: arrivalDate)
     }
 
-    public func getSegmentDurationHours() -> String {
+    func getSegmentDurationHours() -> String {
         let diffComponents = Calendar.current.dateComponents([.hour], from: departureDate, to: arrivalDate)
         guard let hours = diffComponents.hour else { return "" }
         return HoursFormatter.shared.hoursToStringWithSuffix(hours)

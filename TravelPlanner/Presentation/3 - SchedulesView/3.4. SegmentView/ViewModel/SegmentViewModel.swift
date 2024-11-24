@@ -15,11 +15,11 @@ final class SegmentViewModel: ObservableObject {
 
     // MARK: - Public Methods
 
-    public func setup(segment: Segment) {
+    func setup(segment: Segment) {
         self.segment = segment
     }
 
-    public func carrierDidSelect() {
+    func carrierDidSelect() {
         let params: AnalyticsEventParam = ["screen": "Main", "item": "carrierDetailsButton"]
         AnalyticsService.report(event: "click", params: params)
         print("Зарегистрировано событие аналитики 'click' с параметрами \(params)")

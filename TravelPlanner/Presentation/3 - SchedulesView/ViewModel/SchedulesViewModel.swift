@@ -82,7 +82,7 @@ final class SchedulesViewModel: ObservableObject {
 
     // MARK: - Public Methods
 
-    public func changeStations() {
+    func changeStations() {
         let params: AnalyticsEventParam = ["screen": "Main", "item": "changeStationsButton"]
         AnalyticsService.report(event: "click", params: params)
         print("Зарегистрировано событие аналитики 'click' с параметрами \(params)")
@@ -92,7 +92,7 @@ final class SchedulesViewModel: ObservableObject {
         copyStationData(from: buffer, to: &toStation)
     }
 
-    public func selectStation(_ stationData: StationData) {
+    func selectStation(_ stationData: StationData) {
         let params: AnalyticsEventParam = ["screen": "Main", "item": "selectStationButton", "stationType": stationData.stationType.prompt]
         AnalyticsService.report(event: "click", params: params)
         print("Зарегистрировано событие аналитики 'click' с параметрами \(params)")
@@ -104,7 +104,7 @@ final class SchedulesViewModel: ObservableObject {
         }
     }
 
-    public func findSegments() {
+    func findSegments() {
         let params: AnalyticsEventParam = ["screen": "Main", "item": "findSegmentsButton"]
         AnalyticsService.report(event: "click", params: params)
         print("Зарегистрировано событие аналитики 'click' с параметрами \(params)")

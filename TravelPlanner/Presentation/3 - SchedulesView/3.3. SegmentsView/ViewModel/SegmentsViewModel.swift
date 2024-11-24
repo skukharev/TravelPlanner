@@ -18,7 +18,7 @@ final class SegmentsViewModel: ObservableObject {
     @Published var isEmptyListPlaceholderHidden: Bool = true
     @Published var isSegmentParamsPresented: Bool = false
     @Published var segmentsParams = SegmentsParams()
-    public var segments: [Segment] {
+    var segments: [Segment] {
         if segmentsParams.isEmpty {
             DispatchQueue.main.async {
                 if self.isLoading {
@@ -78,7 +78,7 @@ final class SegmentsViewModel: ObservableObject {
 
     // MARK: - Public Methods
 
-    public func setup(fromStation: StationData, toStation: StationData) {
+    func setup(fromStation: StationData, toStation: StationData) {
         self.fromStation = fromStation
         self.toStation = toStation
         loadingError = nil
@@ -95,7 +95,7 @@ final class SegmentsViewModel: ObservableObject {
         }
     }
 
-    public func showSegmentParams() {
+    func showSegmentParams() {
         let params: AnalyticsEventParam = ["screen": "Main", "item": "segmentParamsButton"]
         AnalyticsService.report(event: "click", params: params)
         print("Зарегистрировано событие аналитики 'click' с параметрами \(params)")

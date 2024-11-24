@@ -16,7 +16,7 @@ struct TravelPlannerApp: App {
         WindowGroup {
             SplashView()
                 .environmentObject(appSettings)
-                .preferredColorScheme(appSettings.isDarkMode ? .dark : .light)
+                .preferredColorScheme(appSettings.isDarkMode ?? false ? .dark : .light)
         }
     }
 

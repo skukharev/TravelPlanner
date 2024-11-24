@@ -16,7 +16,7 @@ final class CitiesListViewModel: ObservableObject {
     @Published var isLoadingError: Bool = false
     @Published var filterText: String = ""
     @Published var isEmptyListPlaceholderHidden: Bool = true
-    public var cities: [City] {
+    var cities: [City] {
         if filterText.isEmpty {
             DispatchQueue.main.async {
                 if self.isLoading {
@@ -44,11 +44,11 @@ final class CitiesListViewModel: ObservableObject {
     // MARK: - Private Properties
 
     private var allCities: [City] = []
-    private var allowedStationTypes: [String] = ["train_station", "airport", "bus_station", "river_port", "marine_station", "station"]
+    private let allowedStationTypes: [String] = ["train_station", "airport", "bus_station", "river_port", "marine_station", "station"]
 
     // MARK: - Public Methods
 
-    public func fetchCities() async throws {
+    func fetchCities() async throws {
         await MainActor.run {
             isLoading = true
             isLoadingError = false
@@ -92,7 +92,7 @@ final class CitiesListViewModel: ObservableObject {
         }
     }
 
-    public func selectCity(_ city: City) {
+    func selectCity(_ city: City) {
         let params: AnalyticsEventParam = ["screen": "Main", "item": "selectCityLink", "cityId": city.id, "cityName": city.name]
         AnalyticsService.report(event: "click", params: params)
         print("Зарегистрировано событие аналитики 'click' с параметрами \(params)")
