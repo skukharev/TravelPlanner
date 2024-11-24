@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 import OpenAPIURLSession
 
 final class CitiesListViewModel: ObservableObject {

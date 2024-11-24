@@ -35,7 +35,8 @@ struct CitiesListView: View {
                         Button(
                             action: { viewModel.filterText = "" },
                             label: {
-                                Image(systemName: GlobalConstants.searchBarClearSearchTextImageName).opacity(viewModel.filterText.isEmpty ? 0 : 1)
+                                Image(systemName: GlobalConstants.searchBarClearSearchTextImageName)
+                                    .opacity(viewModel.filterText.isEmpty ? 0 : 1)
                             }
                         )
                     }
