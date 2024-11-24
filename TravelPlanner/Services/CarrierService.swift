@@ -25,6 +25,11 @@ final class CarrierService: CarrierServiceProtocol {
         let response = try await client.getCarrier(
             query: .init(code: code)
         )
-        return try response.ok.body.json
+        switch response {
+        case .ok(let okResponse):
+            return try okResponse.body.json
+        default:
+            throw ErrorViewType.serverError
+        }
     }
 }

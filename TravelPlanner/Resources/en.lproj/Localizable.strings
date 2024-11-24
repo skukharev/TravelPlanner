@@ -1,0 +1,37 @@
+/* 
+  Localizable.strings
+  TravelPlanner
+
+  Created by Сергей Кухарев on 05.11.2024.
+  
+*/
+"CopyrightText" = "The application uses the «Yandex.Schedules» API";
+"SettingsViewDarkModeLabel" = "Dark mode";
+"SettingsViewUserAgreementLabel" = "User agreement";
+"YandexAPIVersion" = "Version";
+"FromStationPrompt" = "From";
+"ToStationPrompt" = "To";
+"SelectionCityTitle" = "Choosing a city";
+"SearchCityPlaceholder" = "Enter the query";
+"SearchCityNotFound" = "City not found";
+"SearchStationsPlaceholder" = "Enter the query";
+"SearchStationsNotFound" = "Station not found";
+"SelectionStationTitle" = "Choosing a station";
+"FindSegmentsButtonTitle" = "Find";
+"TransferPrefixText" = "With transfer in the";
+"SegmentParametersButtonTitle" = "Specify the time";
+"SegmentsNotFound" = "No variants";
+"SegmentParamsTimeTitle" = "Departure time";
+"SegmentParamsShowTransfersTitle" = "Show options with transfers";
+"DepartureTimeMorning" = "Morning 06:00 - 12:00";
+"DepartureTimeAfternoon" = "Afternoon 12:00 - 18:00";
+"DepartureTimeEvening" = "Evening 18:00 - 00:00";
+"DepartureTimeNight" = "Night 00:00 - 06:00";
+"ShowTransfersRadioButtonTitle" = "Yes";
+"HideTransfersRadioButtonTitle" = "No";
+"ApplySegmentParamsButtonTitle" = "Apply";
+"CarrierNavigationTitle" = "Carrier information";
+"EmailCarrierPropertyName" = "E-mail";
+"PhoneCarrierPropertyName" = "Phone";
+"ErrorNoInternet" = "No internet";
+"ErrorServerError" = "Server error";

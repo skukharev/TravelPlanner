@@ -1,0 +1,37 @@
+/* 
+  Localizable.strings
+  TravelPlanner
+
+  Created by Сергей Кухарев on 05.11.2024.
+  
+*/
+"CopyrightText" = "Приложение использует API «Яндекс.Расписания»";
+"SettingsViewDarkModeLabel" = "Тёмная тема";
+"SettingsViewUserAgreementLabel" = "Пользовательское соглашение";
+"YandexAPIVersion" = "Версия";
+"FromStationPrompt" = "Откуда";
+"ToStationPrompt" = "Куда";
+"SelectionCityTitle" = "Выбор города";
+"SearchCityPlaceholder" = "Введите запрос";
+"SearchCityNotFound" = "Город не найден";
+"SearchStationsPlaceholder" = "Введите запрос";
+"SearchStationsNotFound" = "Станция не найдена";
+"SelectionStationTitle" = "Выбор cтанции";
+"FindSegmentsButtonTitle" = "Найти";
+"TransferPrefixText" = "С пересадкой в г.";
+"SegmentParametersButtonTitle" = "Уточнить время";
+"SegmentsNotFound" = "Вариантов нет";
+"SegmentParamsTimeTitle" = "Время отправления";
+"SegmentParamsShowTransfersTitle" = "Показывать варианты с пересадками";
+"DepartureTimeMorning" = "Утро 06:00 - 12:00";
+"DepartureTimeAfternoon" = "День 12:00 - 18:00";
+"DepartureTimeEvening" = "Вечер 18:00 - 00:00";
+"DepartureTimeNight" = "Ночь 00:00 - 06:00";
+"ShowTransfersRadioButtonTitle" = "Да";
+"HideTransfersRadioButtonTitle" = "Нет";
+"ApplySegmentParamsButtonTitle" = "Применить";
+"CarrierNavigationTitle" = "Информация о перевозчике";
+"EmailCarrierPropertyName" = "E-mail";
+"PhoneCarrierPropertyName" = "Телефон";
+"ErrorNoInternet" = "Нет интернета";
+"ErrorServerError" = "Ошибка сервера";
