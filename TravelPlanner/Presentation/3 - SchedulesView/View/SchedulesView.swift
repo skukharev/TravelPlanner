@@ -39,8 +39,6 @@ struct SchedulesView: View {
 
     // MARK: - Public Properties
 
-    @StateObject var viewModel = SchedulesViewModel()
-
     var body: some View {
         VStack(spacing: Constants.defaultVerticalSpacing) {
             /// Stories
@@ -145,7 +143,7 @@ struct SchedulesView: View {
             .background(Constants.findSegmentsButtonBackgroundColor)
             .foregroundStyle(Constants.findSegmentsButtonTextColor)
             .clipShape(RoundedRectangle(cornerRadius: GlobalConstants.defaultCornerRadius))
-            .isHidden(viewModel.fromStation.isEmpty || viewModel.toStation.isEmpty)
+            .opacity(viewModel.fromStation.isEmpty || viewModel.toStation.isEmpty ? 0 : 1)
             .fullScreenCover(isPresented: $viewModel.isFindSegmentsPresented) {
                 NavigationView {
                     NavigationView {
@@ -167,6 +165,10 @@ struct SchedulesView: View {
             Divider()
         }
     }
+
+    // MARK: - Private Properties
+
+    @StateObject private var viewModel = SchedulesViewModel()
 
     // MARK: - Private Methods
 

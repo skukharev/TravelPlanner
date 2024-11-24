@@ -22,8 +22,7 @@ struct StationsListView: View {
 
     @Binding var stationData: StationData
     @Binding var isShowRootLink: Bool
-    @StateObject var viewModel = StationsListViewModel()
-    var city: City?
+    @Binding var city: City?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -60,10 +59,10 @@ struct StationsListView: View {
                 .listStyle(.plain)
                 /// The Progress view displayed during the loading of the list of stations
                 ProgressView()
-                    .isHidden(!viewModel.isLoading)
+                    .opacity(viewModel.isLoading ? 1 : 0)
                 /// The stub displayed when the list of stations is empty
                 Text(Constants.searchStationNotFound)
-                    .isHidden(viewModel.isEmptyListPlaceholderHidden)
+                    .opacity(viewModel.isEmptyListPlaceholderHidden ? 0 : 1)
                     .font(Constants.searchStationNotFoundFont)
             }
         }
@@ -78,6 +77,10 @@ struct StationsListView: View {
         }
     }
 
+    // MARK: - Private Properties
+
+    @StateObject private var viewModel = StationsListViewModel()
+
     // MARK: - Private Methods
 
     private func selectStation(_ station: Station) {
@@ -88,18 +91,21 @@ struct StationsListView: View {
     }
 }
 
-final class StationsListViewPreview: ObservableObject {
+struct StationsListPreview: View {
     @State var stationData = StationData(stationType: .fromStation)
     @State var isShowRootLink: Bool = true
-    @State var city = City(id: "c35", name: "Краснодар", stations: [Station(id: "c54722", name: "Новая Уситва")])
+    @State var city: City? = City(id: "c35", name: "Краснодар", stations: [Station(id: "c54722", name: "Новая Уситва")])
+
+    var body: some View {
+        StationsListView(
+            stationData: $stationData,
+            isShowRootLink: $isShowRootLink,
+            city: $city
+        )
+    }
 }
 
 
 #Preview {
-    let params = StationsListViewPreview()
-    StationsListView(
-        stationData: params.$stationData,
-        isShowRootLink: params.$isShowRootLink,
-        city: params.city
-    )
+    StationsListPreview()
 }

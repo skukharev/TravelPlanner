@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ShowTrasnfersToggleView: View {
+    // MARK: - Public Properties
+
     var title: String
     @Binding var isOn: Bool
 

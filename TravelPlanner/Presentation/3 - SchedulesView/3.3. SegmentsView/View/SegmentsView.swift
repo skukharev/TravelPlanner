@@ -31,7 +31,6 @@ struct SegmentsView: View {
 
     @Binding var fromStation: StationData
     @Binding var toStation: StationData
-    @StateObject var viewModel = SegmentsViewModel()
 
     var body: some View {
         ZStack {
@@ -53,7 +52,7 @@ struct SegmentsView: View {
                             HStack {
                                 Text(Constants.segmentsParametersButtonTitle)
                                 Image(asset: Asset.Images.redMarker)
-                                    .isHidden(viewModel.segmentsParams.isEmpty)
+                                    .opacity(viewModel.segmentsParams.isEmpty ? 0 : 1)
                             }
                             .frame(
                                 maxWidth: .infinity,
@@ -74,16 +73,16 @@ struct SegmentsView: View {
                     }
                 }
             }
-            .isHidden(viewModel.loadingError != nil)
+            .opacity(viewModel.loadingError != nil ? 0 : 1)
             /// The Progress view displayed during the loading of the list of segments
             ProgressView()
-                .isHidden(!viewModel.isLoading)
+                .opacity(viewModel.isLoading ? 1 : 0)
             /// The stub displayed when the list of segments is empty
             Text(Constants.segmentsNotFoundText)
-                .isHidden(viewModel.isEmptyListPlaceholderHidden)
+                .opacity(viewModel.isEmptyListPlaceholderHidden ? 0 : 1)
                 .font(Constants.segmentsNotFoundFont)
             ErrorView(errorType: viewModel.loadingError)
-                .isHidden(viewModel.loadingError == nil)
+                .opacity(viewModel.loadingError == nil ? 0 : 1)
         }
         .navigationBarBackButtonTitleHidden()
         .foregroundStyle(Constants.defaultForegroundColor)
@@ -91,6 +90,10 @@ struct SegmentsView: View {
             viewModel.setup(fromStation: fromStation, toStation: toStation)
         }
     }
+
+    // MARK: - Private Properties
+
+    @StateObject private var viewModel = SegmentsViewModel()
 
     // MARK: - Private Methods
 

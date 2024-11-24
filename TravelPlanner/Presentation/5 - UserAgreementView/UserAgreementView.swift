@@ -21,7 +21,7 @@ struct UserAgreementView: View {
         VStack {
             ProgressView(value: loadingProgress)
                 .progressViewStyle(.linear)
-                .isHidden(loadingProgress == 1.0)
+                .opacity(loadingProgress == 1.0 ? 0 : 1)
             ZStack {
                 WebView(
                     url: Constants.userAgreementURL,
@@ -29,11 +29,11 @@ struct UserAgreementView: View {
                     isLoadingError: $isLoadingError,
                     progress: $loadingProgress
                 )
-                    .isHidden(isLoadingError)
+                .opacity(isLoadingError ? 0 : 1)
                 ProgressView()
-                    .isHidden(!isLoading)
+                    .opacity(isLoading ? 1 : 0)
                 ErrorView(errorType: .noInternetError)
-                    .isHidden(!isLoadingError)
+                    .opacity(isLoadingError ? 1 : 0)
             }
         }
         .ignoresSafeArea(edges: [.leading, .trailing, .bottom])

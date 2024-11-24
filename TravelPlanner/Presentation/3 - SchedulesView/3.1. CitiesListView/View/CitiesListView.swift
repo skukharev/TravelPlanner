@@ -23,8 +23,6 @@ struct CitiesListView: View {
     @Binding var stationData: StationData
     @Binding var isShowRootLink: Bool
     @StateObject var viewModel = CitiesListViewModel()
-    @State var selectedCity: City?
-    @State var isSelectionStationLinkActivated: Bool = false
 
     var body: some View {
         ZStack {
@@ -64,7 +62,7 @@ struct CitiesListView: View {
                             destination: StationsListView(
                                 stationData: $stationData,
                                 isShowRootLink: $isShowRootLink,
-                                city: selectedCity
+                                city: $selectedCity
                             ),
                             isActive: $isSelectionStationLinkActivated
                         ) {
@@ -74,16 +72,16 @@ struct CitiesListView: View {
                     .listStyle(.plain)
                     /// The Progress view displayed during the loading of the list of cities
                     ProgressView()
-                        .isHidden(!viewModel.isLoading)
+                        .opacity(viewModel.isLoading ? 1 : 0)
                     /// The stub displayed when the list of cities is empty
                     Text(Constants.searchCityNotFound)
-                        .isHidden(viewModel.isEmptyListPlaceholderHidden)
+                        .opacity(viewModel.isEmptyListPlaceholderHidden ? 0 : 1)
                         .font(Constants.searchCityNotFoundFont)
                 }
             }
-            .isHidden(viewModel.isLoadingError)
+            .opacity(viewModel.isLoadingError ? 0 : 1)
             ErrorView(errorType: .noInternetError)
-                .isHidden(!viewModel.isLoadingError)
+                .opacity(viewModel.isLoadingError ? 1 : 0)
         }
         .navigationTitle(Constants.selectionCityTitle)
         .navigationBarBackButtonTitleHidden()
@@ -95,6 +93,11 @@ struct CitiesListView: View {
             }
         }
     }
+
+    // MARK: - Private Properties
+
+    @State private var selectedCity: City?
+    @State private var isSelectionStationLinkActivated: Bool = false
 
     // MARK: - Private Methods
 

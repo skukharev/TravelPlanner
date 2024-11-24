@@ -34,7 +34,6 @@ struct SegmentParamsView: View {
     @Environment(\.presentationMode)
     var presentationMode
     @Binding var params: SegmentsParams
-    @StateObject var viewModel = SegmentParamsViewModel()
 
     var body: some View {
         VStack(alignment: .leading, spacing: Constants.defaultElementsSpacing) {
@@ -102,7 +101,7 @@ struct SegmentParamsView: View {
                 .foregroundStyle(Constants.applySegmentsParametersButtonTextColor)
                 .clipShape(RoundedRectangle(cornerRadius: GlobalConstants.defaultCornerRadius))
                 .padding(.horizontal)
-                .isHidden(viewModel.isEmptyParams)
+                .opacity(viewModel.isEmptyParams ? 0 : 1)
             }
         }
         .navigationBarBackButtonTitleHidden()
@@ -111,6 +110,10 @@ struct SegmentParamsView: View {
             viewModel.setup(segmentsParams: params)
         }
     }
+
+    // MARK: - Private Methods
+
+    @StateObject private var viewModel = SegmentParamsViewModel()
 
     // MARK: - Private Methods
 

@@ -20,7 +20,7 @@ struct ErrorView: View {
 
     // MARK: - Public Properties
 
-    @State var errorType: ErrorViewType?
+    var errorType: ErrorViewType?
 
     var body: some View {
         VStack(spacing: Constants.defaultElementsSpacing) {

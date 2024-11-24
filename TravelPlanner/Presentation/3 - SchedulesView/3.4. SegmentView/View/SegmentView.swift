@@ -40,7 +40,6 @@ struct SegmentView: View {
     // MARK: - Public Properties
 
     var segment: Segment
-    @StateObject var viewModel = SegmentViewModel()
 
     var body: some View {
         VStack(spacing: Constants.linesVerticalSpacing) {
@@ -125,6 +124,10 @@ struct SegmentView: View {
             }
         }
     }
+
+    // MARK: - Private Properties
+
+    @StateObject private var viewModel = SegmentViewModel()
 }
 
 #Preview {
