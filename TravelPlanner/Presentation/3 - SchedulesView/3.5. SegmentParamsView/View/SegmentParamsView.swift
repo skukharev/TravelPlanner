@@ -23,6 +23,8 @@ struct SegmentParamsView: View {
         static let applySegmentsParametersButtonFont = GlobalConstants.ypBold17
         static let applySegmentsParametersButtonBackground: Color = .blueUniversal
         static let applySegmentsParametersButtonTextColor: Color = .white
+        static let showTransfersRadioButtonTitle = L10n.showTransfersRadioButtonTitle
+        static let hideTransfersRadioButtonTitle = L10n.hideTransfersRadioButtonTitle
     }
 
     // MARK: - Constants
@@ -69,11 +71,17 @@ struct SegmentParamsView: View {
             List {
                 VStack {
                     HStack {
-                        ShowTrasnfersToggleView(title: "Да", isOn: $viewModel.isShowTransferOptions)
+                        ShowTrasnfersToggleView(
+                            title: Constants.showTransfersRadioButtonTitle,
+                            isOn: $viewModel.isShowTransferOptions
+                        )
                     }
                     .frame(height: Constants.defaultListRowHeight)
                     HStack {
-                        ShowTrasnfersToggleView(title: "Нет", isOn: $viewModel.isHideTransferOptions)
+                        ShowTrasnfersToggleView(
+                            title: Constants.hideTransfersRadioButtonTitle,
+                            isOn: $viewModel.isHideTransferOptions
+                        )
                     }
                     .frame(height: Constants.defaultListRowHeight)
                 }

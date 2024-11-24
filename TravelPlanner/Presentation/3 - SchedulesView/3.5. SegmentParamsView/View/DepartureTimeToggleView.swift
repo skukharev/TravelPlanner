@@ -18,5 +18,6 @@ struct DepartureTimeToggleView: View {
             Text(title)
         }
         .toggleStyle(CheckboxToggleStyle())
+        .tint(.appBlack)
     }
 }

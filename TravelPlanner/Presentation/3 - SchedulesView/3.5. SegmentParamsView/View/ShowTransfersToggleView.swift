@@ -18,5 +18,6 @@ struct ShowTrasnfersToggleView: View {
             Text(title)
         }
         .toggleStyle(RadionbuttonToggleStyle())
+        .tint(.appBlack)
     }
 }
