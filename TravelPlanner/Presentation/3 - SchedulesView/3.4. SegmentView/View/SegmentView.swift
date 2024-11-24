@@ -39,6 +39,7 @@ struct SegmentView: View {
 
     // MARK: - Public Properties
 
+    @EnvironmentObject var nav: NavigationStateManager
     var segment: Segment
 
     var body: some View {
@@ -111,17 +112,10 @@ struct SegmentView: View {
         .clipShape(RoundedRectangle(cornerRadius: GlobalConstants.defaultCornerRadius))
         .onTapGesture {
             viewModel.carrierDidSelect()
+            nav.path.append(segment.carrier)
         }
         .onAppear {
             viewModel.setup(segment: segment)
-        }
-        .background {
-            NavigationLink(
-                destination: CarrierView(carrier: viewModel.segment?.carrier),
-                isActive: $viewModel.isCarrierSelected
-            ) {
-                EmptyView()
-            }
         }
     }
 
@@ -130,7 +124,7 @@ struct SegmentView: View {
     @StateObject private var viewModel = SegmentViewModel()
 }
 
-#Preview {
+struct SegmentPreview: View {
     let segment = Segment(
         departureDate: Date(),
         arrivalDate: Date(),
@@ -144,5 +138,14 @@ struct SegmentView: View {
             phone: "+7 (800) 775-00-00"
         )
     )
-    SegmentView(segment: segment)
+    @StateObject private var nav = NavigationStateManager()
+
+    var body: some View {
+        SegmentView(segment: segment)
+            .environmentObject(nav)
+    }
+}
+
+#Preview {
+    SegmentPreview()
 }

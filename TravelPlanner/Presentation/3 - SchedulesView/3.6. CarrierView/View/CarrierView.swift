@@ -32,7 +32,7 @@ struct CarrierView: View {
             } placeholder: {
                 ProgressView()
             }
-            .frame(width: .infinity, height: Constants.carrierLogoHeight)
+            .frame(height: Constants.carrierLogoHeight)
             .scaledToFit()
             /// Carrier info panel
             HStack {

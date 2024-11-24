@@ -34,15 +34,19 @@ struct SegmentsView: View {
 
     var body: some View {
         ZStack {
-            VStack(spacing: Constants.defaultVerticalSpacing) {
+            VStack(alignment: .leading, spacing: Constants.defaultVerticalSpacing) {
                 Text(viewModel.navigationTitle)
                     .font(Constants.titleFont)
                     .foregroundStyle(.appBlack)
+                    .padding(.horizontal)
                 List(viewModel.segments) { segment in
                     SegmentView(segment: segment)
                         .listRowSeparator(.hidden)
                 }
                 .listStyle(.plain)
+                .navigationDestination(for: Carrier.self) { carrier in
+                    CarrierView(carrier: carrier)
+                }
                 .safeAreaInset(edge: .bottom) {
                     Button(
                         action: {
@@ -65,11 +69,8 @@ struct SegmentsView: View {
                     .foregroundStyle(Constants.segmentsParametersButtonTextColor)
                     .clipShape(RoundedRectangle(cornerRadius: GlobalConstants.defaultCornerRadius))
                     .padding(.horizontal)
-                    NavigationLink(
-                        destination: SegmentParamsView(params: $viewModel.segmentsParams),
-                        isActive: $viewModel.isSegmentParamsPresented
-                    ) {
-                        EmptyView()
+                    .navigationDestination(isPresented: $viewModel.isSegmentParamsPresented) {
+                        SegmentParamsView(params: $viewModel.segmentsParams)
                     }
                 }
             }
@@ -114,9 +115,16 @@ private struct SegmentsViewPreview: View {
         city: City(id: "c1000002", name: "Краснодар"),
         station: Station(id: "s9613602", name: "Краснодар-1")
     )
+    @StateObject private var nav = NavigationStateManager()
 
     var body: some View {
-        SegmentsView(fromStation: $fromStation, toStation: $toStation)
+        NavigationStack(path: $nav.path) {
+            SegmentsView(fromStation: $fromStation, toStation: $toStation)
+        }
+        .navigationDestination(for: Carrier.self) { carrier in
+            CarrierView(carrier: carrier)
+        }
+        .environmentObject(nav)
     }
 }
 

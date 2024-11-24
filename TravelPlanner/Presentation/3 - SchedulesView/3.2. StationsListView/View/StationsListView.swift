@@ -30,7 +30,11 @@ struct StationsListView: View {
             HStack {
                 HStack {
                     Image(systemName: GlobalConstants.searchBarMagnifyingGlassImageName)
-                    TextField("", text: $viewModel.filterText, prompt: Text(Constants.searchStationPlaceholder))
+                    TextField(
+                        "",
+                        text: $viewModel.filterText,
+                        prompt: Text(Constants.searchStationPlaceholder)
+                    )
                     Button(
                         action: { viewModel.filterText = "" },
                         label: {

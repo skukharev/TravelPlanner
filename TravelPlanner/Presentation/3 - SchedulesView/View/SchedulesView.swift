@@ -68,16 +68,14 @@ struct SchedulesView: View {
                                 )
                                 .foregroundStyle(viewModel.fromStation.isEmpty ? Constants.stationsElementsEmptyTextColor : Constants.stationsElementsDefinedTextColor)
                                 .fullScreenCover(isPresented: $viewModel.isSelectionFromStationPresented) {
-                                    NavigationView {
-                                        NavigationLink(
-                                            destination: CitiesListView(
-                                                stationData: $viewModel.fromStation,
-                                                isShowRootLink: $viewModel.isSelectionFromStationPresented
-                                            ),
-                                            isActive: $viewModel.isSelectionFromStationPresented
-                                        ) {
-                                            EmptyView()
-                                        }
+                                    NavigationStack {
+                                        NavigationLink("", value: "CitiesListView")
+                                            .navigationDestination(isPresented: $viewModel.isSelectionFromStationPresented) {
+                                                CitiesListView(
+                                                    stationData: $viewModel.fromStation,
+                                                    isShowRootLink: $viewModel.isSelectionFromStationPresented
+                                                )
+                                            }
                                     }
                                 }
                                 /// To station
@@ -88,16 +86,14 @@ struct SchedulesView: View {
                                 .foregroundStyle(viewModel.toStation.isEmpty ? Constants.stationsElementsEmptyTextColor : Constants.stationsElementsDefinedTextColor)
                                 .fullScreenCover(isPresented: $viewModel.isSelectionToStationPresented) {
                                     NavigationView {
-                                        NavigationView {
-                                            NavigationLink(
-                                                destination: CitiesListView(
-                                                    stationData: $viewModel.toStation,
-                                                    isShowRootLink: $viewModel.isSelectionToStationPresented
-                                                ),
-                                                isActive: $viewModel.isSelectionToStationPresented
-                                            ) {
-                                                EmptyView()
-                                            }
+                                        NavigationStack {
+                                            NavigationLink("", value: "CitiesListView")
+                                                .navigationDestination(isPresented: $viewModel.isSelectionToStationPresented) {
+                                                    CitiesListView(
+                                                        stationData: $viewModel.toStation,
+                                                        isShowRootLink: $viewModel.isSelectionToStationPresented
+                                                    )
+                                                }
                                         }
                                     }
                                 }
@@ -145,19 +141,10 @@ struct SchedulesView: View {
             .clipShape(RoundedRectangle(cornerRadius: GlobalConstants.defaultCornerRadius))
             .opacity(viewModel.fromStation.isEmpty || viewModel.toStation.isEmpty ? 0 : 1)
             .fullScreenCover(isPresented: $viewModel.isFindSegmentsPresented) {
-                NavigationView {
-                    NavigationView {
-                        NavigationLink(
-                            destination: SegmentsView(
-                                fromStation: $viewModel.fromStation,
-                                toStation: $viewModel.toStation
-                            ),
-                            isActive: $viewModel.isFindSegmentsPresented
-                        ) {
-                            EmptyView()
-                        }
-                    }
+                NavigationStack(path: $nav.path) {
+                    SegmentsView(fromStation: $viewModel.fromStation, toStation: $viewModel.toStation)
                 }
+                .environmentObject(nav)
             }
 
             Spacer()
@@ -169,6 +156,7 @@ struct SchedulesView: View {
     // MARK: - Private Properties
 
     @StateObject private var viewModel = SchedulesViewModel()
+    @StateObject private var nav = NavigationStateManager()
 
     // MARK: - Private Methods
 

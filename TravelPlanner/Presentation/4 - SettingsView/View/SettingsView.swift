@@ -20,7 +20,7 @@ struct SettingsView: View {
     // MARK: - Public Properties
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 HStack {
                     Text(L10n.settingsViewDarkModeLabel)
@@ -46,10 +46,11 @@ struct SettingsView: View {
                     .padding()
                     .tint(.appBlack)
                     .fullScreenCover(isPresented: $viewModel.isShowUserAgreementView) {
-                        NavigationView {
-                            NavigationLink(destination: UserAgreementView(), isActive: $viewModel.isShowUserAgreementView) {
-                                EmptyView()
-                            }
+                        NavigationStack {
+                            NavigationLink("", value: "UserAgreementView")
+                                .navigationDestination(isPresented: $viewModel.isShowUserAgreementView) {
+                                    UserAgreementView()
+                                }
                         }
                     }
                 }

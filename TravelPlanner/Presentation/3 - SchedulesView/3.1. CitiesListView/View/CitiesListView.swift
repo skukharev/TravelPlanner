@@ -58,19 +58,14 @@ struct CitiesListView: View {
                         }
                         .listRowSeparator(.hidden)
                     }
-                    .background(
-                        NavigationLink(
-                            destination: StationsListView(
-                                stationData: $stationData,
-                                isShowRootLink: $isShowRootLink,
-                                city: $selectedCity
-                            ),
-                            isActive: $isSelectionStationLinkActivated
-                        ) {
-                            EmptyView()
-                        }
-                    )
                     .listStyle(.plain)
+                    .navigationDestination(isPresented: $isSelectionStationLinkActivated) {
+                        StationsListView(
+                            stationData: $stationData,
+                            isShowRootLink: $isShowRootLink,
+                            city: $selectedCity
+                        )
+                    }
                     /// The Progress view displayed during the loading of the list of cities
                     ProgressView()
                         .opacity(viewModel.isLoading ? 1 : 0)
@@ -109,12 +104,17 @@ struct CitiesListView: View {
     }
 }
 
-final class CitiesListViewPreview: ObservableObject {
+struct CitiesListViewPreview: View {
     @State var stationData = StationData(stationType: .fromStation)
     @State var isShowRootLink: Bool = true
+
+    var body: some View {
+        NavigationStack {
+            CitiesListView(stationData: $stationData, isShowRootLink: $isShowRootLink)
+        }
+    }
 }
 
 #Preview {
-    let params = CitiesListViewPreview()
-    CitiesListView(stationData: params.$stationData, isShowRootLink: params.$isShowRootLink)
+    CitiesListViewPreview()
 }
