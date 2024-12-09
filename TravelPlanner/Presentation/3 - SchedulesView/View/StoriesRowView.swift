@@ -21,7 +21,8 @@ struct StoriesRowView: View {
         static let titleWidth: CGFloat = 76
         static let titleHeight: CGFloat = 45
         static let titleVerticalOffsetRelationToImage: CGFloat = 36
-        static let notViewedRowOpacity: CGFloat = 0.5
+        static let notViewedRowOpacity: CGFloat = 1
+        static let viewedRowOpacity: CGFloat = 0.5
     }
 
     // MARK: - Public Properties
@@ -33,7 +34,7 @@ struct StoriesRowView: View {
             Image(uiImage: story.previewImage)
                 .resizable()
                 .scaledToFit()
-                .opacity(Double(story.isViewed ? 1 : 0.5))
+                .opacity(Double(story.isViewed ? Constants.viewedRowOpacity : Constants.notViewedRowOpacity))
                 .clipShape(
                     RoundedRectangle(
                         cornerRadius: GlobalConstants.defaultCornerRadius
@@ -44,8 +45,8 @@ struct StoriesRowView: View {
                         cornerRadius: GlobalConstants.defaultCornerRadius
                     )
                     .stroke(
-                        story.isViewed ? Constants.previewImageBorderColor : Color.clear,
-                        lineWidth: story.isViewed ? Constants.previewImageBorderWidth : 0
+                        story.isViewed ? Color.clear : Constants.previewImageBorderColor,
+                        lineWidth: story.isViewed ? 0 : Constants.previewImageBorderWidth
                     )
                 )
             Text(story.title)
@@ -57,7 +58,7 @@ struct StoriesRowView: View {
                 )
                 .lineLimit(Constants.titleLinesCount)
                 .offset(y: Constants.titleVerticalOffsetRelationToImage)
-                .opacity(Double(story.isViewed ? 1 : Constants.notViewedRowOpacity))
+                .opacity(Double(story.isViewed ? Constants.viewedRowOpacity : Constants.notViewedRowOpacity))
         }
         .frame(
             maxWidth: Constants.previewImageSizeWidth,
@@ -73,7 +74,7 @@ struct StoriesRowView: View {
             images: [Asset.Images.Stories.story1Detail1.image, Asset.Images.Stories.story1Detail2.image],
             title: "Text Text Text Text Text Text Text Text Text",
             description: "Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text",
-            isViewed: true
+            isViewed: false
         )
     )
 }
