@@ -8,10 +8,10 @@
 import UIKit
 
 struct Story: Identifiable, Hashable {
-    var id = UUID()
-    var previewImage: UIImage
-    var images: [UIImage]
-    var title: String
-    var description: String
-    var isViewed: Bool = false
+    let id = UUID()
+    let previewImage: UIImage
+    let image: UIImage
+    let title: String
+    let description: String
+    var isViewed = false
 }

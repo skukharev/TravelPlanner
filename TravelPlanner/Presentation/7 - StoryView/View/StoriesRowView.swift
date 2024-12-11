@@ -25,9 +25,14 @@ struct StoriesRowView: View {
         static let viewedRowOpacity: CGFloat = 0.5
     }
 
+    // MARK: - Constants
+
+    let impactMed = UIImpactFeedbackGenerator(style: .medium)
+
     // MARK: - Public Properties
 
-    var story: Story
+    @Binding var stories: [Story]
+    @Binding var story: Story
 
     var body: some View {
         ZStack {
@@ -64,17 +69,28 @@ struct StoriesRowView: View {
             maxWidth: Constants.previewImageSizeWidth,
             maxHeight: Constants.previewImageSizeHeight
         )
+        .fullScreenCover(isPresented: $viewModel.isDetailedStoryViewPresented) {
+            StoriesView(stories: $stories, currentStoryIndex: $viewModel.storyIndex)
+        }
+        .onTapGesture {
+            impactMed.impactOccurred()
+            viewModel.detailedStoryViewPresentation(story: story)
+        }
+    }
+
+    // MARK: - Private Properties
+
+    @StateObject private var viewModel = StoriesRowViewModel()
+}
+
+struct StoriesRowPreview: View {
+    @State var stories = StoryFactory.shared.stories
+
+    var body: some View {
+        StoriesRowView(stories: $stories, story: $stories[2])
     }
 }
 
 #Preview {
-    StoriesRowView(
-        story: Story(
-            previewImage: Asset.Images.Stories.story1Preview.image,
-            images: [Asset.Images.Stories.story1Detail1.image, Asset.Images.Stories.story1Detail2.image],
-            title: "Text Text Text Text Text Text Text Text Text",
-            description: "Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text",
-            isViewed: false
-        )
-    )
+    StoriesRowPreview()
 }

@@ -44,8 +44,8 @@ struct SchedulesView: View {
             /// Stories
             ScrollView(.horizontal) {
                 LazyHGrid(rows: rows, alignment: .center, spacing: Constants.storiesSpacing) {
-                    ForEach(viewModel.stories) { story in
-                        StoriesRowView(story: story)
+                    ForEach($viewModel.stories) { $story in
+                        StoriesRowView(stories: $viewModel.stories, story: $story)
                     }
                 }
                 .frame(maxHeight: Constants.storiesHeight)
