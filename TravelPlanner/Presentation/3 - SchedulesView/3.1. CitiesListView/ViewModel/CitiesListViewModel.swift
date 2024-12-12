@@ -56,7 +56,7 @@ final class CitiesListViewModel: ObservableObject {
         do {
             let stationsList = try await stationsList()
             let russia = stationsList.countries?.first {
-                $0.codes?.yandex_code == GlobalConstants.RussianFederationId
+                $0.codes?.yandex_code == GlobalConstants.theRussianFederationId
             }
             russia?.regions?.compactMap { $0.settlements }.forEach { settlements in
                 settlements.forEach { settlement in

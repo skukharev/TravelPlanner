@@ -26,7 +26,7 @@ enum GlobalConstants {
     static let ypBold24: Font = .system(size: 24, weight: .bold, design: .default)
     static let ypBold34: Font = .system(size: 34, weight: .bold, design: .default)
     static let defaultCornerRadius: CGFloat = 16
-    static let RussianFederationId = "l225"
+    static let theRussianFederationId = "l225"
     static let searchBarMagnifyingGlassImageName = "magnifyingglass"
     static let searchBarClearSearchTextImageName = "xmark.circle.fill"
     static let searchBarCornerRadius: CGFloat = 10.0
