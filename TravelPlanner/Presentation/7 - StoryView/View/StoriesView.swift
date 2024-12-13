@@ -23,7 +23,7 @@ struct StoriesView: View {
     @Environment(\.presentationMode)
     var presentationMode
     @Binding var currentStoryIndex: Int
-    @State var currentProgress: CGFloat = 0
+    @State private var currentProgress: CGFloat = 0
 
     var body: some View {
         ZStack(alignment: .topTrailing) {

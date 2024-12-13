@@ -8,12 +8,9 @@
 import SwiftUI
 
 struct StoriesTabView: View {
-    // MARK: - Constants
-
-    @Binding var stories: [Story]
-
     // MARK: - Public Properties
 
+    @Binding var stories: [Story]
     @Binding var currentStoryIndex: Int
 
     var body: some View {

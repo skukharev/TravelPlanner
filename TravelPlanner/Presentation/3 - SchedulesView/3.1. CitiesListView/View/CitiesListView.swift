@@ -22,7 +22,7 @@ struct CitiesListView: View {
 
     @Binding var stationData: StationData
     @Binding var isShowRootLink: Bool
-    @StateObject var viewModel = CitiesListViewModel()
+    @StateObject private var viewModel = CitiesListViewModel()
 
     var body: some View {
         ZStack {
