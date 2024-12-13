@@ -18,11 +18,14 @@ struct StationsListView: View {
         static let defaultForegroundColor: Color = .appBlack
     }
 
-    // MARK: - Public Properties
+    // MARK: - Property Wrappers
 
     @Binding var stationData: StationData
     @Binding var isShowRootLink: Bool
     @Binding var city: City?
+    @StateObject private var viewModel = StationsListViewModel()
+
+    // MARK: - Public Properties
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -80,10 +83,6 @@ struct StationsListView: View {
             }
         }
     }
-
-    // MARK: - Private Properties
-
-    @StateObject private var viewModel = StationsListViewModel()
 
     // MARK: - Private Methods
 

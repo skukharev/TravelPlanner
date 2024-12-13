@@ -8,14 +8,17 @@
 import SwiftUI
 
 struct ProgressBar: View {
-    // MARK: - Constants
+    // MARK: - Types
 
-    enum Constants {
+    private enum Constants {
         static let progressBarCornerRadius: CGFloat = 3
         static let progressBarHeight: CGFloat = 6
         static let progressBarBackgroundColor: Color = .white
         static let progressBarForegroundColor: Color = .blueUniversal
     }
+
+    // MARK: - Constants
+
     let numberOfSections: Int
     let progress: CGFloat
 
@@ -58,9 +61,9 @@ private struct MaskView: View {
 }
 
 private struct MaskFragmentView: View {
-    // MARK: - Constants
+    // MARK: - Types
 
-    enum Constants {
+    private enum Constants {
         static let progressBarCornerRadius: CGFloat = 3
         static let progressBarHeight: CGFloat = 6
         static let progressBarBackgroundColor: Color = .white

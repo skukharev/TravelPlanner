@@ -15,6 +15,12 @@ struct UserAgreementView: View {
         static let userAgreementURL: String = "https://yandex.ru/legal/practicum_offer/"
     }
 
+    // MARK: - Property Wrappers
+
+    @State private var isLoading = true
+    @State private var loadingProgress: Double = 0.0
+    @State private var isLoadingError = false
+
     // MARK: - Public Properties
 
     var body: some View {
@@ -46,12 +52,6 @@ struct UserAgreementView: View {
             isLoadingError = false
         }
     }
-
-    // MARK: - Public Properties
-
-    @State private var isLoading = true
-    @State private var loadingProgress: Double = 0.0
-    @State private var isLoadingError = false
 }
 
 #Preview {

@@ -31,11 +31,14 @@ struct SegmentParamsView: View {
 
     let impactMed = UIImpactFeedbackGenerator(style: .medium)
 
-    // MARK: - Public Properties
+    // MARK: - Property Wrappers
 
     @Environment(\.presentationMode)
     var presentationMode
     @Binding var params: SegmentsParams
+    @StateObject private var viewModel = SegmentParamsViewModel()
+
+    // MARK: - Public Properties
 
     var body: some View {
         VStack(alignment: .leading, spacing: Constants.defaultElementsSpacing) {
@@ -48,8 +51,8 @@ struct SegmentParamsView: View {
                 VStack {
                     HStack {
                         DepartureTimeToggleView(
-                            title: viewModel.internalParams.departureTimes[index].name,
-                            isOn: $viewModel.internalParams.departureTimes[index].value
+                            isOn: $viewModel.internalParams.departureTimes[index].value,
+                            title: viewModel.internalParams.departureTimes[index].name
                         )
                         .font(Constants.timeOptionsFont)
                         .foregroundStyle(Constants.timeOptionsTextColor)
@@ -72,15 +75,15 @@ struct SegmentParamsView: View {
                 VStack {
                     HStack {
                         ShowTrasnfersToggleView(
-                            title: Constants.showTransfersRadioButtonTitle,
-                            isOn: $viewModel.isShowTransferOptions
+                            isOn: $viewModel.isShowTransferOptions,
+                            title: Constants.showTransfersRadioButtonTitle
                         )
                     }
                     .frame(height: Constants.defaultListRowHeight)
                     HStack {
                         ShowTrasnfersToggleView(
-                            title: Constants.hideTransfersRadioButtonTitle,
-                            isOn: $viewModel.isHideTransferOptions
+                            isOn: $viewModel.isHideTransferOptions,
+                            title: Constants.hideTransfersRadioButtonTitle
                         )
                     }
                     .frame(height: Constants.defaultListRowHeight)
@@ -118,10 +121,6 @@ struct SegmentParamsView: View {
             viewModel.setup(segmentsParams: params)
         }
     }
-
-    // MARK: - Private Methods
-
-    @StateObject private var viewModel = SegmentParamsViewModel()
 
     // MARK: - Private Methods
 

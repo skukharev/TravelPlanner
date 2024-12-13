@@ -27,10 +27,13 @@ struct SegmentsView: View {
 
     let impactMed = UIImpactFeedbackGenerator(style: .medium)
 
-    // MARK: - Public Properties
+    // MARK: - Property Wrappers
 
     @Binding var fromStation: StationData
     @Binding var toStation: StationData
+    @StateObject private var viewModel = SegmentsViewModel()
+
+    // MARK: - Public Properties
 
     var body: some View {
         ZStack {
@@ -91,10 +94,6 @@ struct SegmentsView: View {
             viewModel.setup(fromStation: fromStation, toStation: toStation)
         }
     }
-
-    // MARK: - Private Properties
-
-    @StateObject private var viewModel = SegmentsViewModel()
 
     // MARK: - Private Methods
 

@@ -9,18 +9,28 @@ import SwiftUI
 import Combine
 
 struct StoriesProgressBar: View {
+    // MARK: - Types
+
+    private enum Constants {
+        static let progressBarPadding = EdgeInsets(top: 7, leading: 12, bottom: 12, trailing: 12)
+    }
+
     // MARK: - Constants
 
     let storiesCount: Int
     let timerConfiguration: TimerConfiguration
 
-    // MARK: - Public Properties
+    // MARK: - Property Wrappers
 
     @Binding var currentProgress: CGFloat
+    @State private var timer: Timer.TimerPublisher
+    @State private var cancellable: Cancellable?
+
+    // MARK: - Public Properties
 
     var body: some View {
         ProgressBar(numberOfSections: storiesCount, progress: currentProgress)
-            .padding(.init(top: 7, leading: 12, bottom: 12, trailing: 12))
+            .padding(Constants.progressBarPadding)
             .onAppear {
                 timer = Self.makeTimer(configuration: timerConfiguration)
                 cancellable = timer.connect()
@@ -32,11 +42,6 @@ struct StoriesProgressBar: View {
                 timerTick()
             }
     }
-
-    // MARK: - Private Properties
-
-    @State private var timer: Timer.TimerPublisher
-    @State private var cancellable: Cancellable?
 
     // MARK: - Initializers
 

@@ -37,6 +37,11 @@ struct SchedulesView: View {
     let rows = [GridItem(.flexible())]
     let impactMed = UIImpactFeedbackGenerator(style: .medium)
 
+    // MARK: - Property Wrappers
+
+    @StateObject private var viewModel = SchedulesViewModel()
+    @StateObject private var nav = NavigationStateManager()
+
     // MARK: - Public Properties
 
     var body: some View {
@@ -152,11 +157,6 @@ struct SchedulesView: View {
             Divider()
         }
     }
-
-    // MARK: - Private Properties
-
-    @StateObject private var viewModel = SchedulesViewModel()
-    @StateObject private var nav = NavigationStateManager()
 
     // MARK: - Private Methods
 

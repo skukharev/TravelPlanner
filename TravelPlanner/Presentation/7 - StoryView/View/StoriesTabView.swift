@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct StoriesTabView: View {
-    // MARK: - Public Properties
+    // MARK: - Property Wrappers
 
     @Binding var stories: [Story]
     @Binding var currentStoryIndex: Int
+
+    // MARK: - Public Properties
 
     var body: some View {
         TabView(selection: $currentStoryIndex) {

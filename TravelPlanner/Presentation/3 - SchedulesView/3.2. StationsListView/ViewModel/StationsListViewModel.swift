@@ -13,7 +13,6 @@ final class StationsListViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var filterText: String = ""
     @Published var isEmptyListPlaceholderHidden: Bool = true
-
     var stations: [Station] {
         if filterText.isEmpty {
             DispatchQueue.main.async {

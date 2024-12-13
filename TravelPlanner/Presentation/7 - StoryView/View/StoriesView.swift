@@ -8,22 +8,24 @@
 import SwiftUI
 
 struct StoriesView: View {
-    // MARK: - Constants
+    // MARK: - Types
 
-    enum Constants {
+    private enum Constants {
         static let closeButtonTopPadding: CGFloat = 57
         static let closeButtonTrailingPadding: CGFloat = 12
         static let progressBarPadding = EdgeInsets(top: 28, leading: 12, bottom: 12, trailing: 12)
     }
 
+    // MARK: - Property Wrappers
+
     @Binding var stories: [Story]
-
-    // MARK: - Public Properties
-
     @Environment(\.presentationMode)
     var presentationMode
     @Binding var currentStoryIndex: Int
     @State private var currentProgress: CGFloat = 0
+    @State private var oldStoryIndex: Int = 0
+
+    // MARK: - Public Properties
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
@@ -64,7 +66,6 @@ struct StoriesView: View {
     // MARK: - Private Properties
 
     private var timerConfiguration: TimerConfiguration { .init(storiesCount: stories.count) }
-    @State private var oldStoryIndex: Int = 0
 
     // MARK: - Private Methods
 

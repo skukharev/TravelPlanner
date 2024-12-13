@@ -29,10 +29,13 @@ struct StoriesRowView: View {
 
     let impactMed = UIImpactFeedbackGenerator(style: .medium)
 
-    // MARK: - Public Properties
+    // MARK: - Property Wrappers
 
     @Binding var stories: [Story]
     @Binding var story: Story
+    @StateObject private var viewModel = StoriesRowViewModel()
+
+    // MARK: - Public Properties
 
     var body: some View {
         ZStack {
@@ -77,10 +80,6 @@ struct StoriesRowView: View {
             viewModel.detailedStoryViewPresentation(stories: stories, story: story)
         }
     }
-
-    // MARK: - Private Properties
-
-    @StateObject private var viewModel = StoriesRowViewModel()
 }
 
 struct StoriesRowPreview: View {

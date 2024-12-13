@@ -17,6 +17,11 @@ struct SettingsView: View {
         static let yandexAPIVersionFont = GlobalConstants.ypRegular12
     }
 
+    // MARK: - Property Wrappers
+
+    @StateObject private var viewModel = SettingsViewModel()
+    @EnvironmentObject private var appSettings: AppSettings
+
     // MARK: - Public Properties
 
     var body: some View {
@@ -68,11 +73,6 @@ struct SettingsView: View {
             self.viewModel.setup(self.appSettings)
         }
     }
-
-    // MARK: - Private Properties
-
-    @StateObject private var viewModel = SettingsViewModel()
-    @EnvironmentObject private var appSettings: AppSettings
 
     // MARK: - Private Methods
 

@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct StoryView: View {
-    // MARK: - Constants
+    // MARK: - Types
 
-    enum Constants {
+    private enum Constants {
         static let imageCornerRadius: CGFloat = 40
         static let backgroundColor = Color.black
         static let storyTitleFont = GlobalConstants.ypBold34
@@ -21,6 +21,10 @@ struct StoryView: View {
         static let textElementsStartingScaleValue: CGFloat = 1.5
         static let animationDuration: TimeInterval = 0.3
     }
+
+    // MARK: - Property Wrappers
+
+    @State private var viewInFinalState = false
 
     // MARK: - Public Properties
 
@@ -57,10 +61,6 @@ struct StoryView: View {
                 viewInFinalState = true
             }
     }
-
-    // MARK: - Private Properties
-
-    @State private var viewInFinalState = false
 }
 
 struct StoryPreview: View {
