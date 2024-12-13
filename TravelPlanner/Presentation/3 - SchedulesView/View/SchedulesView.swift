@@ -55,6 +55,7 @@ struct SchedulesView: View {
                 }
                 .frame(maxHeight: Constants.storiesHeight)
             }
+            .scrollIndicators(.hidden)
             .padding(.horizontal)
             /// Stations selection controls
             ZStack {
