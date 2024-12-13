@@ -29,7 +29,7 @@ struct ProgressBar: View {
             ZStack(alignment: .leading) {
                 RoundedRectangle(cornerRadius: Constants.progressBarCornerRadius)
                     .frame(width: geometry.size.width, height: Constants.progressBarHeight)
-                    .foregroundColor(Constants.progressBarBackgroundColor)
+                    .foregroundStyle(Constants.progressBarBackgroundColor)
 
                 RoundedRectangle(cornerRadius: Constants.progressBarCornerRadius)
                     .frame(
@@ -39,7 +39,7 @@ struct ProgressBar: View {
                         ),
                         height: Constants.progressBarHeight
                     )
-                    .foregroundColor(Constants.progressBarForegroundColor)
+                    .foregroundStyle(Constants.progressBarForegroundColor)
             }
             .mask {
                 MaskView(numberOfSections: numberOfSections)
@@ -49,7 +49,11 @@ struct ProgressBar: View {
 }
 
 private struct MaskView: View {
+    // MARK: - Constants
+
     let numberOfSections: Int
+
+    // MARK: - Public Properties
 
     var body: some View {
         HStack {
@@ -66,25 +70,39 @@ private struct MaskFragmentView: View {
     private enum Constants {
         static let progressBarCornerRadius: CGFloat = 3
         static let progressBarHeight: CGFloat = 6
-        static let progressBarBackgroundColor: Color = .white
-        static let progressBarForegroundColor: Color = .blueUniversal
     }
 
     // MARK: - Public Properties
 
     var body: some View {
         RoundedRectangle(cornerRadius: Constants.progressBarCornerRadius)
-            .fixedSize(horizontal: false, vertical: true)
             .frame(height: Constants.progressBarHeight)
-            .foregroundStyle(Constants.progressBarBackgroundColor)
+            .foregroundStyle(Color.white)
     }
 }
 
 #Preview {
-    Color.pink
+    Color.orange
         .ignoresSafeArea()
         .overlay(
             ProgressBar(numberOfSections: 5, progress: 0.5)
                 .padding()
         )
+}
+
+#Preview("MaskFragmentView") {
+    Color.orange
+        .overlay {
+            MaskFragmentView()
+                .padding()
+        }
+        .ignoresSafeArea()
+}
+
+#Preview("MaskView") {
+    Color.orange
+        .overlay {
+            MaskView(numberOfSections: 5)
+                .padding()
+        }
 }
