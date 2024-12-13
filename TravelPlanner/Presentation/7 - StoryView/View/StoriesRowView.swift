@@ -72,7 +72,7 @@ struct StoriesRowView: View {
             maxWidth: Constants.previewImageSizeWidth,
             maxHeight: Constants.previewImageSizeHeight
         )
-        .fullScreenCover(isPresented: $viewModel.isDetailedStoryViewPresented) {
+        .sheet(isPresented: $viewModel.isDetailedStoryViewPresented) {
             StoriesView(
                 stories: $stories,
                 currentStoryIndex: $viewModel.storyIndex,

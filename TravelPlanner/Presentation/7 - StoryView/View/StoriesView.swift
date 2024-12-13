@@ -84,7 +84,9 @@ struct StoriesView: View {
     }
 
     private func didChangeCurrentProgress(newProgress: CGFloat) {
-        isDetailedStoryViewPresented = newProgress < 1.0
+        if newProgress >= 1.0 {
+            isDetailedStoryViewPresented = false
+        }
         let index = timerConfiguration.index(for: newProgress)
         guard index != currentStoryIndex else { return }
         withAnimation {
