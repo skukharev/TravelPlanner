@@ -7,19 +7,15 @@
 
 import SwiftUI
 
-extension CGFloat {
-    static let progressBarCornerRadius: CGFloat = 3
-    static let progressBarHeight: CGFloat = 6
-}
-
-extension Color {
-    static let progressBarBackgroundColor: Color = .white
-    static let progressBarForegroundColor: Color = .blueUniversal
-}
-
 struct ProgressBar: View {
     // MARK: - Constants
 
+    enum Constants {
+        static let progressBarCornerRadius: CGFloat = 3
+        static let progressBarHeight: CGFloat = 6
+        static let progressBarBackgroundColor: Color = .white
+        static let progressBarForegroundColor: Color = .blueUniversal
+    }
     let numberOfSections: Int
     let progress: CGFloat
 
@@ -28,19 +24,19 @@ struct ProgressBar: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
-                RoundedRectangle(cornerRadius: .progressBarCornerRadius)
-                    .frame(width: geometry.size.width, height: .progressBarHeight)
-                    .foregroundColor(.progressBarBackgroundColor)
+                RoundedRectangle(cornerRadius: Constants.progressBarCornerRadius)
+                    .frame(width: geometry.size.width, height: Constants.progressBarHeight)
+                    .foregroundColor(Constants.progressBarBackgroundColor)
 
-                RoundedRectangle(cornerRadius: .progressBarCornerRadius)
+                RoundedRectangle(cornerRadius: Constants.progressBarCornerRadius)
                     .frame(
                         width: min(
                             progress * geometry.size.width,
                             geometry.size.width
                         ),
-                        height: .progressBarHeight
+                        height: Constants.progressBarHeight
                     )
-                    .foregroundColor(.progressBarForegroundColor)
+                    .foregroundColor(Constants.progressBarForegroundColor)
             }
             .mask {
                 MaskView(numberOfSections: numberOfSections)
@@ -62,11 +58,22 @@ private struct MaskView: View {
 }
 
 private struct MaskFragmentView: View {
+    // MARK: - Constants
+
+    enum Constants {
+        static let progressBarCornerRadius: CGFloat = 3
+        static let progressBarHeight: CGFloat = 6
+        static let progressBarBackgroundColor: Color = .white
+        static let progressBarForegroundColor: Color = .blueUniversal
+    }
+
+    // MARK: - Public Properties
+
     var body: some View {
-        RoundedRectangle(cornerRadius: .progressBarCornerRadius)
+        RoundedRectangle(cornerRadius: Constants.progressBarCornerRadius)
             .fixedSize(horizontal: false, vertical: true)
-            .frame(height: .progressBarHeight)
-            .foregroundStyle(Color.progressBarBackgroundColor)
+            .frame(height: Constants.progressBarHeight)
+            .foregroundStyle(Constants.progressBarBackgroundColor)
     }
 }
 
