@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct MainView: View {
+    // MARK: - Property Wrappers
+
+    @State private var selectedTab = 0
+
     // MARK: - Public Properties
 
     var body: some View {
@@ -25,10 +29,6 @@ struct MainView: View {
         }
         .accentColor(Asset.Colors.activeTabItemColor.swiftUIColor)
     }
-
-    // MARK: - Private Properties
-
-    @State private var selectedTab = 0
 }
 
 #Preview {

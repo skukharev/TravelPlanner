@@ -19,8 +19,6 @@ final class AppSettings: ObservableObject {
     @AppStorage(Constants.useDarkThemeKey)
     var isDarkMode: Bool?
 
-    // MARK: - Initializers
-
     // MARK: - Public Methods
 
     func loadAppVersion() -> String {

@@ -10,7 +10,11 @@ import OpenAPIURLSession
 
 @main
 struct TravelPlannerApp: App {
-    @StateObject var appSettings = AppSettings()
+    // MARK: - Property Wrappers
+
+    @StateObject private var appSettings = AppSettings()
+
+    // MARK: - Public Properties
 
     var body: some Scene {
         WindowGroup {
@@ -20,9 +24,13 @@ struct TravelPlannerApp: App {
         }
     }
 
+    // MARK: - Initializers
+
     init() {
         AnalyticsService.activate()
     }
+
+    // MARK: - Public Methods
 
     func stationSchedule(forStation: String) async throws -> StationScheduleResponse {
         let client = Client(

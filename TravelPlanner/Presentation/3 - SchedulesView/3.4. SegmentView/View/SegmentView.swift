@@ -37,9 +37,13 @@ struct SegmentView: View {
         static let durationTextColor: Color = .blackUniversal
     }
 
-    // MARK: - Public Properties
+    // MARK: - Property Wrappers
 
     @EnvironmentObject var nav: NavigationStateManager
+    @StateObject private var viewModel = SegmentViewModel()
+
+    // MARK: - Public Properties
+
     var segment: Segment
 
     var body: some View {
@@ -118,10 +122,6 @@ struct SegmentView: View {
             viewModel.setup(segment: segment)
         }
     }
-
-    // MARK: - Private Properties
-
-    @StateObject private var viewModel = SegmentViewModel()
 }
 
 struct SegmentPreview: View {

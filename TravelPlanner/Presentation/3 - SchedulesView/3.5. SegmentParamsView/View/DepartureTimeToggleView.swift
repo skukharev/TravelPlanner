@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct DepartureTimeToggleView: View {
+    // MARK: - Property Wrappers
+
+    @Binding var isOn: Bool
+
     // MARK: - Public Properties
 
     var title: String
-    @Binding var isOn: Bool
 
     var body: some View {
         Toggle(isOn: $isOn) {

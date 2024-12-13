@@ -39,6 +39,7 @@ internal enum Asset {
     internal static let changeStationButton = ImageAsset(name: "ChangeStationButton")
     internal static let checkboxOff = ImageAsset(name: "CheckboxOff")
     internal static let checkboxOn = ImageAsset(name: "CheckboxOn")
+    internal static let closeButton = ImageAsset(name: "CloseButton")
     internal static let noInternetError = ImageAsset(name: "NoInternetError")
     internal static let radiobuttonOff = ImageAsset(name: "RadiobuttonOff")
     internal static let radiobuttonOn = ImageAsset(name: "RadiobuttonOn")

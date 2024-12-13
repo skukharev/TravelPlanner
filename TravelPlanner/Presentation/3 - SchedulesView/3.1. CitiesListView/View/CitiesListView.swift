@@ -18,11 +18,15 @@ struct CitiesListView: View {
         static let defaultForegroundColor: Color = .appBlack
     }
 
-    // MARK: - Public Properties
+    // MARK: - Property Wrappers
 
     @Binding var stationData: StationData
     @Binding var isShowRootLink: Bool
-    @StateObject var viewModel = CitiesListViewModel()
+    @StateObject private var viewModel = CitiesListViewModel()
+    @State private var selectedCity: City?
+    @State private var isSelectionStationLinkActivated: Bool = false
+
+    // MARK: - Public Properties
 
     var body: some View {
         ZStack {
@@ -89,11 +93,6 @@ struct CitiesListView: View {
             }
         }
     }
-
-    // MARK: - Private Properties
-
-    @State private var selectedCity: City?
-    @State private var isSelectionStationLinkActivated: Bool = false
 
     // MARK: - Private Methods
 

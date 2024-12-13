@@ -21,10 +21,12 @@ enum GlobalConstants {
     static let yandexSchedulesApi = "ff0eaf80-755e-4f8e-a0d2-637083058654"
     static let ypRegular12: Font = .system(size: 12, weight: .regular, design: .default)
     static let ypRegular17: Font = .system(size: 17, weight: .regular, design: .default)
+    static let ypRegular20: Font = .system(size: 20, weight: .regular, design: .default)
     static let ypBold17: Font = .system(size: 17, weight: .bold, design: .default)
     static let ypBold24: Font = .system(size: 24, weight: .bold, design: .default)
+    static let ypBold34: Font = .system(size: 34, weight: .bold, design: .default)
     static let defaultCornerRadius: CGFloat = 16
-    static let RussianFederationId = "l225"
+    static let theRussianFederationId = "l225"
     static let searchBarMagnifyingGlassImageName = "magnifyingglass"
     static let searchBarClearSearchTextImageName = "xmark.circle.fill"
     static let searchBarCornerRadius: CGFloat = 10.0
