@@ -64,7 +64,7 @@ struct StoryView: View {
 }
 
 struct StoryPreview: View {
-    private var story = StoryFactory.shared.stories[0]
+    private var story = StoryFactory().stories[0]
 
     var body: some View {
         StoryView(story: story)

@@ -8,10 +8,6 @@
 import Foundation
 
 final class StoryFactory: ObservableObject {
-    // MARK: - Constants
-
-    static let shared = StoryFactory()
-
     // MARK: - Public Properties
 
     @Published var stories: [Story] = []
@@ -74,11 +70,5 @@ final class StoryFactory: ObservableObject {
         )
 
         self.stories = [story1, story2, story3, story4, story5, story6, story7, story8, story9]
-    }
-
-    // MARK: - Public Methods
-
-    func storyIndex(for story: Story) -> Int? {
-        return stories.firstIndex { $0.id == story.id }
     }
 }

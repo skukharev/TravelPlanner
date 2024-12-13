@@ -74,7 +74,7 @@ struct StoriesRowView: View {
         }
         .onTapGesture {
             impactMed.impactOccurred()
-            viewModel.detailedStoryViewPresentation(story: story)
+            viewModel.detailedStoryViewPresentation(stories: stories, story: story)
         }
     }
 
@@ -84,7 +84,7 @@ struct StoriesRowView: View {
 }
 
 struct StoriesRowPreview: View {
-    @State var stories = StoryFactory.shared.stories
+    @State var stories = StoryFactory().stories
 
     var body: some View {
         StoriesRowView(stories: $stories, story: $stories[2])

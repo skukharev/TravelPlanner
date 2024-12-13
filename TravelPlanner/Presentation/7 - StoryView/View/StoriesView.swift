@@ -94,7 +94,7 @@ struct StoriesView: View {
 }
 
 struct StoriesPreview: View {
-    @State var stories = StoryFactory.shared.stories
+    @State var stories = StoryFactory().stories
     @State var currentStoryIndex: Int = 1
 
     var body: some View {

@@ -10,7 +10,7 @@ import Foundation
 final class SchedulesViewModel: ObservableObject {
     // MARK: - Public Properties
 
-    @Published var stories = StoryFactory.shared.stories
+    @Published var stories = StoryFactory().stories
     @Published var fromStation = StationData.init(stationType: .fromStation)
     @Published var toStation = StationData.init(stationType: .toStation)
     @Published var isSelectionFromStationPresented: Bool = false
