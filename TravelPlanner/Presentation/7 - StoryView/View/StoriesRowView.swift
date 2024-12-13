@@ -73,7 +73,11 @@ struct StoriesRowView: View {
             maxHeight: Constants.previewImageSizeHeight
         )
         .fullScreenCover(isPresented: $viewModel.isDetailedStoryViewPresented) {
-            StoriesView(stories: $stories, currentStoryIndex: $viewModel.storyIndex)
+            StoriesView(
+                stories: $stories,
+                currentStoryIndex: $viewModel.storyIndex,
+                isDetailedStoryViewPresented: $viewModel.isDetailedStoryViewPresented
+            )
         }
         .onTapGesture {
             impactMed.impactOccurred()

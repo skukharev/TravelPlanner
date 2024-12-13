@@ -22,6 +22,7 @@ struct StoriesView: View {
     @Environment(\.presentationMode)
     var presentationMode
     @Binding var currentStoryIndex: Int
+    @Binding var isDetailedStoryViewPresented: Bool
     @State private var currentProgress: CGFloat = 0
     @State private var oldStoryIndex: Int = 0
 
@@ -83,6 +84,7 @@ struct StoriesView: View {
     }
 
     private func didChangeCurrentProgress(newProgress: CGFloat) {
+        isDetailedStoryViewPresented = newProgress < 1.0
         let index = timerConfiguration.index(for: newProgress)
         guard index != currentStoryIndex else { return }
         withAnimation {
@@ -94,9 +96,14 @@ struct StoriesView: View {
 struct StoriesPreview: View {
     @State var stories = StoryFactory().stories
     @State var currentStoryIndex: Int = 1
+    @State var isDetailedStoryViewPresented: Bool = true
 
     var body: some View {
-        StoriesView(stories: $stories, currentStoryIndex: $currentStoryIndex)
+        StoriesView(
+            stories: $stories,
+            currentStoryIndex: $currentStoryIndex,
+            isDetailedStoryViewPresented: $isDetailedStoryViewPresented
+        )
     }
 }
 
