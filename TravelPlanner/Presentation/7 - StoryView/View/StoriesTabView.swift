@@ -18,7 +18,7 @@ struct StoriesTabView: View {
     var body: some View {
         TabView(selection: $currentStoryIndex) {
             ForEach($stories) { $story in
-                StoryView(story: story)
+                StoryView(story: $story)
                     .onTapGesture {
                         didTapStory(story: &story)
                     }
@@ -33,6 +33,5 @@ struct StoriesTabView: View {
 
     func didTapStory(story: inout Story) {
         currentStoryIndex = min(currentStoryIndex + 1, stories.count - 1)
-        story.isViewed = true
     }
 }

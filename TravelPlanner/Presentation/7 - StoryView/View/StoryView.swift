@@ -28,7 +28,7 @@ struct StoryView: View {
 
     // MARK: - Public Properties
 
-    var story: Story
+    @Binding var story: Story
 
     var body: some View {
         Constants.backgroundColor
@@ -59,15 +59,16 @@ struct StoryView: View {
             }
             .onAppear {
                 viewInFinalState = true
+                story.isViewed = true
             }
     }
 }
 
 struct StoryPreview: View {
-    private var story = StoryFactory().stories[0]
+    @State private var story = StoryFactory().stories[0]
 
     var body: some View {
-        StoryView(story: story)
+        StoryView(story: $story)
     }
 }
 

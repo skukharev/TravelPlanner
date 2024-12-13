@@ -85,9 +85,6 @@ struct StoriesView: View {
     private func didChangeCurrentProgress(newProgress: CGFloat) {
         let index = timerConfiguration.index(for: newProgress)
         guard index != currentStoryIndex else { return }
-        DispatchQueue.main.async { [currentStoryIndex] in
-            stories[currentStoryIndex].isViewed = true
-        }
         withAnimation {
             currentStoryIndex = index
         }
