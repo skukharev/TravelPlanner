@@ -48,6 +48,14 @@ final class SchedulesViewModel: ObservableObject {
         isFindSegmentsPresented = true
     }
 
+    func loadStoriesIsViewedStatuses(from: [StoryViewStatus]) {
+        from.forEach { storyData in
+            if let storyIndex = stories.firstIndex(where: { $0.id == storyData.id }) {
+                stories[storyIndex].isViewed = storyData.isViewed
+            }
+        }
+    }
+
     // MARK: - Private Methods
 
     private func copyStationData(from source: StationData, to destination: inout StationData) {

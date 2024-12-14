@@ -41,6 +41,7 @@ struct SchedulesView: View {
 
     @StateObject private var viewModel = SchedulesViewModel()
     @StateObject private var nav = NavigationStateManager()
+    @EnvironmentObject private var appSettings: AppSettings
 
     // MARK: - Public Properties
 
@@ -156,6 +157,9 @@ struct SchedulesView: View {
             Spacer()
 
             Divider()
+        }
+        .onAppear {
+            viewModel.loadStoriesIsViewedStatuses(from: appSettings.loadStoryIsViewedStatuses())
         }
     }
 

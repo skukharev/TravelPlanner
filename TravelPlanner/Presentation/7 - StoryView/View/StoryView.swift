@@ -25,6 +25,7 @@ struct StoryView: View {
     // MARK: - Property Wrappers
 
     @State private var viewInFinalState = false
+    @EnvironmentObject private var appSettings: AppSettings
 
     // MARK: - Public Properties
 
@@ -60,6 +61,10 @@ struct StoryView: View {
             .onAppear {
                 viewInFinalState = true
                 story.isViewed = true
+                appSettings.saveStoryIsViewedStatus(
+                    storyId: story.id,
+                    isViewed: story.isViewed
+                )
             }
     }
 }

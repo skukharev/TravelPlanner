@@ -8,7 +8,7 @@
 import UIKit
 
 struct Story: Identifiable, Hashable {
-    let id = UUID()
+    let id: UUID
     let previewImage: UIImage
     let image: UIImage
     let title: String
