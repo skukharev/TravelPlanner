@@ -13,43 +13,40 @@ struct UserAgreementView: View {
 
     private enum Constants {
         static let userAgreementURL: String = "https://yandex.ru/legal/practicum_offer/"
+        static let navigationTitle = L10n.settingsViewUserAgreementLabel
     }
 
     // MARK: - Property Wrappers
 
-    @State private var isLoading = true
-    @State private var loadingProgress: Double = 0.0
-    @State private var isLoadingError = false
+    @StateObject private var viewModel = UserAgreementViewModel()
 
     // MARK: - Public Properties
 
     var body: some View {
         VStack {
-            ProgressView(value: loadingProgress)
+            ProgressView(value: viewModel.loadingProgress)
                 .progressViewStyle(.linear)
-                .opacity(loadingProgress == 1.0 ? 0 : 1)
+                .opacity(viewModel.loadingProgress == 1.0 ? 0 : 1)
             ZStack {
                 WebView(
                     url: Constants.userAgreementURL,
-                    isLoading: $isLoading,
-                    isLoadingError: $isLoadingError,
-                    progress: $loadingProgress
+                    isLoading: $viewModel.isLoading,
+                    isLoadingError: $viewModel.isLoadingError,
+                    progress: $viewModel.loadingProgress
                 )
-                .opacity(isLoadingError ? 0 : 1)
+                .opacity(viewModel.isLoadingError ? 0 : 1)
                 ProgressView()
-                    .opacity(isLoading ? 1 : 0)
+                    .opacity(viewModel.isLoading ? 1 : 0)
                 ErrorView(errorType: .noInternetError)
-                    .opacity(isLoadingError ? 1 : 0)
+                    .opacity(viewModel.isLoadingError ? 1 : 0)
             }
         }
         .ignoresSafeArea(edges: [.leading, .trailing, .bottom])
-        .navigationTitle(L10n.settingsViewUserAgreementLabel)
+        .navigationTitle(Constants.navigationTitle)
         .navigationBarBackButtonTitleHidden()
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            isLoading = true
-            loadingProgress = 0.0
-            isLoadingError = false
+            viewModel.initialize()
         }
     }
 }

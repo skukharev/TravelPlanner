@@ -23,8 +23,6 @@ struct CitiesListView: View {
     @Binding var stationData: StationData
     @Binding var isShowRootLink: Bool
     @StateObject private var viewModel = CitiesListViewModel()
-    @State private var selectedCity: City?
-    @State private var isSelectionStationLinkActivated: Bool = false
 
     // MARK: - Public Properties
 
@@ -63,11 +61,11 @@ struct CitiesListView: View {
                         .listRowSeparator(.hidden)
                     }
                     .listStyle(.plain)
-                    .navigationDestination(isPresented: $isSelectionStationLinkActivated) {
+                    .navigationDestination(isPresented: $viewModel.isSelectionStationLinkActivated) {
                         StationsListView(
                             stationData: $stationData,
                             isShowRootLink: $isShowRootLink,
-                            city: $selectedCity
+                            city: $viewModel.selectedCity
                         )
                     }
                     /// The Progress view displayed during the loading of the list of cities
@@ -98,8 +96,8 @@ struct CitiesListView: View {
 
     private func selectCity(_ city: City) {
         viewModel.selectCity(city)
-        selectedCity = city
-        isSelectionStationLinkActivated = true
+        viewModel.selectedCity = city
+        viewModel.isSelectionStationLinkActivated = true
     }
 }
 

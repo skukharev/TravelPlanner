@@ -14,7 +14,7 @@ protocol NearestSettlementServiceProtocol {
     func getNearestSettlement(lat: Double, lng: Double, distance: Int) async throws -> NearestSettlementResponse
 }
 
-final class NearestSettlementService: NearestSettlementServiceProtocol {
+actor NearestSettlementService: NearestSettlementServiceProtocol {
     private let client: Client
 
     init(client: Client) {

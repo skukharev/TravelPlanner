@@ -10,12 +10,12 @@ import SwiftUI
 struct MainView: View {
     // MARK: - Property Wrappers
 
-    @State private var selectedTab = 0
+    @StateObject private var viewModel = MainViewModel()
 
     // MARK: - Public Properties
 
     var body: some View {
-        TabView(selection: $selectedTab) {
+        TabView(selection: $viewModel.selectedTab) {
             SchedulesView()
                 .tabItem {
                     Image(Asset.Images.scheduleTabItem.name)

@@ -9,6 +9,7 @@ import SwiftUI
 import OpenAPIURLSession
 import OpenAPIRuntime
 
+@MainActor
 final class SegmentsViewModel: ObservableObject {
     // MARK: - Public Properties
 

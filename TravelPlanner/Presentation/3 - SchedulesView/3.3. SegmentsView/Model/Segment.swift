@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Segment: Identifiable, Hashable {
+struct Segment: Identifiable, Hashable, Sendable {
     // MARK: - Constants
 
     let id = UUID()

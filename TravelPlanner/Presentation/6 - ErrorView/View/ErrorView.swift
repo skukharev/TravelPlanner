@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct ErrorView: View {
-    // MARK: - Constants
+    // MARK: - Types
 
-    enum Constants {
+    private enum Constants {
         static let imageWidth: CGFloat = 223
         static let imageCorenerRadius: CGFloat = 70
         static let errorDescriptionFont: Font = GlobalConstants.ypBold24
@@ -18,9 +18,11 @@ struct ErrorView: View {
         static let defaultElementsSpacing: CGFloat = 16
     }
 
-    // MARK: - Public Properties
+    // MARK: - Constants
 
-    var errorType: ErrorViewType?
+    let errorType: ErrorViewType?
+
+    // MARK: - Public Properties
 
     var body: some View {
         VStack(spacing: Constants.defaultElementsSpacing) {

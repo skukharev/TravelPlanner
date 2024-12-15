@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct StationData: Identifiable, Hashable {
+struct StationData: Identifiable, Hashable, Sendable {
     // MARK: - Constants
 
     let id = UUID()

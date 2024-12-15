@@ -14,7 +14,7 @@ protocol ThreadStationsServiceProtocol {
     func getThreadStations(forUID: String) async throws -> ThreadResponse
 }
 
-final class ThreadStationsService: ThreadStationsServiceProtocol {
+actor ThreadStationsService: ThreadStationsServiceProtocol {
     private let client: Client
 
     init(client: Client) {

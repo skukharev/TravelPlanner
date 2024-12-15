@@ -15,7 +15,7 @@ protocol SchedulesBetweenStationServiceProtocol {
     func getSchedulesBetweenStations(fromStation: String, toStation: String, date: Date, transfers: Bool) async throws -> SchedulesBetweenStationsResponse
 }
 
-final class SchedulesBetweenStationService: SchedulesBetweenStationServiceProtocol {
+actor SchedulesBetweenStationService: SchedulesBetweenStationServiceProtocol {
     private let client: Client
     private var dateFormatter = DateFormatter()
 

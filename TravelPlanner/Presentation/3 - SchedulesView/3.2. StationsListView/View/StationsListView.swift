@@ -78,8 +78,10 @@ struct StationsListView: View {
         .navigationBarTitleDisplayMode(.inline)
         .foregroundStyle(Constants.defaultForegroundColor)
         .onLoad {
-            if let city = city {
-                viewModel.setup(withCity: city)
+            Task {
+                if let city = city {
+                    viewModel.setup(withCity: city)
+                }
             }
         }
     }

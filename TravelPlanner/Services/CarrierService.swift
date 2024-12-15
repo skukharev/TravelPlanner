@@ -14,7 +14,7 @@ protocol CarrierServiceProtocol {
     func getCarrier(code: String) async throws -> CarrierResponse
 }
 
-final class CarrierService: CarrierServiceProtocol {
+actor CarrierService: CarrierServiceProtocol {
     private let client: Client
 
     init(client: Client) {
