@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 final class SchedulesViewModel: ObservableObject {
     // MARK: - Public Properties
 

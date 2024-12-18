@@ -20,9 +20,11 @@ struct CarrierView: View {
         static let phonePropertyName = L10n.phoneCarrierPropertyName
     }
 
-    // MARK: - Public Properties
+    // MARK: - Constants
 
-    var carrier: Carrier?
+    let carrier: Carrier?
+
+    // MARK: - Public Properties
 
     var body: some View {
         VStack(alignment: .center, spacing: Constants.defaultElementsSpacing) {

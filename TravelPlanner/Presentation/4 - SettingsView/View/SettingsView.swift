@@ -70,7 +70,7 @@ struct SettingsView: View {
         }
         .tint(.appBlack)
         .onAppear {
-            self.viewModel.setup(self.appSettings)
+            viewModel.setup(appSettings)
         }
     }
 

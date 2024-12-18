@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct Story: Identifiable, Hashable {
+struct Story: Identifiable, Hashable, Sendable {
     let id: UUID
     let previewImage: UIImage
     let image: UIImage

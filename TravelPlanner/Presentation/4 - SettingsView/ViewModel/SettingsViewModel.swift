@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+@MainActor
 final class SettingsViewModel: ObservableObject {
     // MARK: - Public Properties
 

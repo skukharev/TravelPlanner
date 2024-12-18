@@ -9,6 +9,7 @@ import SwiftUI
 import OpenAPIURLSession
 import OpenAPIRuntime
 
+@MainActor
 final class SegmentsViewModel: ObservableObject {
     // MARK: - Public Properties
 
@@ -43,7 +44,7 @@ final class SegmentsViewModel: ObservableObject {
                 if hour >= 18 && segmentsParams.departureTimes.first(where: { $0.type == .evening })?.value ?? false {
                     return true
                 }
-                if hour <= 5 && segmentsParams.departureTimes.first(where: { $0.type == .evening })?.value ?? false {
+                if hour <= 5 && segmentsParams.departureTimes.first(where: { $0.type == .night })?.value ?? false {
                     return true
                 }
                 return false
@@ -78,20 +79,18 @@ final class SegmentsViewModel: ObservableObject {
 
     // MARK: - Public Methods
 
-    func setup(fromStation: StationData, toStation: StationData) {
+    func setup(fromStation: StationData, toStation: StationData) async {
         self.fromStation = fromStation
         self.toStation = toStation
         loadingError = nil
 
         navigationTitle = "\(fromStation.stationTitle) → \(toStation.stationTitle)"
-        Task {
-            do {
-                try await fetchSegments()
-            } catch ErrorViewType.serverError {
-                loadingError = ErrorViewType.serverError
-            } catch {
-                loadingError = ErrorViewType.noInternetError
-            }
+        do {
+            try await fetchSegments()
+        } catch ErrorViewType.serverError {
+            loadingError = ErrorViewType.serverError
+        } catch {
+            loadingError = ErrorViewType.noInternetError
         }
     }
 

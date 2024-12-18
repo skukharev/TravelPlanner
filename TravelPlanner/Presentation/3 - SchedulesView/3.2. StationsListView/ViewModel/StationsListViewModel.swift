@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 final class StationsListViewModel: ObservableObject {
     // MARK: - Public Properties
 

@@ -7,10 +7,10 @@
 
 import Foundation
 
-final class HoursFormatter {
+struct HoursFormatter: Sendable {
     // MARK: - Constants
 
-    static let shared = HoursFormatter()
+    static let shared = HoursFormatter(formatter: DateComponentsFormatter())
 
     // MARK: - Private Properties
 
@@ -22,10 +22,6 @@ final class HoursFormatter {
         self.formatter = formatter
         formatter.unitsStyle = .full
         formatter.allowedUnits = [.hour]
-    }
-
-    convenience init() {
-        self.init(formatter: DateComponentsFormatter())
     }
 
     // MARK: - Public Methods

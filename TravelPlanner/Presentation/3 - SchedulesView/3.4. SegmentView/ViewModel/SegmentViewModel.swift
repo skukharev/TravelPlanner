@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 final class SegmentViewModel: ObservableObject {
     // MARK: - Public Properties
 

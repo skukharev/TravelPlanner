@@ -180,6 +180,15 @@ struct SchedulesView: View {
     }
 }
 
+struct SchedulesPreview: View {
+    @StateObject var appSettings = AppSettings()
+
+    var body: some View {
+        SchedulesView()
+            .environmentObject(appSettings)
+    }
+}
+
 #Preview {
-    SchedulesView()
+    SchedulesPreview()
 }

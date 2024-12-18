@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct StoryViewStatus: Codable {
+struct StoryViewStatus: Codable, Sendable {
     let id: UUID
     var isViewed: Bool
 }

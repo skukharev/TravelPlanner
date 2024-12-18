@@ -24,12 +24,11 @@ struct StoryView: View {
 
     // MARK: - Property Wrappers
 
-    @State private var viewInFinalState = false
+    @StateObject private var viewModel = StoryViewModel()
     @EnvironmentObject private var appSettings: AppSettings
+    @Binding var story: Story
 
     // MARK: - Public Properties
-
-    @Binding var story: Story
 
     var body: some View {
         Constants.backgroundColor
@@ -45,26 +44,24 @@ struct StoryView: View {
                             Text(story.title)
                                 .font(Constants.storyTitleFont)
                                 .foregroundColor(Constants.textElementsColor)
-                                .scaleEffect(viewInFinalState ? 1 : Constants.textElementsStartingScaleValue)
-                                .animation(.easeInOut(duration: Constants.animationDuration), value: viewInFinalState)
+                                .scaleEffect(viewModel.viewInFinalState ? 1 : Constants.textElementsStartingScaleValue)
+                                .animation(.easeInOut(duration: Constants.animationDuration), value: viewModel.viewInFinalState)
                             Text(story.description)
                                 .font(Constants.storyDescriptionFont)
                                 .lineLimit(3)
                                 .foregroundColor(Constants.textElementsColor)
-                                .scaleEffect(viewInFinalState ? 1 : Constants.textElementsStartingScaleValue)
-                                .animation(.easeInOut(duration: Constants.animationDuration), value: viewInFinalState)
+                                .scaleEffect(viewModel.viewInFinalState ? 1 : Constants.textElementsStartingScaleValue)
+                                .animation(.easeInOut(duration: Constants.animationDuration), value: viewModel.viewInFinalState)
                         }
                         .padding(Constants.textElementsPadding)
                     }
                 }
             }
-            .onAppear {
-                viewInFinalState = true
-                story.isViewed = true
-                appSettings.saveStoryIsViewedStatus(
-                    storyId: story.id,
-                    isViewed: story.isViewed
-                )
+            .task {
+                viewModel.onAppearView(story: &story, appSettings: appSettings)
+            }
+            .onDisappear {
+                viewModel.onDisappearView()
             }
     }
 }

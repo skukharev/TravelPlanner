@@ -15,7 +15,7 @@ protocol StationsListServiceProtocol {
     func getStations() async throws -> StationsListResponse
 }
 
-final class StationsListService: StationsListServiceProtocol {
+actor StationsListService: StationsListServiceProtocol {
     private let client: Client
 
     init(client: Client) {

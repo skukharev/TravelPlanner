@@ -14,7 +14,7 @@ enum DepartureTimeType {
     case night
 }
 
-struct DepartureTime: Hashable, Identifiable {
+struct DepartureTime: Hashable, Identifiable, Sendable {
     let id = UUID()
     let type: DepartureTimeType
     var name: String {

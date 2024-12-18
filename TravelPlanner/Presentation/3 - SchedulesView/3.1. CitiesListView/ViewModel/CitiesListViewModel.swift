@@ -8,6 +8,7 @@
 import Foundation
 import OpenAPIURLSession
 
+@MainActor
 final class CitiesListViewModel: ObservableObject {
     // MARK: - Public Properties
 
@@ -15,6 +16,8 @@ final class CitiesListViewModel: ObservableObject {
     @Published var isLoadingError: Bool = false
     @Published var filterText: String = ""
     @Published var isEmptyListPlaceholderHidden: Bool = true
+    @Published var isSelectionStationLinkActivated: Bool = false
+    @Published var selectedCity: City?
     var cities: [City] {
         if filterText.isEmpty {
             DispatchQueue.main.async {

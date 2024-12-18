@@ -5,7 +5,7 @@
 //  Created by Сергей Кухарев on 16.11.2024.
 //
 
-struct SegmentsParams {
+struct SegmentsParams: Sendable {
     var departureTimes: [DepartureTime] = [
         DepartureTime(type: .morning, value: false),
         DepartureTime(type: .afternoon, value: false),

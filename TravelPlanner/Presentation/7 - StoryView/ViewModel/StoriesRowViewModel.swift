@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 final class StoriesRowViewModel: ObservableObject {
     // MARK: - Public Properties
 
