@@ -68,9 +68,11 @@ struct StoryView: View {
 
 struct StoryPreview: View {
     @State private var story = StoryFactory().stories[0]
+    @StateObject private var appSettings = AppSettings()
 
     var body: some View {
         StoryView(story: $story)
+            .environmentObject(appSettings)
     }
 }
 
