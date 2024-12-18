@@ -57,10 +57,8 @@ struct StoryView: View {
                     }
                 }
             }
-            .onAppear {
-                Task {
-                    viewModel.onAppearView(story: &story, appSettings: appSettings)
-                }
+            .task {
+                viewModel.onAppearView(story: &story, appSettings: appSettings)
             }
             .onDisappear {
                 viewModel.onDisappearView()

@@ -90,8 +90,8 @@ struct SegmentsView: View {
         }
         .navigationBarBackButtonTitleHidden()
         .foregroundStyle(Constants.defaultForegroundColor)
-        .onLoad {
-            viewModel.setup(fromStation: fromStation, toStation: toStation)
+        .task {
+            await viewModel.setup(fromStation: fromStation, toStation: toStation)
         }
     }
 
